@@ -1,0 +1,1696 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<link rel="stylesheet" href="_ds/organic-dfd005da-f836-48c3-8160-21bcb693002c/styles.css">
+<script src="_ds/organic-dfd005da-f836-48c3-8160-21bcb693002c/_ds_bundle.js"></script>
+<style>
+:root{
+--color-bg:#f0f2e8;--color-surface:#fafbf4;--color-text:#252a35;
+--color-divider:rgba(37,42,53,.13);
+--color-accent:#586994;--color-accent-100:#ebeef6;--color-accent-200:#d4ddee;--color-accent-300:#aebbd6;--color-accent-400:#8494bb;--color-accent-500:#586994;--color-accent-600:#47567c;--color-accent-700:#374262;--color-accent-800:#282f47;--color-accent-900:#1a1f2e;
+--color-accent-2:#8fa383;--color-accent-2-100:#eaf0e0;--color-accent-2-200:#d7e0cb;--color-accent-2-300:#b4c4ae;--color-accent-2-400:#9fb096;--color-accent-2-500:#8fa383;--color-accent-2-600:#748764;--color-accent-2-700:#5a6a4d;--color-accent-2-800:#414d38;
+--color-neutral-100:#f4f5ef;--color-neutral-200:#e7e9df;--color-neutral-300:#d1d5ca;--color-neutral-400:#a2abab;--color-neutral-500:#8b939c;--color-neutral-600:#7d869c;--color-neutral-700:#5f6673;--color-neutral-800:#434956;--color-neutral-900:#252a35;
+--pale:#e5e8b6;
+}
+body{margin:0;background:var(--color-bg)}
+a{color:var(--color-accent-700)}
+a:hover{color:var(--color-accent)}
+@keyframes jup{from{transform:translateY(16px);opacity:0}to{transform:translateY(0);opacity:1}}
+@keyframes jfade{from{opacity:0}to{opacity:1}}
+</style>
+</helmet>
+
+<div style="display:flex;width:max-content;gap:56px;align-items:flex-start;padding:48px 52px 72px;font-family:var(--font-body);color:var(--color-text)">
+
+  <div style="width:344px;flex:none;display:flex;flex-direction:column;gap:22px">
+    <div>
+      <div style="font-family:var(--font-heading);font-size:44px;line-height:1;letter-spacing:-.02em">Junto</div>
+      <p style="margin:10px 0 0;font-size:13.5px;color:var(--color-neutral-700);max-width:32ch;text-wrap:pretty">Versão 2, com as suas respostas aplicadas. O mesmo app no celular e no navegador, com um único estado — o que você lança em um aparece no outro.</p>
+    </div>
+
+    <div style="display:flex;gap:6px;flex-wrap:wrap">
+      <span class="tag tag-accent">tudo junto, sem acerto</span>
+      <span class="tag tag-accent-2">tom acolhedor</span>
+    </div>
+
+    <div style="height:1px;background:var(--color-divider)"></div>
+
+    <div>
+      <div style="font-family:var(--font-heading);font-size:19px;margin-bottom:12px">O que mudou nesta versão</div>
+      <ul style="margin:0;padding-left:20px;font-size:13.5px;line-height:1.6;color:var(--color-neutral-800);display:flex;flex-direction:column;gap:10px">
+        <li>Saiu o acerto entre vocês. O dinheiro é comum, então nenhum saldo aparece como dívida de ninguém — o avatar diz apenas quem lançou.</li>
+        <li>Registro em duas velocidades: atalho de um toque, ou valor no teclado grande. Data, descrição, forma de pagamento e parcelas ficam atrás de <strong style="font-weight:700">Detalhes</strong>, já preenchidos com o mais provável.</li>
+        <li>Botão de recibo salva a foto e deixa o resto para depois — o lançamento entra como <strong style="font-weight:700">a detalhar</strong>.</li>
+        <li>Reações e comentários em cada lançamento, e uma aba de atividade com o que aconteceu entre vocês.</li>
+        <li><strong style="font-weight:700">Contas fixas em lugar próprio</strong>, abertas pelo cartão no topo do mês: quanto é por mês, quais já foram pagas, quem paga cada uma. Na mesma tela, as <strong style="font-weight:700">parcelas em andamento</strong> com pagas de totais e saldo devedor.</li>
+        <li><strong style="font-weight:700">Gasto individual existe.</strong> No registro você escolhe se é do casal ou só seu; o individual entra com etiqueta e aparece separado no resumo do mês.</li>
+        <li>Fechamento com total contra o mês anterior, gasto por categoria e o quanto sobrou e foi para a reserva.</li>
+        <li><strong style="font-weight:700">Renda e perfil.</strong> Toque nos avatares para abrir o perfil: nome, cor nos lançamentos, avisos e o que o Rafa vê. Dentro dele, a renda de cada um: você informa o <strong style="font-weight:700">salário bruto</strong> e o app calcula INSS, imposto de renda com dependentes e o líquido; descontos da folha e outras rendas entram como linhas que você soma e remove. Mudar qualquer número recalcula o líquido, o total do casal, o aporte da reserva e o <strong style="font-weight:700">Sobrou</strong> do mês na hora.</li>
+      </ul>
+    </div>
+
+    <div style="background:var(--color-surface);border-radius:28px;padding:18px 20px;box-shadow:var(--shadow-sm)">
+      <div style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--color-accent);margin-bottom:8px">Como testar</div>
+      <p style="margin:0 0 8px;font-size:13px;line-height:1.6;color:var(--color-neutral-800)">No celular: toque no <strong style="font-weight:700">+</strong>, use um atalho ou digite, abra <strong style="font-weight:700">Detalhes</strong>. Toque em qualquer lançamento para reagir e comentar.</p>
+      <p style="margin:0;font-size:13px;line-height:1.6;color:var(--color-neutral-800)">No navegador: lance pela linha rápida no topo da lista. Os dois lados compartilham os mesmos dados.</p>
+    </div>
+
+    <div style="background:var(--color-accent-100);border-radius:28px;padding:18px 20px">
+      <div style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--color-accent-700);margin-bottom:8px">Sobre o repositório</div>
+      <p style="margin:0;font-size:13px;line-height:1.6;color:var(--color-accent-900)">O <strong style="font-weight:700">ui-finance-app</strong> está vazio — sem commits, então não havia componentes para partir. Quando você subir a primeira versão, eu releio e alinho estas telas ao código.</p>
+    </div>
+
+    <div>
+      <div style="font-family:var(--font-heading);font-size:19px;margin-bottom:10px">Ainda em aberto</div>
+      <ul style="margin:0;padding-left:20px;font-size:13.5px;line-height:1.6;color:var(--color-neutral-700);display:flex;flex-direction:column;gap:8px">
+        <li>Parcelas: mostrar o valor total ou só a parcela do mês?</li>
+        <li>Contas fixas merecem um lugar próprio, separado dos gastos do dia?</li>
+        <li>Gasto individual existe, ou é tudo do casal?</li>
+      </ul>
+    </div>
+  </div>
+
+  <x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" style="flex:none" hint-size="402px,874px">
+    <div style="position:relative;height:100%;display:flex;flex-direction:column;background:var(--color-bg);font-family:var(--font-body);color:var(--color-text);overflow:hidden">
+
+      <div style="flex:1;overflow:auto;padding:62px 20px 112px">
+
+        <sc-if value="{{ tabMes }}" hint-placeholder-val="{{ true }}">
+          <div>
+            <div style="display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:16px">
+              <div>
+                <div style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--color-neutral-600)">Setembro</div>
+                <div style="font-family:var(--font-heading);font-size:34px;line-height:1.05;margin-top:2px">{{ gastoMes }}</div>
+              </div>
+              <button style="display:flex;border:0;background:transparent;padding:2px;cursor:pointer;min-height:44px;align-items:center" onClick="{{ abrirPerfil }}">
+                <div style="width:34px;height:34px;border-radius:999px;background:{{ perfilCor }};border:2px solid var(--color-bg);display:grid;place-items:center;font-family:var(--font-heading);font-size:13px;color:var(--color-accent-900)">{{ perfilInicial }}</div>
+                <div style="width:34px;height:34px;border-radius:999px;background:var(--color-accent-2-300);border:2px solid var(--color-bg);display:grid;place-items:center;font-family:var(--font-heading);font-size:13px;color:var(--color-accent-2-800);margin-left:-10px">R</div>
+              </button>
+            </div>
+
+            <div style="background:var(--color-surface);border-radius:30px;padding:20px 22px;box-shadow:var(--shadow-sm);margin-bottom:22px">
+              <p style="margin:0;font-size:14.5px;line-height:1.6;color:var(--color-neutral-800);text-wrap:pretty">{{ fraseMes }}</p>
+              <div style="display:flex;gap:10px;margin-top:16px">
+                <div style="flex:1;background:var(--color-accent-100);border-radius:20px;padding:12px 14px">
+                  <div style="font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--color-accent-700)">Sobrou</div>
+                  <div style="font-family:var(--font-heading);font-size:19px;margin-top:3px;color:var(--color-accent-800)">{{ sobrou }}</div>
+                </div>
+                <div style="flex:1;background:var(--color-accent-2-100);border-radius:20px;padding:12px 14px">
+                  <div style="font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--color-accent-2-700)">Por dia</div>
+                  <div style="font-family:var(--font-heading);font-size:19px;margin-top:3px;color:var(--color-accent-2-800)">{{ porDia }}</div>
+                </div>
+              </div>
+              <div style="font-size:12.5px;color:var(--color-neutral-600);margin-top:13px">{{ quebraEscopo }}</div>
+            </div>
+
+            <button style="width:100%;display:flex;align-items:center;gap:14px;background:var(--color-surface);border:0;border-radius:26px;padding:16px 18px;cursor:pointer;text-align:left;margin-bottom:22px;box-shadow:var(--shadow-sm)" style-hover="background:var(--color-accent-100)" onClick="{{ abrirFixas }}">
+              <div style="width:38px;height:38px;flex:none;border-radius:999px;background:var(--color-accent-100);display:grid;place-items:center;color:var(--color-accent-700)">
+                <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="16" rx="3"></rect><path d="M8 3v4"></path><path d="M16 3v4"></path><path d="M4 11h16"></path></svg>
+              </div>
+              <div style="flex:1;min-width:0">
+                <div style="font-size:15px;font-weight:600">Contas fixas</div>
+                <div style="font-size:12px;color:var(--color-neutral-600);margin-top:1px">{{ fixasResumo }} · faltam {{ fixasFaltaTxt }}</div>
+              </div>
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="var(--color-neutral-600)" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round" style="flex:none"><path d="M9 6l6 6-6 6"></path></svg>
+            </button>
+
+            <sc-for list="{{ grupos }}" as="g" hint-placeholder-count="3">
+              <div style="margin-bottom:20px">
+                <div style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--color-neutral-600);margin-bottom:8px;padding-left:4px">{{ g.label }}</div>
+                <div style="display:flex;flex-direction:column;gap:8px">
+                  <sc-for list="{{ g.items }}" as="e" hint-placeholder-count="2">
+                    <button style="display:block;width:100%;text-align:left;border:0;font:inherit;color:inherit;background:var(--color-surface);border-radius:24px;padding:12px 16px;cursor:pointer" style-hover="background:var(--color-accent-100)" onClick="{{ e.onOpen }}">
+                      <div style="display:flex;align-items:center;gap:13px">
+                        <div style="width:38px;height:38px;flex:none;border-radius:999px;background:{{ e.catCor }};display:grid;place-items:center;font-family:var(--font-heading);font-size:15px;color:var(--color-accent-900)">{{ e.inicial }}</div>
+                        <div style="flex:1;min-width:0">
+                          <div style="font-size:15px;font-weight:600;line-height:1.25">{{ e.titulo }}</div>
+                          <div style="font-size:12px;color:var(--color-neutral-600);margin-top:1px">{{ e.sub }}</div>
+                        </div>
+                        <div style="display:flex;align-items:center;gap:9px">
+                          <div style="font-size:15.5px;font-weight:700;letter-spacing:-.01em">{{ e.valor }}</div>
+                          <div style="width:22px;height:22px;border-radius:999px;background:{{ e.quemCor }};display:grid;place-items:center;font-family:var(--font-heading);font-size:10px;color:var(--color-accent-900)">{{ e.quemInicial }}</div>
+                        </div>
+                      </div>
+                      <sc-if value="{{ e.temParcelas }}" hint-placeholder-val="{{ false }}">
+                        <div style="margin:10px 0 0 51px;background:var(--color-accent-100);border-radius:16px;padding:10px 13px">
+                          <div style="display:flex;justify-content:space-between;align-items:baseline;gap:10px">
+                            <span style="font-size:12px;font-weight:700;color:var(--color-accent-800)">{{ e.parcelaLinha }}</span>
+                          </div>
+                          <div style="height:6px;border-radius:999px;background:var(--color-accent-200);overflow:hidden;margin:8px 0 7px">
+                            <div style="height:100%;border-radius:999px;background:var(--color-accent);width:{{ e.parcelaPct }}"></div>
+                          </div>
+                          <div style="font-size:11.5px;color:var(--color-accent-800);opacity:.85">{{ e.saldoLinha }}</div>
+                        </div>
+                      </sc-if>
+                      <sc-if value="{{ e.temSocial }}" hint-placeholder-val="{{ false }}">
+                        <div style="display:flex;align-items:center;gap:12px;margin:9px 0 0 51px;font-size:11.5px;color:var(--color-neutral-600)">
+                          <sc-if value="{{ e.individual }}" hint-placeholder-val="{{ false }}">
+                            <span class="tag tag-accent-2" style="font-size:10.5px;padding:2px 9px">{{ e.escopoTag }}</span>
+                          </sc-if>
+                          <sc-if value="{{ e.fixaTag }}" hint-placeholder-val="{{ false }}">
+                            <span class="tag tag-neutral" style="font-size:10.5px;padding:2px 9px">conta fixa</span>
+                          </sc-if>
+                          <sc-if value="{{ e.temReacao }}" hint-placeholder-val="{{ false }}">
+                            <span style="display:flex;align-items:center;gap:4px">
+                              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.5-1.6 2-3.2 2-5a5 5 0 0 0-9-3 5 5 0 0 0-9 3c0 1.8.5 3.4 2 5l7 7z"></path></svg>
+                              {{ e.reacoesN }}
+                            </span>
+                          </sc-if>
+                          <sc-if value="{{ e.temComentario }}" hint-placeholder-val="{{ false }}">
+                            <span>{{ e.comentarioLabel }}</span>
+                          </sc-if>
+                          <sc-if value="{{ e.aDetalhar }}" hint-placeholder-val="{{ false }}">
+                            <span class="tag tag-neutral" style="font-size:10.5px;padding:2px 9px">a detalhar</span>
+                          </sc-if>
+                        </div>
+                      </sc-if>
+                    </button>
+                  </sc-for>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ tabFeed }}" hint-placeholder-val="{{ false }}">
+          <div>
+            <div style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--color-neutral-600)">Atividade</div>
+            <div style="font-family:var(--font-heading);font-size:30px;line-height:1.05;margin:2px 0 20px">Vocês dois</div>
+            <div style="display:flex;flex-direction:column;gap:10px">
+              <sc-for list="{{ feed }}" as="f" hint-placeholder-count="6">
+                <div style="display:flex;gap:12px;align-items:flex-start;background:var(--color-surface);border-radius:24px;padding:14px 16px">
+                  <div style="width:32px;height:32px;flex:none;border-radius:999px;background:{{ f.cor }};display:grid;place-items:center;font-family:var(--font-heading);font-size:12px;color:var(--color-accent-900)">{{ f.inicial }}</div>
+                  <div style="flex:1">
+                    <div style="font-size:14px;line-height:1.5">{{ f.texto }}</div>
+                    <div style="font-size:11.5px;color:var(--color-neutral-600);margin-top:3px">{{ f.quando }}</div>
+                  </div>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ tabReserva }}" hint-placeholder-val="{{ false }}">
+          <div>
+            <div style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--color-neutral-600)">Reserva de emergência</div>
+            <div style="font-family:var(--font-heading);font-size:34px;line-height:1.05;margin:2px 0 20px">{{ reservaSaldo }}</div>
+
+            <div style="display:flex;justify-content:center;margin-bottom:20px">
+              <div style="position:relative;width:212px;height:212px;border-radius:999px;background:{{ anelBg }}">
+                <div style="position:absolute;inset:26px;border-radius:999px;background:var(--color-bg);display:grid;place-items:center;text-align:center">
+                  <div>
+                    <div style="font-family:var(--font-heading);font-size:46px;line-height:1">{{ mesesCobertos }}</div>
+                    <div style="font-size:12.5px;color:var(--color-neutral-700);margin-top:2px">meses de despesa</div>
+                    <div style="font-size:11.5px;color:var(--color-neutral-600);margin-top:8px">meta: {{ metaMeses }} meses</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div style="background:var(--color-surface);border-radius:30px;padding:20px 22px;box-shadow:var(--shadow-sm);margin-bottom:18px">
+              <p style="margin:0;font-size:14.5px;line-height:1.6;color:var(--color-neutral-800);text-wrap:pretty">{{ fraseReserva }}</p>
+            </div>
+
+            <div style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--color-neutral-600);margin-bottom:8px;padding-left:4px">Aportes e retiradas</div>
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <sc-for list="{{ movimentos }}" as="m" hint-placeholder-count="4">
+                <div style="display:flex;align-items:center;gap:13px;background:var(--color-surface);border-radius:24px;padding:12px 16px">
+                  <div style="width:38px;height:38px;flex:none;border-radius:999px;background:{{ m.cor }};display:grid;place-items:center;font-family:var(--font-heading);font-size:14px;color:var(--color-accent-900)">{{ m.inicial }}</div>
+                  <div style="flex:1">
+                    <div style="font-size:15px;font-weight:600">{{ m.nome }}</div>
+                    <div style="font-size:12px;color:var(--color-neutral-600);margin-top:1px">{{ m.data }}</div>
+                  </div>
+                  <div style="font-size:15.5px;font-weight:700;color:{{ m.valorCor }}">{{ m.valor }}</div>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ tabFecha }}" hint-placeholder-val="{{ false }}">
+          <div>
+            <div style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--color-neutral-600)">Fechamento</div>
+            <div style="font-family:var(--font-heading);font-size:30px;line-height:1.05;margin:2px 0 4px">Agosto</div>
+            <p style="margin:0 0 18px;font-size:13.5px;color:var(--color-neutral-700)">Mês fechado. Vocês dois já viram.</p>
+
+            <div style="background:var(--color-surface);border-radius:30px;padding:20px 22px;box-shadow:var(--shadow-sm);margin-bottom:16px">
+              <div style="font-family:var(--font-heading);font-size:29px">{{ fechaTotal }}</div>
+              <div style="display:flex;align-items:center;gap:7px;margin-top:6px">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"></path><path d="M6 11l6-6 6 6"></path></svg>
+                <span style="font-size:13px;color:var(--color-neutral-700)">{{ fechaVariacao }}</span>
+              </div>
+              <div style="height:1px;background:var(--color-divider);margin:16px 0"></div>
+              <div style="display:flex;flex-direction:column;gap:12px">
+                <sc-for list="{{ porCategoria }}" as="c" hint-placeholder-count="5">
+                  <div>
+                    <div style="display:flex;justify-content:space-between;font-size:13.5px;margin-bottom:5px">
+                      <span style="font-weight:600">{{ c.label }}</span>
+                      <span style="color:var(--color-neutral-700)">{{ c.valor }}</span>
+                    </div>
+                    <div style="height:9px;border-radius:999px;background:var(--color-neutral-200);overflow:hidden">
+                      <div style="height:100%;border-radius:999px;background:{{ c.cor }};width:{{ c.pct }}"></div>
+                    </div>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+
+            <div style="background:var(--color-accent-2-100);border-radius:30px;padding:20px 22px">
+              <div style="font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--color-accent-2-700);margin-bottom:10px">Sobrou e foi para a reserva</div>
+              <div style="display:flex;align-items:baseline;gap:10px">
+                <div style="font-family:var(--font-heading);font-size:27px;color:var(--color-accent-2-800)">{{ fechaAporte }}</div>
+                <div style="font-size:12.5px;color:var(--color-accent-2-800);opacity:.8">de {{ fechaSobrou }} que sobrou</div>
+              </div>
+              <p style="margin:10px 0 0;font-size:13.5px;line-height:1.6;color:var(--color-accent-2-800);opacity:.9;text-wrap:pretty">{{ fraseFecha }}</p>
+            </div>
+          </div>
+        </sc-if>
+      </div>
+
+      <div style="position:absolute;left:0;right:0;bottom:0;height:98px;background:linear-gradient(to top,var(--color-bg) 64%,rgba(240,242,232,0));display:flex;align-items:flex-start;justify-content:space-between;padding:14px 18px 0;z-index:20">
+        <button style="border:0;background:transparent;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;min-width:52px;min-height:48px;padding:2px;color:{{ corMes }}" onClick="{{ irMes }}">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="13" rx="3"></rect><path d="M3 11h18"></path></svg>
+          <span style="font-size:10.5px;font-weight:600">Mês</span>
+        </button>
+        <button style="border:0;background:transparent;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;min-width:52px;min-height:48px;padding:2px;color:{{ corFeed }}" onClick="{{ irFeed }}">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.5 7.2L4 20l1-4.5A8 8 0 1 1 21 12z"></path></svg>
+          <span style="font-size:10.5px;font-weight:600">Atividade</span>
+        </button>
+        <div style="width:62px"></div>
+        <button style="border:0;background:transparent;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;min-width:52px;min-height:48px;padding:2px;color:{{ corReserva }}" onClick="{{ irReserva }}">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v6c0 4-3 7-7 8-4-1-7-4-7-8V6z"></path></svg>
+          <span style="font-size:10.5px;font-weight:600">Reserva</span>
+        </button>
+        <button style="border:0;background:transparent;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;min-width:52px;min-height:48px;padding:2px;color:{{ corFecha }}" onClick="{{ irFecha }}">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 19V10"></path><path d="M11 19V5"></path><path d="M17 19v-6"></path></svg>
+          <span style="font-size:10.5px;font-weight:600">Fechar</span>
+        </button>
+      </div>
+
+      <button style="position:absolute;left:50%;bottom:46px;transform:translateX(-50%);width:64px;height:64px;border-radius:999px;border:0;background:var(--color-accent);color:#fff;box-shadow:var(--shadow-md);cursor:pointer;display:grid;place-items:center;z-index:30" style-hover="background:var(--color-accent-600)" style-active="background:var(--color-accent-700)" onClick="{{ abrirRegistro }}">
+        <svg width="29" height="29" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.75" stroke-linecap="round"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg>
+      </button>
+
+      <sc-if value="{{ viewFixas }}" hint-placeholder-val="{{ false }}">
+        <div style="position:absolute;top:50px;left:0;right:0;bottom:0;z-index:55;background:var(--color-bg);overflow:auto;padding:10px 20px 34px;animation:jfade .18s ease-out">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
+            <div style="font-family:var(--font-heading);font-size:26px">Contas fixas</div>
+            <button style="width:44px;height:44px;border-radius:999px;border:0;background:var(--color-surface);cursor:pointer;display:grid;place-items:center;color:var(--color-neutral-700)" style-hover="background:var(--color-accent-100)" onClick="{{ fecharView }}">
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.75" stroke-linecap="round"><path d="M6 6l12 12"></path><path d="M18 6L6 18"></path></svg>
+            </button>
+          </div>
+
+          <div style="background:var(--color-surface);border-radius:28px;padding:20px 22px;box-shadow:var(--shadow-sm);margin-bottom:18px">
+            <div style="font-family:var(--font-heading);font-size:31px;line-height:1.05">{{ fixasTotalTxt }}</div>
+            <div style="font-size:13px;color:var(--color-neutral-700);margin-top:4px">por mês · {{ fixasResumo }}</div>
+            <div style="height:9px;border-radius:999px;background:var(--color-neutral-200);overflow:hidden;margin:15px 0 10px">
+              <div style="height:100%;border-radius:999px;background:var(--color-accent-2-600);width:{{ fixasPct }}"></div>
+            </div>
+            <div style="font-size:12.5px;color:var(--color-neutral-700)">Ainda faltam {{ fixasFaltaTxt }} neste mês.</div>
+          </div>
+
+          <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:24px">
+            <sc-for list="{{ cartoesFixas }}" as="f" hint-placeholder-count="6">
+              <div style="display:flex;align-items:center;gap:13px;background:{{ f.statusBg }};border-radius:24px;padding:13px 16px">
+                <button style="width:26px;height:26px;flex:none;border-radius:999px;border:2px solid {{ f.marcaBorda }};background:{{ f.marcaBg }};cursor:pointer;display:grid;place-items:center;color:#fff;padding:0" onClick="{{ f.onToggle }}">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"></path></svg>
+                </button>
+                <div style="flex:1;min-width:0">
+                  <div style="font-size:15px;font-weight:600">{{ f.nome }}</div>
+                  <div style="font-size:12px;color:var(--color-neutral-600);margin-top:1px">{{ f.diaLabel }} · {{ f.statusLabel }}</div>
+                </div>
+                <div style="font-size:15px;font-weight:700">{{ f.valor }}</div>
+                <div style="width:22px;height:22px;flex:none;border-radius:999px;background:{{ f.quemCor }};display:grid;place-items:center;font-family:var(--font-heading);font-size:10px;color:var(--color-accent-900)">{{ f.quemInicial }}</div>
+              </div>
+            </sc-for>
+          </div>
+
+          <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:10px;padding-left:4px">
+            <div style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--color-neutral-600)">Parcelas em andamento</div>
+            <div style="font-size:12.5px;font-weight:600;color:var(--color-accent-700)">{{ saldoParcelasTxt }}</div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <sc-for list="{{ parcelados }}" as="p" hint-placeholder-count="1">
+              <div style="background:var(--color-surface);border-radius:24px;padding:16px 18px">
+                <div style="display:flex;justify-content:space-between;align-items:baseline;gap:10px">
+                  <div style="font-size:15px;font-weight:600;min-width:0">{{ p.nome }}</div>
+                  <div style="font-size:12.5px;color:var(--color-neutral-700);white-space:nowrap">{{ p.parcelaLabel }}</div>
+                </div>
+                <div style="height:8px;border-radius:999px;background:var(--color-accent-200);overflow:hidden;margin:11px 0 9px">
+                  <div style="height:100%;border-radius:999px;background:var(--color-accent);width:{{ p.pct }}"></div>
+                </div>
+                <div style="display:flex;justify-content:space-between;font-size:12.5px;color:var(--color-neutral-700)">
+                  <span>{{ p.mensal }}</span>
+                  <span style="font-weight:700;color:var(--color-text)">saldo devedor {{ p.saldo }}</span>
+                </div>
+              </div>
+            </sc-for>
+            <sc-if value="{{ semParcelados }}" hint-placeholder-val="{{ false }}">
+              <div style="font-size:13px;color:var(--color-neutral-600);padding-left:4px">Nada parcelado agora.</div>
+            </sc-if>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ viewPerfil }}" hint-placeholder-val="{{ false }}">
+        <div style="position:absolute;top:50px;left:0;right:0;bottom:0;z-index:55;background:var(--color-bg);overflow:auto;padding:10px 20px 34px;animation:jfade .18s ease-out">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:22px">
+            <div style="font-family:var(--font-heading);font-size:26px">Perfil</div>
+            <button style="width:44px;height:44px;border-radius:999px;border:0;background:var(--color-surface);cursor:pointer;display:grid;place-items:center;color:var(--color-neutral-700)" style-hover="background:var(--color-accent-100)" onClick="{{ fecharView }}">
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.75" stroke-linecap="round"><path d="M6 6l12 12"></path><path d="M18 6L6 18"></path></svg>
+            </button>
+          </div>
+
+          <div style="display:flex;align-items:center;gap:16px;margin-bottom:18px">
+            <div style="width:76px;height:76px;flex:none;border-radius:999px;background:{{ perfilCor }};display:grid;place-items:center;font-family:var(--font-heading);font-size:31px;color:var(--color-accent-900)">{{ perfilInicial }}</div>
+            <div style="flex:1;min-width:0">
+              <div style="font-size:11.5px;color:var(--color-neutral-700);margin-bottom:6px">Como você aparece para o Rafa</div>
+              <input class="input" value="{{ perfilNome }}" onChange="{{ setPerfilNome }}" style="min-height:46px;background:var(--color-surface);font-size:15px">
+            </div>
+          </div>
+
+          <div style="background:var(--color-surface);border-radius:26px;padding:18px;margin-bottom:12px">
+            <div style="font-size:11.5px;color:var(--color-neutral-700);margin-bottom:11px">Sua cor nos lançamentos</div>
+            <div style="display:flex;gap:10px">
+              <sc-for list="{{ coresPerfil }}" as="c" hint-placeholder-count="4">
+                <button style="width:46px;height:46px;border-radius:999px;background:{{ c.cor }};border:3px solid {{ c.borda }};cursor:pointer" onClick="{{ c.onPick }}"></button>
+              </sc-for>
+            </div>
+          </div>
+
+          <button style="width:100%;display:flex;align-items:center;gap:14px;background:var(--color-accent-100);border:0;border-radius:26px;padding:18px;cursor:pointer;text-align:left;margin-bottom:12px" style-hover="background:var(--color-accent-200)" onClick="{{ abrirRenda }}">
+            <div style="flex:1">
+              <div style="font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--color-accent-700)">Renda do casal</div>
+              <div style="font-family:var(--font-heading);font-size:24px;color:var(--color-accent-900);margin-top:4px">{{ rendaTotal }}</div>
+              <div style="font-size:12.5px;color:var(--color-accent-800);opacity:.85;margin-top:2px">{{ rendaResumo }} · {{ aportePct }} para a reserva</div>
+            </div>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent-700)" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"></path></svg>
+          </button>
+
+          <div style="background:var(--color-surface);border-radius:26px;padding:18px;margin-bottom:12px;display:flex;flex-direction:column;gap:16px">
+            <div style="display:flex;align-items:center;gap:14px">
+              <div style="flex:1">
+                <div style="font-size:14.5px;font-weight:600">Avisar quando Rafa lançar</div>
+                <div style="font-size:12px;color:var(--color-neutral-600);margin-top:2px">uma notificação por lançamento</div>
+              </div>
+              <button style="width:46px;height:26px;border-radius:999px;border:0;background:{{ notifLancBg }};position:relative;cursor:pointer;flex:none" onClick="{{ toggleNotifLanc }}">
+                <span style="position:absolute;top:2px;left:{{ notifLancX }};width:22px;height:22px;border-radius:999px;background:#fff;transition:left .16s ease"></span>
+              </button>
+            </div>
+            <div style="display:flex;align-items:center;gap:14px">
+              <div style="flex:1">
+                <div style="font-size:14.5px;font-weight:600">Resumo de domingo</div>
+                <div style="font-size:12px;color:var(--color-neutral-600);margin-top:2px">como foi a semana de vocês</div>
+              </div>
+              <button style="width:46px;height:26px;border-radius:999px;border:0;background:{{ notifResumoBg }};position:relative;cursor:pointer;flex:none" onClick="{{ toggleNotifResumo }}">
+                <span style="position:absolute;top:2px;left:{{ notifResumoX }};width:22px;height:22px;border-radius:999px;background:#fff;transition:left .16s ease"></span>
+              </button>
+            </div>
+          </div>
+
+          <div style="background:var(--color-accent-2-100);border-radius:26px;padding:18px">
+            <div style="font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--color-accent-2-700);margin-bottom:12px">Vocês dois</div>
+            <div style="display:flex;align-items:center;gap:13px">
+              <div style="width:42px;height:42px;flex:none;border-radius:999px;background:var(--color-accent-2-300);display:grid;place-items:center;font-family:var(--font-heading);font-size:16px;color:var(--color-accent-2-800)">R</div>
+              <div style="flex:1">
+                <div style="font-size:15px;font-weight:600;color:var(--color-accent-2-800)">Rafa</div>
+                <div style="font-size:12px;color:var(--color-accent-2-800);opacity:.8;margin-top:1px">junto com você desde março</div>
+              </div>
+            </div>
+            <p style="margin:13px 0 0;font-size:13px;line-height:1.6;color:var(--color-accent-2-800);opacity:.9;text-wrap:pretty">Os dois têm o mesmo acesso a tudo. Não existe dono da conta, e nada aqui fica escondido de ninguém.</p>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ viewRenda }}" hint-placeholder-val="{{ false }}">
+        <div style="position:absolute;top:50px;left:0;right:0;bottom:0;z-index:56;background:var(--color-bg);overflow:auto;padding:10px 20px 34px;animation:jfade .18s ease-out">
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:18px">
+            <button style="width:44px;height:44px;flex:none;border-radius:999px;border:0;background:var(--color-surface);cursor:pointer;display:grid;place-items:center;color:var(--color-neutral-700)" style-hover="background:var(--color-accent-100)" onClick="{{ voltarPerfil }}">
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"></path></svg>
+            </button>
+            <div style="font-family:var(--font-heading);font-size:24px">Renda do casal</div>
+          </div>
+
+          <div style="margin-bottom:20px">
+            <div style="font-family:var(--font-heading);font-size:36px;line-height:1.05">{{ rendaTotal }}</div>
+            <div style="font-size:13px;color:var(--color-neutral-700);margin-top:4px">{{ rendaResumo }}</div>
+          </div>
+
+          <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:14px">
+            <sc-for list="{{ cartoesRenda }}" as="r" hint-placeholder-count="2">
+              <div style="background:var(--color-surface);border-radius:28px;padding:18px">
+                <button style="width:100%;display:flex;align-items:center;gap:12px;border:0;background:transparent;padding:0;cursor:pointer;text-align:left;font:inherit;color:inherit;min-height:44px" onClick="{{ r.onToggle }}">
+                  <div style="width:38px;height:38px;flex:none;border-radius:999px;background:{{ r.cor }};display:grid;place-items:center;font-family:var(--font-heading);font-size:15px;color:var(--color-accent-900)">{{ r.inicial }}</div>
+                  <div style="flex:1;min-width:0">
+                    <div style="font-size:15.5px;font-weight:700">{{ r.nome }}</div>
+                    <div style="font-size:12px;color:var(--color-neutral-600);margin-top:1px">{{ r.share }}</div>
+                  </div>
+                  <div style="font-family:var(--font-heading);font-size:17px">{{ r.totalTxt }}</div>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--color-neutral-600)" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round" style="flex:none"><path d="{{ r.seta }}"></path></svg>
+                </button>
+
+                <sc-if value="{{ r.aberto }}" hint-placeholder-val="{{ true }}">
+                  <div style="display:flex;flex-direction:column;gap:15px;margin-top:16px;animation:jfade .18s ease-out">
+                    <div>
+                      <div style="font-size:11.5px;color:var(--color-neutral-700);margin-bottom:6px">Salário bruto</div>
+                      <input class="input" value="{{ r.brutoTxt }}" onChange="{{ r.setBruto }}" style="min-height:48px;background:var(--color-bg);font-family:var(--font-heading);font-size:19px">
+                    </div>
+
+                    <div style="display:flex;align-items:center;gap:10px">
+                      <div style="flex:1;font-size:13px;color:var(--color-neutral-700)">Dependentes no IR<div style="font-size:12px;color:var(--color-neutral-600);margin-top:1px">{{ r.dependentesLabel }}</div></div>
+                      <button style="width:40px;height:44px;flex:none;border-radius:999px;border:1px solid var(--color-divider);background:var(--color-bg);font:inherit;font-size:18px;cursor:pointer;color:var(--color-text)" onClick="{{ r.menosDep }}">−</button>
+                      <button style="width:40px;height:44px;flex:none;border-radius:999px;border:1px solid var(--color-divider);background:var(--color-bg);font:inherit;font-size:18px;cursor:pointer;color:var(--color-text)" onClick="{{ r.maisDep }}">+</button>
+                    </div>
+
+                    <div style="background:var(--color-bg);border-radius:22px;padding:16px;display:flex;flex-direction:column;gap:10px">
+                      <div style="display:flex;justify-content:space-between;font-size:13.5px">
+                        <span style="color:var(--color-neutral-700)">INSS</span>
+                        <span style="font-weight:600">{{ r.inssTxt }}</span>
+                      </div>
+                      <div style="display:flex;justify-content:space-between;font-size:13.5px">
+                        <span style="color:var(--color-neutral-700)">Imposto de renda</span>
+                        <span style="font-weight:600">{{ r.irTxt }}</span>
+                      </div>
+                      <sc-for list="{{ r.descontos }}" as="x" hint-placeholder-count="1">
+                        <div style="display:flex;align-items:center;gap:8px;font-size:13.5px">
+                          <span style="flex:1;color:var(--color-neutral-700);min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ x.nome }}</span>
+                          <span style="font-weight:600">{{ x.valor }}</span>
+                          <button style="width:26px;height:26px;flex:none;border-radius:999px;border:0;background:var(--color-neutral-200);cursor:pointer;display:grid;place-items:center;color:var(--color-neutral-700)" onClick="{{ x.onRemove }}">
+                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M6 6l12 12"></path><path d="M18 6L6 18"></path></svg>
+                          </button>
+                        </div>
+                      </sc-for>
+                      <div style="height:1px;background:var(--color-divider);margin:2px 0"></div>
+                      <div style="display:flex;justify-content:space-between;align-items:baseline">
+                        <span style="font-size:12.5px;color:var(--color-neutral-700)">Líquido na conta<div style="font-size:11.5px;color:var(--color-neutral-600);margin-top:1px">{{ r.aliquota }}</div></span>
+                        <span style="font-family:var(--font-heading);font-size:21px">{{ r.liquidoTxt }}</span>
+                      </div>
+                    </div>
+
+                    <sc-if value="{{ r.formDesconto }}" hint-placeholder-val="{{ false }}">
+                      <div style="background:var(--color-accent-100);border-radius:22px;padding:16px;display:flex;flex-direction:column;gap:10px;animation:jfade .16s ease-out">
+                        <div style="font-size:12px;font-weight:700;color:var(--color-accent-800)">{{ r.formTitulo }}</div>
+                        <input class="input" placeholder="{{ r.formPlaceholder }}" value="{{ r.novoNome }}" onChange="{{ r.setNovoNome }}" style="min-height:46px;background:var(--color-bg)">
+                        <div style="display:flex;gap:9px">
+                          <input class="input" placeholder="0,00" value="{{ r.novoValor }}" onChange="{{ r.setNovoValor }}" style="flex:1;min-width:0;min-height:46px;background:var(--color-bg)">
+                          <button style="flex:none;border:0;border-radius:999px;min-height:46px;padding:0 20px;background:{{ r.confirmarBg }};color:#fff;font-family:var(--font-heading);font-size:14px;cursor:pointer" onClick="{{ r.confirmarNovo }}">Somar</button>
+                          <button style="flex:none;border:1px solid var(--color-divider);border-radius:999px;min-height:46px;padding:0 16px;background:transparent;font:inherit;font-size:13px;cursor:pointer;color:var(--color-neutral-700)" onClick="{{ r.cancelarNovo }}">Sair</button>
+                        </div>
+                      </div>
+                    </sc-if>
+                    <button style="border:1px dashed var(--color-neutral-400);background:transparent;border-radius:999px;min-height:46px;font:inherit;font-size:13.5px;font-weight:600;cursor:pointer;color:var(--color-neutral-700)" style-hover="border-color:var(--color-accent);color:var(--color-accent-700)" onClick="{{ r.addDesconto }}">+ outro desconto na folha</button>
+
+                    <div>
+                      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:9px">
+                        <div style="font-size:11.5px;color:var(--color-neutral-700)">Outras rendas</div>
+                        <div style="font-size:12.5px;font-weight:600;color:var(--color-accent-2-700)">{{ r.extrasTxt }}</div>
+                      </div>
+                      <div style="display:flex;flex-direction:column;gap:8px">
+                        <sc-for list="{{ r.outras }}" as="o" hint-placeholder-count="1">
+                          <div style="display:flex;align-items:center;gap:9px;background:var(--color-accent-2-100);border-radius:20px;padding:11px 14px;font-size:13.5px">
+                            <span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--color-accent-2-800)">{{ o.nome }}</span>
+                            <span style="font-weight:700;color:var(--color-accent-2-800)">{{ o.valor }}</span>
+                            <button style="width:26px;height:26px;flex:none;border-radius:999px;border:0;background:var(--color-accent-2-200);cursor:pointer;display:grid;place-items:center;color:var(--color-accent-2-800)" onClick="{{ o.onRemove }}">
+                              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M6 6l12 12"></path><path d="M18 6L6 18"></path></svg>
+                            </button>
+                          </div>
+                        </sc-for>
+                        <sc-if value="{{ r.semOutras }}" hint-placeholder-val="{{ false }}">
+                          <div style="font-size:12.5px;color:var(--color-neutral-600)">Só o salário por enquanto.</div>
+                        </sc-if>
+                        <sc-if value="{{ r.formOutra }}" hint-placeholder-val="{{ false }}">
+                          <div style="background:var(--color-accent-2-100);border-radius:22px;padding:16px;display:flex;flex-direction:column;gap:10px;animation:jfade .16s ease-out">
+                            <div style="font-size:12px;font-weight:700;color:var(--color-accent-2-800)">{{ r.formTitulo }}</div>
+                            <input class="input" placeholder="{{ r.formPlaceholder }}" value="{{ r.novoNome }}" onChange="{{ r.setNovoNome }}" style="min-height:46px;background:var(--color-bg)">
+                            <div style="display:flex;gap:9px">
+                              <input class="input" placeholder="0,00" value="{{ r.novoValor }}" onChange="{{ r.setNovoValor }}" style="flex:1;min-width:0;min-height:46px;background:var(--color-bg)">
+                              <button style="flex:none;border:0;border-radius:999px;min-height:46px;padding:0 20px;background:{{ r.confirmarBg }};color:#fff;font-family:var(--font-heading);font-size:14px;cursor:pointer" onClick="{{ r.confirmarNovo }}">Somar</button>
+                              <button style="flex:none;border:1px solid var(--color-divider);border-radius:999px;min-height:46px;padding:0 16px;background:transparent;font:inherit;font-size:13px;cursor:pointer;color:var(--color-neutral-700)" onClick="{{ r.cancelarNovo }}">Sair</button>
+                            </div>
+                          </div>
+                        </sc-if>
+                        <button style="border:1px dashed var(--color-accent-2-400);background:transparent;border-radius:999px;min-height:46px;font:inherit;font-size:13.5px;font-weight:600;cursor:pointer;color:var(--color-accent-2-700)" onClick="{{ r.addOutra }}">+ outra renda</button>
+                      </div>
+                    </div>
+
+                    <div style="display:flex;gap:12px;align-items:flex-end">
+                      <div style="flex:1">
+                        <div style="font-size:11.5px;color:var(--color-neutral-700);margin-bottom:6px">Tipo</div>
+                        <div style="display:flex;gap:7px">
+                          <sc-for list="{{ r.tipos }}" as="t" hint-placeholder-count="2">
+                            <button style="flex:1;border:1px solid {{ t.borda }};background:{{ t.bg }};color:{{ t.fg }};border-radius:999px;min-height:44px;font:inherit;font-size:13px;font-weight:600;cursor:pointer" onClick="{{ t.onPick }}">{{ t.label }}</button>
+                          </sc-for>
+                        </div>
+                      </div>
+                      <div style="flex:none">
+                        <div style="font-size:11.5px;color:var(--color-neutral-700);margin-bottom:6px">Recebe</div>
+                        <div style="display:flex;align-items:center;gap:6px">
+                          <button style="width:40px;height:44px;border-radius:999px;border:1px solid var(--color-divider);background:var(--color-bg);font:inherit;font-size:18px;cursor:pointer;color:var(--color-text)" onClick="{{ r.menosDia }}">−</button>
+                          <div style="min-width:52px;text-align:center;font-family:var(--font-heading);font-size:15px">{{ r.diaLabel }}</div>
+                          <button style="width:40px;height:44px;border-radius:999px;border:1px solid var(--color-divider);background:var(--color-bg);font:inherit;font-size:18px;cursor:pointer;color:var(--color-text)" onClick="{{ r.maisDia }}">+</button>
+                        </div>
+                      </div>
+                    </div>
+                    <div style="font-size:12.5px;color:var(--color-neutral-600);line-height:1.5">{{ r.nota }}</div>
+                  </div>
+                </sc-if>
+              </div>
+            </sc-for>
+          </div>
+
+          <div style="background:var(--color-accent-2-100);border-radius:28px;padding:20px">
+            <div style="font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--color-accent-2-700);margin-bottom:12px">Vai para a reserva</div>
+            <div style="display:flex;align-items:center;gap:14px">
+              <button style="width:44px;height:44px;flex:none;border-radius:999px;border:1px solid var(--color-accent-2-400);background:transparent;font:inherit;font-size:19px;cursor:pointer;color:var(--color-accent-2-800)" onClick="{{ menosAporte }}">−</button>
+              <div style="flex:1;text-align:center">
+                <div style="font-family:var(--font-heading);font-size:30px;color:var(--color-accent-2-800)">{{ aporteValor }}</div>
+                <div style="font-size:12.5px;color:var(--color-accent-2-800);opacity:.85;margin-top:1px">{{ aportePct }} da renda</div>
+              </div>
+              <button style="width:44px;height:44px;flex:none;border-radius:999px;border:1px solid var(--color-accent-2-400);background:transparent;font:inherit;font-size:19px;cursor:pointer;color:var(--color-accent-2-800)" onClick="{{ maisAporte }}">+</button>
+            </div>
+            <div style="height:9px;border-radius:999px;background:var(--color-accent-2-200);overflow:hidden;margin:16px 0 12px">
+              <div style="height:100%;border-radius:999px;background:var(--color-accent-2-600);width:{{ aporteLargura }}"></div>
+            </div>
+            <p style="margin:0;font-size:13px;line-height:1.6;color:var(--color-accent-2-800);opacity:.9;text-wrap:pretty">{{ fraseAporte }}</p>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ toast }}" hint-placeholder-val="{{ false }}">
+        <div style="position:absolute;left:20px;right:20px;bottom:128px;background:var(--color-accent-800);color:#fff;border-radius:22px;padding:13px 18px;font-size:13.5px;box-shadow:var(--shadow-md);z-index:40;animation:jup .22s ease-out">{{ toast }}</div>
+      </sc-if>
+
+      <sc-if value="{{ sheetRegistro }}" hint-placeholder-val="{{ false }}">
+        <div style="position:absolute;inset:0;z-index:60;animation:jfade .16s ease-out">
+          <div style="position:absolute;inset:0;background:rgba(26,31,46,.42)" onClick="{{ fecharSheet }}"></div>
+          <div style="position:absolute;left:0;right:0;bottom:0;max-height:94%;overflow:auto;background:var(--color-bg);border-radius:34px 34px 0 0;padding:14px 20px 30px;box-shadow:var(--shadow-lg);animation:jup .26s cubic-bezier(.2,.8,.2,1)">
+            <div style="width:44px;height:5px;border-radius:999px;background:var(--color-neutral-300);margin:0 auto 14px"></div>
+
+            <div style="display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding-bottom:14px">
+              <sc-for list="{{ atalhos }}" as="a" hint-placeholder-count="4">
+                <button style="flex:none;border:1px solid var(--color-divider);background:var(--color-surface);border-radius:999px;padding:9px 16px;font:inherit;font-size:13px;cursor:pointer;min-height:44px;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;line-height:1.2;color:var(--color-text)" style-hover="border-color:var(--color-accent);background:var(--color-accent-100)" onClick="{{ a.onPick }}">
+                  <span style="font-weight:700">{{ a.label }}</span>
+                  <span style="font-size:11px;color:var(--color-neutral-600)">{{ a.valorLabel }}</span>
+                </button>
+              </sc-for>
+            </div>
+
+            <div style="text-align:center;padding:4px 0 12px">
+              <div style="font-family:var(--font-heading);font-size:50px;line-height:1;letter-spacing:-.02em;color:{{ corValor }}">{{ valorDigitado }}</div>
+            </div>
+
+            <div style="display:flex;gap:7px;overflow-x:auto;scrollbar-width:none;padding-bottom:12px">
+              <sc-for list="{{ categorias }}" as="c" hint-placeholder-count="6">
+                <button style="flex:none;border:0;border-radius:999px;padding:10px 16px;font:inherit;font-size:13.5px;font-weight:600;cursor:pointer;min-height:44px;background:{{ c.bg }};color:{{ c.fg }}" onClick="{{ c.onPick }}">{{ c.label }}</button>
+              </sc-for>
+            </div>
+
+            <div style="display:flex;gap:7px;margin:6px 0 0">
+              <sc-for list="{{ escopos }}" as="x" hint-placeholder-count="2">
+                <button style="flex:1;border:1px solid {{ x.borda }};background:{{ x.bg }};color:{{ x.fg }};border-radius:999px;min-height:46px;font:inherit;font-size:13.5px;font-weight:600;cursor:pointer" onClick="{{ x.onPick }}">{{ x.label }}</button>
+              </sc-for>
+            </div>
+
+            <div style="display:flex;gap:9px;margin:12px 0 12px">
+              <button style="flex:1;border:1px solid var(--color-divider);background:{{ detalhesBg }};border-radius:999px;padding:10px 16px;font:inherit;font-size:13px;cursor:pointer;min-height:48px;display:flex;align-items:center;justify-content:space-between;gap:8px;color:var(--color-text);text-align:left" onClick="{{ toggleDetalhes }}">
+                <span style="min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ resumoDetalhes }}</span>
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="var(--color-neutral-600)" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round" style="flex:none"><path d="M6 9l6 6 6-6"></path></svg>
+              </button>
+              <button style="width:48px;height:48px;flex:none;border-radius:999px;border:1px solid {{ reciboBorda }};background:{{ reciboBg }};cursor:pointer;display:grid;place-items:center;color:{{ reciboFg }}" onClick="{{ toggleRecibo }}">
+                <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5A2.5 2.5 0 0 1 5.5 6h1.2a2 2 0 0 0 1.7-1l.4-.7a1 1 0 0 1 .9-.5h4.6a1 1 0 0 1 .9.5l.4.7a2 2 0 0 0 1.7 1h1.2A2.5 2.5 0 0 1 21 8.5v8A2.5 2.5 0 0 1 18.5 19h-13A2.5 2.5 0 0 1 3 16.5z"></path><circle cx="12" cy="12.5" r="3.2"></circle></svg>
+              </button>
+            </div>
+
+            <sc-if value="{{ detalhesAbertos }}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex;flex-direction:column;gap:14px;background:var(--color-surface);border-radius:26px;padding:18px;margin-bottom:14px;animation:jfade .18s ease-out">
+                <div>
+                  <div style="font-size:11.5px;color:var(--color-neutral-700);margin-bottom:6px">Descrição</div>
+                  <input class="input" placeholder="opcional — ex: feira da semana" value="{{ draftDesc }}" onChange="{{ setDesc }}" style="min-height:44px;background:var(--color-bg)">
+                </div>
+                <div>
+                  <div style="font-size:11.5px;color:var(--color-neutral-700);margin-bottom:6px">Data</div>
+                  <div style="display:flex;gap:7px">
+                    <sc-for list="{{ datas }}" as="d" hint-placeholder-count="3">
+                      <button style="flex:1;border:1px solid {{ d.borda }};background:{{ d.bg }};color:{{ d.fg }};border-radius:999px;min-height:44px;font:inherit;font-size:13px;font-weight:600;cursor:pointer" onClick="{{ d.onPick }}">{{ d.label }}</button>
+                    </sc-for>
+                  </div>
+                </div>
+                <div>
+                  <div style="font-size:11.5px;color:var(--color-neutral-700);margin-bottom:6px">Forma de pagamento</div>
+                  <div style="display:flex;gap:7px;flex-wrap:wrap">
+                    <sc-for list="{{ formas }}" as="f" hint-placeholder-count="4">
+                      <button style="border:1px solid {{ f.borda }};background:{{ f.bg }};color:{{ f.fg }};border-radius:999px;min-height:44px;padding:0 16px;font:inherit;font-size:13px;font-weight:600;cursor:pointer" onClick="{{ f.onPick }}">{{ f.label }}</button>
+                    </sc-for>
+                  </div>
+                </div>
+                <sc-if value="{{ mostraParcelas }}" hint-placeholder-val="{{ false }}">
+                  <div>
+                    <div style="font-size:11.5px;color:var(--color-neutral-700);margin-bottom:6px">Parcelas</div>
+                    <div style="display:flex;align-items:center;gap:12px">
+                      <button style="width:44px;height:44px;border-radius:999px;border:1px solid var(--color-divider);background:var(--color-bg);font:inherit;font-size:20px;cursor:pointer;color:var(--color-text)" onClick="{{ menosParcela }}">−</button>
+                      <div style="flex:1;text-align:center">
+                        <div style="font-family:var(--font-heading);font-size:20px">{{ parcelasLabel }}</div>
+                        <div style="font-size:11.5px;color:var(--color-neutral-600);margin-top:1px">{{ parcelaValor }}</div>
+                      </div>
+                      <button style="width:44px;height:44px;border-radius:999px;border:1px solid var(--color-divider);background:var(--color-bg);font:inherit;font-size:20px;cursor:pointer;color:var(--color-text)" onClick="{{ maisParcela }}">+</button>
+                    </div>
+                  </div>
+                </sc-if>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ tecladoVisivel }}" hint-placeholder-val="{{ true }}">
+              <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:9px">
+                <sc-for list="{{ teclas }}" as="t" hint-placeholder-count="12">
+                  <button style="border:0;background:var(--color-surface);border-radius:22px;min-height:54px;font-family:var(--font-heading);font-size:24px;color:var(--color-text);cursor:pointer;box-shadow:var(--shadow-sm)" style-active="background:var(--color-accent-200)" onClick="{{ t.onPick }}">{{ t.label }}</button>
+                </sc-for>
+              </div>
+            </sc-if>
+
+            <button style="width:100%;margin-top:14px;min-height:56px;border-radius:999px;font-size:16px;border:0;cursor:pointer;background:{{ btnBg }};color:{{ btnFg }};font-family:var(--font-heading)" onClick="{{ salvar }}">{{ labelSalvar }}</button>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ sheetDetalhe }}" hint-placeholder-val="{{ false }}">
+        <div style="position:absolute;inset:0;z-index:70;animation:jfade .16s ease-out">
+          <div style="position:absolute;inset:0;background:rgba(26,31,46,.42)" onClick="{{ fecharSheet }}"></div>
+          <div style="position:absolute;left:0;right:0;bottom:0;max-height:92%;overflow:auto;background:var(--color-bg);border-radius:34px 34px 0 0;padding:14px 20px 30px;box-shadow:var(--shadow-lg);animation:jup .26s cubic-bezier(.2,.8,.2,1)">
+            <div style="width:44px;height:5px;border-radius:999px;background:var(--color-neutral-300);margin:0 auto 16px"></div>
+
+            <div style="display:flex;align-items:center;gap:14px;margin-bottom:16px">
+              <div style="width:52px;height:52px;flex:none;border-radius:999px;background:{{ dCatCor }};display:grid;place-items:center;font-family:var(--font-heading);font-size:20px;color:var(--color-accent-900)">{{ dInicial }}</div>
+              <div style="flex:1">
+                <div style="font-family:var(--font-heading);font-size:26px;line-height:1.1">{{ dValor }}</div>
+                <div style="font-size:13px;color:var(--color-neutral-700);margin-top:2px">{{ dTitulo }}</div>
+              </div>
+            </div>
+
+            <div style="background:var(--color-surface);border-radius:26px;padding:16px 18px;margin-bottom:12px;display:flex;flex-direction:column;gap:9px">
+              <sc-for list="{{ dMeta }}" as="m" hint-placeholder-count="4">
+                <div style="display:flex;justify-content:space-between;font-size:13.5px">
+                  <span style="color:var(--color-neutral-700)">{{ m.k }}</span>
+                  <span style="font-weight:600">{{ m.v }}</span>
+                </div>
+              </sc-for>
+            </div>
+
+            <sc-if value="{{ dRecibo }}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex;align-items:center;gap:13px;background:var(--color-accent-100);border-radius:24px;padding:14px 16px;margin-bottom:12px">
+                <div style="width:44px;height:56px;border-radius:10px;background:var(--color-accent-200);display:grid;place-items:center;color:var(--color-accent-700);flex:none">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3h7l4 4v14H7z"></path><path d="M10 12h6"></path><path d="M10 16h4"></path></svg>
+                </div>
+                <div style="flex:1">
+                  <div style="font-size:14px;font-weight:600;color:var(--color-accent-900)">Foto do recibo</div>
+                  <div style="font-size:12px;color:var(--color-accent-800);opacity:.8;margin-top:1px">anexada no registro</div>
+                </div>
+              </div>
+            </sc-if>
+
+            <div style="display:flex;gap:9px;margin-bottom:14px">
+              <sc-for list="{{ dReacoes }}" as="r" hint-placeholder-count="2">
+                <button style="flex:1;border:1px solid {{ r.borda }};background:{{ r.bg }};border-radius:999px;min-height:48px;font:inherit;font-size:13.5px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;color:{{ r.fg }}" onClick="{{ r.onPick }}">
+                  <span style="display:flex" data-icon="{{ r.tipo }}">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="{{ r.fill }}" stroke="currentColor" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><path d="{{ r.path }}"></path></svg>
+                  </span>
+                  {{ r.label }}
+                </button>
+              </sc-for>
+            </div>
+
+            <div style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--color-neutral-600);margin-bottom:9px;padding-left:4px">Conversa</div>
+            <div style="display:flex;flex-direction:column;gap:9px;margin-bottom:12px">
+              <sc-for list="{{ dComentarios }}" as="c" hint-placeholder-count="1">
+                <div style="display:flex;gap:11px;align-items:flex-start">
+                  <div style="width:30px;height:30px;flex:none;border-radius:999px;background:{{ c.cor }};display:grid;place-items:center;font-family:var(--font-heading);font-size:12px;color:var(--color-accent-900)">{{ c.inicial }}</div>
+                  <div style="flex:1;background:var(--color-surface);border-radius:20px;padding:11px 15px">
+                    <div style="font-size:12px;font-weight:700;color:var(--color-neutral-700)">{{ c.quem }}</div>
+                    <div style="font-size:14px;line-height:1.5;margin-top:2px">{{ c.texto }}</div>
+                  </div>
+                </div>
+              </sc-for>
+              <sc-if value="{{ dSemComentario }}" hint-placeholder-val="{{ false }}">
+                <p style="margin:0 0 4px;font-size:13.5px;color:var(--color-neutral-600)">Nenhum comentário ainda.</p>
+              </sc-if>
+            </div>
+
+            <div style="display:flex;gap:9px">
+              <input class="input" placeholder="Escreva algo para Rafa…" value="{{ novoComentario }}" onChange="{{ setComentario }}" style="min-height:50px;background:var(--color-surface)">
+              <button style="width:50px;height:50px;flex:none;border-radius:999px;border:0;background:var(--color-accent);color:#fff;cursor:pointer;display:grid;place-items:center" style-hover="background:var(--color-accent-600)" onClick="{{ enviarComentario }}">
+                <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h15"></path><path d="M13 6l6 6-6 6"></path></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </sc-if>
+    </div>
+  </x-import>
+
+  <x-import component-from-global-scope="ChromeWindow" from="./browser-window.jsx" url="junto.app/setembro" width="{{ webW }}" height="{{ webH }}" tabs="{{ webTabs }}" style="flex:none" hint-size="1180px,780px">
+    <div style="display:flex;height:100%;background:var(--color-bg);font-family:var(--font-body);color:var(--color-text);overflow:hidden">
+
+      <div style="width:216px;flex:none;padding:26px 18px;display:flex;flex-direction:column;gap:26px;border-right:1px solid var(--color-divider)">
+        <div style="font-family:var(--font-heading);font-size:26px;padding-left:8px">Junto</div>
+        <div style="display:flex;flex-direction:column;gap:3px">
+          <sc-for list="{{ webNav }}" as="n" hint-placeholder-count="4">
+            <button style="border:0;background:{{ n.bg }};color:{{ n.fg }};border-radius:999px;padding:11px 16px;font:inherit;font-size:14px;font-weight:600;cursor:pointer;text-align:left;min-height:44px" style-hover="background:var(--color-accent-100)" onClick="{{ n.onPick }}">{{ n.label }}</button>
+          </sc-for>
+        </div>
+        <div style="margin-top:auto;display:flex;flex-direction:column;gap:10px">
+          <button style="display:flex;align-items:center;gap:10px;padding:8px 6px;border:0;background:{{ webPerfilBg }};border-radius:999px;cursor:pointer;text-align:left;min-height:44px;font:inherit;color:var(--color-text)" style-hover="background:var(--color-accent-100)" onClick="{{ webAbrirRenda }}">
+            <div style="width:30px;height:30px;flex:none;border-radius:999px;background:{{ perfilCor }};display:grid;place-items:center;font-family:var(--font-heading);font-size:12px;color:var(--color-accent-900)">{{ perfilInicial }}</div>
+            <div style="font-size:13px;font-weight:600">{{ perfilNome }} <span style="font-weight:400;color:var(--color-neutral-600)">· você</span></div>
+          </button>
+          <div style="display:flex;align-items:center;gap:10px;padding-left:6px">
+            <div style="width:30px;height:30px;border-radius:999px;background:var(--color-accent-2-300);display:grid;place-items:center;font-family:var(--font-heading);font-size:12px;color:var(--color-accent-2-800)">R</div>
+            <div style="font-size:13px;font-weight:600">Rafa <span style="font-weight:400;color:var(--color-neutral-600)">· online</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div style="flex:1;min-width:0;overflow:auto;padding:30px 34px">
+        <sc-if value="{{ webFixas }}" hint-placeholder-val="{{ false }}">
+          <div>
+            <div style="display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:22px">
+              <div>
+                <div style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--color-neutral-600)">Contas fixas</div>
+                <div style="font-family:var(--font-heading);font-size:38px;line-height:1.05;margin-top:2px">{{ fixasTotalTxt }}</div>
+                <div style="font-size:13px;color:var(--color-neutral-700);margin-top:4px">por mês · {{ fixasResumo }} · faltam {{ fixasFaltaTxt }}</div>
+              </div>
+              <div style="width:180px">
+                <div style="height:9px;border-radius:999px;background:var(--color-neutral-200);overflow:hidden">
+                  <div style="height:100%;border-radius:999px;background:var(--color-accent-2-600);width:{{ fixasPct }}"></div>
+                </div>
+              </div>
+            </div>
+
+            <div style="display:flex;flex-direction:column;gap:7px;margin-bottom:26px">
+              <sc-for list="{{ cartoesFixas }}" as="f" hint-placeholder-count="6">
+                <div style="display:flex;align-items:center;gap:14px;background:{{ f.statusBg }};border-radius:22px;padding:12px 18px">
+                  <button style="width:24px;height:24px;flex:none;border-radius:999px;border:2px solid {{ f.marcaBorda }};background:{{ f.marcaBg }};cursor:pointer;display:grid;place-items:center;color:#fff;padding:0" onClick="{{ f.onToggle }}">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"></path></svg>
+                  </button>
+                  <div style="flex:1;min-width:0">
+                    <div style="font-size:14.5px;font-weight:600">{{ f.nome }}</div>
+                    <div style="font-size:12px;color:var(--color-neutral-600);margin-top:1px">{{ f.diaLabel }} · {{ f.statusLabel }}</div>
+                  </div>
+                  <div style="font-size:14.5px;font-weight:700;min-width:100px;text-align:right">{{ f.valor }}</div>
+                  <div style="width:24px;height:24px;flex:none;border-radius:999px;background:{{ f.quemCor }};display:grid;place-items:center;font-family:var(--font-heading);font-size:10.5px;color:var(--color-accent-900)">{{ f.quemInicial }}</div>
+                </div>
+              </sc-for>
+            </div>
+
+            <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:10px;padding-left:4px">
+              <div style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--color-neutral-600)">Parcelas em andamento</div>
+              <div style="font-size:13px;font-weight:600;color:var(--color-accent-700)">saldo devedor {{ saldoParcelasTxt }}</div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:9px">
+              <sc-for list="{{ parcelados }}" as="p" hint-placeholder-count="1">
+                <div style="background:var(--color-surface);border-radius:22px;padding:15px 18px;box-shadow:var(--shadow-sm)">
+                  <div style="display:flex;justify-content:space-between;align-items:baseline;gap:10px">
+                    <div style="font-size:14.5px;font-weight:600;min-width:0">{{ p.nome }}</div>
+                    <div style="font-size:12.5px;color:var(--color-neutral-700);white-space:nowrap">{{ p.parcelaLabel }}</div>
+                  </div>
+                  <div style="height:8px;border-radius:999px;background:var(--color-accent-200);overflow:hidden;margin:10px 0 8px">
+                    <div style="height:100%;border-radius:999px;background:var(--color-accent);width:{{ p.pct }}"></div>
+                  </div>
+                  <div style="display:flex;justify-content:space-between;font-size:12.5px;color:var(--color-neutral-700)">
+                    <span>{{ p.mensal }}</span>
+                    <span style="font-weight:700;color:var(--color-text)">saldo devedor {{ p.saldo }}</span>
+                  </div>
+                </div>
+              </sc-for>
+              <sc-if value="{{ semParcelados }}" hint-placeholder-val="{{ false }}">
+                <div style="font-size:13px;color:var(--color-neutral-600);padding-left:4px">Nada parcelado agora.</div>
+              </sc-if>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ webRenda }}" hint-placeholder-val="{{ false }}">
+          <div>
+            <div style="display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:22px">
+              <div>
+                <div style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--color-neutral-600)">Renda e perfil</div>
+                <div style="font-family:var(--font-heading);font-size:38px;line-height:1.05;margin-top:2px">{{ rendaTotal }}</div>
+                <div style="font-size:13px;color:var(--color-neutral-700);margin-top:4px">{{ rendaResumo }}</div>
+              </div>
+              <div style="display:flex;align-items:center;gap:12px">
+                <div style="width:52px;height:52px;border-radius:999px;background:{{ perfilCor }};display:grid;place-items:center;font-family:var(--font-heading);font-size:21px;color:var(--color-accent-900)">{{ perfilInicial }}</div>
+                <div>
+                  <div style="font-size:11.5px;color:var(--color-neutral-700);margin-bottom:5px">Seu nome</div>
+                  <input class="input" value="{{ perfilNome }}" onChange="{{ setPerfilNome }}" style="width:180px;min-height:42px;background:var(--color-surface)">
+                </div>
+              </div>
+            </div>
+
+            <div style="display:flex;gap:14px;margin-bottom:14px">
+              <sc-for list="{{ cartoesRenda }}" as="r" hint-placeholder-count="2">
+                <div style="flex:1;min-width:0;background:var(--color-surface);border-radius:26px;padding:18px;box-shadow:var(--shadow-sm);display:flex;flex-direction:column;gap:13px">
+                  <div style="display:flex;align-items:center;gap:11px">
+                    <div style="width:34px;height:34px;flex:none;border-radius:999px;background:{{ r.cor }};display:grid;place-items:center;font-family:var(--font-heading);font-size:14px;color:var(--color-accent-900)">{{ r.inicial }}</div>
+                    <div style="flex:1;min-width:0">
+                      <div style="font-size:14.5px;font-weight:700">{{ r.nome }}</div>
+                      <div style="font-size:11.5px;color:var(--color-neutral-600)">{{ r.share }}</div>
+                    </div>
+                    <div style="font-family:var(--font-heading);font-size:17px">{{ r.totalTxt }}</div>
+                  </div>
+
+                  <div>
+                    <div style="font-size:11px;color:var(--color-neutral-700);margin-bottom:5px">Salário bruto</div>
+                    <input class="input" value="{{ r.brutoTxt }}" onChange="{{ r.setBruto }}" style="min-height:44px;background:var(--color-bg);font-family:var(--font-heading);font-size:18px">
+                  </div>
+
+                  <div style="display:flex;align-items:center;gap:8px">
+                    <div style="flex:1;min-width:0;font-size:12.5px;color:var(--color-neutral-700)">Dependentes<div style="font-size:11.5px;color:var(--color-neutral-600)">{{ r.dependentesLabel }}</div></div>
+                    <button style="width:36px;height:40px;flex:none;border-radius:999px;border:1px solid var(--color-divider);background:var(--color-bg);font:inherit;font-size:17px;cursor:pointer;color:var(--color-text)" onClick="{{ r.menosDep }}">−</button>
+                    <button style="width:36px;height:40px;flex:none;border-radius:999px;border:1px solid var(--color-divider);background:var(--color-bg);font:inherit;font-size:17px;cursor:pointer;color:var(--color-text)" onClick="{{ r.maisDep }}">+</button>
+                  </div>
+
+                  <div style="background:var(--color-bg);border-radius:20px;padding:14px;display:flex;flex-direction:column;gap:9px">
+                    <div style="display:flex;justify-content:space-between;font-size:13px">
+                      <span style="color:var(--color-neutral-700)">INSS</span><span style="font-weight:600">{{ r.inssTxt }}</span>
+                    </div>
+                    <div style="display:flex;justify-content:space-between;font-size:13px">
+                      <span style="color:var(--color-neutral-700)">Imposto de renda</span><span style="font-weight:600">{{ r.irTxt }}</span>
+                    </div>
+                    <sc-for list="{{ r.descontos }}" as="x" hint-placeholder-count="1">
+                      <div style="display:flex;align-items:center;gap:7px;font-size:13px">
+                        <span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--color-neutral-700)">{{ x.nome }}</span>
+                        <span style="font-weight:600">{{ x.valor }}</span>
+                        <button style="width:24px;height:24px;flex:none;border-radius:999px;border:0;background:var(--color-neutral-200);cursor:pointer;display:grid;place-items:center;color:var(--color-neutral-700)" onClick="{{ x.onRemove }}">
+                          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M6 6l12 12"></path><path d="M18 6L6 18"></path></svg>
+                        </button>
+                      </div>
+                    </sc-for>
+                    <div style="height:1px;background:var(--color-divider)"></div>
+                    <div style="display:flex;justify-content:space-between;align-items:baseline">
+                      <span style="font-size:12px;color:var(--color-neutral-700)">Líquido<div style="font-size:11px;color:var(--color-neutral-600)">{{ r.aliquota }}</div></span>
+                      <span style="font-family:var(--font-heading);font-size:19px">{{ r.liquidoTxt }}</span>
+                    </div>
+                  </div>
+
+                  <button style="border:1px dashed var(--color-neutral-400);background:transparent;border-radius:999px;min-height:40px;font:inherit;font-size:12.5px;font-weight:600;cursor:pointer;color:var(--color-neutral-700)" style-hover="border-color:var(--color-accent);color:var(--color-accent-700)" onClick="{{ r.addDesconto }}">+ desconto na folha</button>
+
+                  <div>
+                    <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px">
+                      <span style="font-size:11px;color:var(--color-neutral-700)">Outras rendas</span>
+                      <span style="font-size:12px;font-weight:600;color:var(--color-accent-2-700)">{{ r.extrasTxt }}</span>
+                    </div>
+                    <div style="display:flex;flex-direction:column;gap:7px">
+                      <sc-for list="{{ r.outras }}" as="o" hint-placeholder-count="1">
+                        <div style="display:flex;align-items:center;gap:8px;background:var(--color-accent-2-100);border-radius:18px;padding:9px 13px;font-size:13px">
+                          <span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--color-accent-2-800)">{{ o.nome }}</span>
+                          <span style="font-weight:700;color:var(--color-accent-2-800)">{{ o.valor }}</span>
+                          <button style="width:24px;height:24px;flex:none;border-radius:999px;border:0;background:var(--color-accent-2-200);cursor:pointer;display:grid;place-items:center;color:var(--color-accent-2-800)" onClick="{{ o.onRemove }}">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M6 6l12 12"></path><path d="M18 6L6 18"></path></svg>
+                          </button>
+                        </div>
+                      </sc-for>
+                      <button style="border:1px dashed var(--color-accent-2-400);background:transparent;border-radius:999px;min-height:40px;font:inherit;font-size:12.5px;font-weight:600;cursor:pointer;color:var(--color-accent-2-700)" onClick="{{ r.addOutra }}">+ outra renda</button>
+                    </div>
+                  </div>
+
+                  <sc-if value="{{ r.formAberta }}" hint-placeholder-val="{{ false }}">
+                    <div style="background:var(--color-accent-100);border-radius:20px;padding:14px;display:flex;flex-direction:column;gap:9px;animation:jfade .16s ease-out">
+                      <div style="font-size:11.5px;font-weight:700;color:var(--color-accent-800)">{{ r.formTitulo }}</div>
+                      <input class="input" placeholder="{{ r.formPlaceholder }}" value="{{ r.novoNome }}" onChange="{{ r.setNovoNome }}" style="min-height:42px;background:var(--color-bg)">
+                      <div style="display:flex;gap:8px">
+                        <input class="input" placeholder="0,00" value="{{ r.novoValor }}" onChange="{{ r.setNovoValor }}" style="flex:1;min-width:0;min-height:42px;background:var(--color-bg)">
+                        <button style="flex:none;border:0;border-radius:999px;min-height:42px;padding:0 18px;background:{{ r.confirmarBg }};color:#fff;font-family:var(--font-heading);font-size:13.5px;cursor:pointer" onClick="{{ r.confirmarNovo }}">Somar</button>
+                        <button style="flex:none;border:1px solid var(--color-divider);border-radius:999px;min-height:42px;padding:0 14px;background:transparent;font:inherit;font-size:12.5px;cursor:pointer;color:var(--color-neutral-700)" onClick="{{ r.cancelarNovo }}">Sair</button>
+                      </div>
+                    </div>
+                  </sc-if>
+
+                  <div style="display:flex;gap:6px">
+                    <sc-for list="{{ r.tipos }}" as="t" hint-placeholder-count="2">
+                      <button style="flex:1;border:1px solid {{ t.borda }};background:{{ t.bg }};color:{{ t.fg }};border-radius:999px;min-height:40px;font:inherit;font-size:12.5px;font-weight:600;cursor:pointer" onClick="{{ t.onPick }}">{{ t.label }}</button>
+                    </sc-for>
+                  </div>
+                  <div style="display:flex;align-items:center;gap:8px">
+                    <button style="width:36px;height:40px;border-radius:999px;border:1px solid var(--color-divider);background:var(--color-bg);font:inherit;font-size:17px;cursor:pointer;color:var(--color-text)" onClick="{{ r.menosDia }}">−</button>
+                    <div style="flex:1;text-align:center;font-family:var(--font-heading);font-size:14px">{{ r.diaLabel }}</div>
+                    <button style="width:36px;height:40px;border-radius:999px;border:1px solid var(--color-divider);background:var(--color-bg);font:inherit;font-size:17px;cursor:pointer;color:var(--color-text)" onClick="{{ r.maisDia }}">+</button>
+                  </div>
+                  <div style="font-size:12px;color:var(--color-neutral-600);line-height:1.5">{{ r.nota }}</div>
+                </div>
+              </sc-for>
+            </div>
+
+            <div style="background:var(--color-accent-2-100);border-radius:26px;padding:20px">
+              <div style="font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--color-accent-2-700);margin-bottom:12px">Vai para a reserva</div>
+              <div style="display:flex;align-items:center;gap:16px">
+                <button style="width:42px;height:42px;flex:none;border-radius:999px;border:1px solid var(--color-accent-2-400);background:transparent;font:inherit;font-size:18px;cursor:pointer;color:var(--color-accent-2-800)" onClick="{{ menosAporte }}">−</button>
+                <div style="flex:none;min-width:150px">
+                  <div style="font-family:var(--font-heading);font-size:27px;color:var(--color-accent-2-800)">{{ aporteValor }}</div>
+                  <div style="font-size:12px;color:var(--color-accent-2-800);opacity:.85">{{ aportePct }} da renda</div>
+                </div>
+                <button style="width:42px;height:42px;flex:none;border-radius:999px;border:1px solid var(--color-accent-2-400);background:transparent;font:inherit;font-size:18px;cursor:pointer;color:var(--color-accent-2-800)" onClick="{{ maisAporte }}">+</button>
+                <div style="flex:1;min-width:0">
+                  <div style="height:9px;border-radius:999px;background:var(--color-accent-2-200);overflow:hidden">
+                    <div style="height:100%;border-radius:999px;background:var(--color-accent-2-600);width:{{ aporteLargura }}"></div>
+                  </div>
+                  <p style="margin:10px 0 0;font-size:12.5px;line-height:1.55;color:var(--color-accent-2-800);opacity:.9;text-wrap:pretty">{{ fraseAporte }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ webApp }}" hint-placeholder-val="{{ true }}">
+        <div>
+        <div style="display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:22px">
+          <div>
+            <div style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--color-neutral-600)">Setembro</div>
+            <div style="font-family:var(--font-heading);font-size:40px;line-height:1.05;margin-top:2px">{{ gastoMes }}</div>
+          </div>
+          <div style="display:flex;gap:22px">
+            <div>
+              <div style="font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--color-neutral-600)">Sobrou</div>
+              <div style="font-family:var(--font-heading);font-size:22px;margin-top:2px">{{ sobrou }}</div>
+            </div>
+            <div>
+              <div style="font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--color-neutral-600)">Por dia</div>
+              <div style="font-family:var(--font-heading);font-size:22px;margin-top:2px">{{ porDia }}</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="background:var(--color-surface);border-radius:26px;padding:16px 18px;box-shadow:var(--shadow-sm);margin-bottom:22px">
+          <div style="display:flex;flex-direction:column;gap:11px">
+            <div style="display:flex;gap:10px;align-items:center">
+              <input class="input" placeholder="Valor — ex: 84,90" value="{{ webValor }}" onChange="{{ setWebValor }}" style="width:132px;flex:none;min-height:44px;background:var(--color-bg);font-size:15px">
+              <input class="input" placeholder="Descrição (opcional)" value="{{ webDesc }}" onChange="{{ setWebDesc }}" style="flex:1;min-width:0;min-height:44px;background:var(--color-bg)">
+              <button style="border:0;flex:none;border-radius:999px;min-height:44px;padding:0 22px;font-family:var(--font-heading);font-size:15px;cursor:pointer;background:{{ webBtnBg }};color:{{ webBtnFg }}" onClick="{{ webSalvar }}">Lançar</button>
+            </div>
+            <div style="display:flex;gap:6px;flex-wrap:wrap;width:100%;align-items:center">
+              <sc-for list="{{ webCategorias }}" as="c" hint-placeholder-count="6">
+                <button style="border:0;border-radius:999px;padding:0 14px;min-height:34px;font:inherit;font-size:13px;font-weight:600;cursor:pointer;background:{{ c.bg }};color:{{ c.fg }}" onClick="{{ c.onPick }}">{{ c.label }}</button>
+              </sc-for>
+              <div style="display:flex;gap:6px;margin-left:auto">
+                <sc-for list="{{ webEscopos }}" as="x" hint-placeholder-count="2">
+                  <button style="border:1px solid var(--color-divider);border-radius:999px;padding:0 13px;min-height:34px;font:inherit;font-size:12.5px;font-weight:600;cursor:pointer;background:{{ x.bg }};color:{{ x.fg }}" onClick="{{ x.onPick }}">{{ x.label }}</button>
+                </sc-for>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <sc-for list="{{ grupos }}" as="g" hint-placeholder-count="3">
+          <div style="margin-bottom:22px">
+            <div style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--color-neutral-600);margin-bottom:8px;padding-left:4px">{{ g.label }}</div>
+            <div style="display:flex;flex-direction:column;gap:7px">
+              <sc-for list="{{ g.items }}" as="e" hint-placeholder-count="2">
+                <div style="display:flex;align-items:center;gap:14px;background:var(--color-surface);border-radius:22px;padding:12px 18px">
+                  <div style="width:34px;height:34px;flex:none;border-radius:999px;background:{{ e.catCor }};display:grid;place-items:center;font-family:var(--font-heading);font-size:14px;color:var(--color-accent-900)">{{ e.inicial }}</div>
+                  <div style="flex:1;min-width:0">
+                    <div style="font-size:14.5px;font-weight:600">{{ e.titulo }}</div>
+                    <div style="font-size:12px;color:var(--color-neutral-600);margin-top:1px">{{ e.subWeb }}</div>
+                  </div>
+                  <sc-if value="{{ e.individual }}" hint-placeholder-val="{{ false }}">
+                    <span class="tag tag-accent-2" style="font-size:10.5px;padding:2px 10px">{{ e.escopoTag }}</span>
+                  </sc-if>
+                  <sc-if value="{{ e.temParcelas }}" hint-placeholder-val="{{ false }}">
+                    <span class="tag tag-accent" style="font-size:10.5px;padding:2px 10px">{{ e.parcelaCurta }}</span>
+                  </sc-if>
+                  <sc-if value="{{ e.aDetalhar }}" hint-placeholder-val="{{ false }}">
+                    <span class="tag tag-neutral" style="font-size:10.5px;padding:2px 10px">a detalhar</span>
+                  </sc-if>
+                  <div style="font-size:15px;font-weight:700;min-width:104px;text-align:right">{{ e.valor }}</div>
+                  <div style="width:24px;height:24px;border-radius:999px;background:{{ e.quemCor }};display:grid;place-items:center;font-family:var(--font-heading);font-size:10.5px;color:var(--color-accent-900)">{{ e.quemInicial }}</div>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </sc-for>
+        </div>
+        </sc-if>
+      </div>
+
+      <div style="width:290px;flex:none;overflow:auto;padding:30px 26px 30px 0;display:flex;flex-direction:column;gap:16px">
+        <div style="background:var(--color-surface);border-radius:26px;padding:20px;box-shadow:var(--shadow-sm)">
+          <div style="font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--color-accent-700);margin-bottom:14px">Reserva</div>
+          <div style="display:flex;align-items:center;gap:16px">
+            <div style="position:relative;width:88px;height:88px;flex:none;border-radius:999px;background:{{ anelBg }}">
+              <div style="position:absolute;inset:11px;border-radius:999px;background:var(--color-surface);display:grid;place-items:center">
+                <div style="font-family:var(--font-heading);font-size:21px">{{ mesesCobertos }}</div>
+              </div>
+            </div>
+            <div>
+              <div style="font-family:var(--font-heading);font-size:20px">{{ reservaSaldo }}</div>
+              <div style="font-size:12px;color:var(--color-neutral-700);margin-top:3px;line-height:1.45">{{ mesesCobertos }} de {{ metaMeses }} meses de despesa</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="background:var(--color-surface);border-radius:26px;padding:20px;box-shadow:var(--shadow-sm);flex:1;min-height:0;overflow:auto">
+          <div style="font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--color-accent-700);margin-bottom:14px">Atividade</div>
+          <div style="display:flex;flex-direction:column;gap:14px">
+            <sc-for list="{{ feedCurto }}" as="f" hint-placeholder-count="5">
+              <div style="display:flex;gap:11px;align-items:flex-start">
+                <div style="width:26px;height:26px;flex:none;border-radius:999px;background:{{ f.cor }};display:grid;place-items:center;font-family:var(--font-heading);font-size:11px;color:var(--color-accent-900)">{{ f.inicial }}</div>
+                <div style="flex:1">
+                  <div style="font-size:13px;line-height:1.45">{{ f.texto }}</div>
+                  <div style="font-size:11px;color:var(--color-neutral-600);margin-top:2px">{{ f.quando }}</div>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </div>
+    </div>
+  </x-import>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:2200,&quot;height&quot;:1100},&quot;metaReserva&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:6,&quot;min&quot;:3,&quot;max&quot;:12,&quot;unit&quot;:&quot;meses&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Reserva&quot;}}">
+const CATS = [
+  { id: 'mercado', label: 'Mercado', cor: 'var(--color-accent-200)' },
+  { id: 'restaurante', label: 'Restaurante', cor: 'var(--color-accent-2-200)' },
+  { id: 'transporte', label: 'Transporte', cor: 'var(--color-accent-300)' },
+  { id: 'casa', label: 'Casa', cor: 'var(--color-accent-2-300)' },
+  { id: 'lazer', label: 'Lazer', cor: 'var(--color-neutral-200)' },
+  { id: 'saude', label: 'Saúde', cor: 'var(--color-accent-100)' },
+];
+const ATALHOS = [
+  { id: 'mercado', label: 'Mercado', valor: 28450, forma: 'Débito' },
+  { id: 'restaurante', label: 'Delivery', valor: 6890, forma: 'Crédito' },
+  { id: 'transporte', label: 'Gasolina', valor: 20000, forma: 'Crédito' },
+  { id: 'casa', label: 'Faxina', valor: 15000, forma: 'Pix' },
+];
+const FORMAS = ['Pix', 'Crédito', 'Débito', 'Dinheiro'];
+const DATAS = ['Hoje', 'Ontem', 'Outro dia'];
+const PESSOAS = {
+  ana: { label: 'Ana', inicial: 'A', cor: 'var(--color-accent-300)' },
+  rafa: { label: 'Rafa', inicial: 'R', cor: 'var(--color-accent-2-300)' },
+};
+const EU = 'ana';
+
+// Agosto — mês fechado, dataset congelado.
+const AGOSTO = {
+  categorias: [
+    { id: 'casa', valor: 312000 }, { id: 'mercado', valor: 168450 },
+    { id: 'restaurante', valor: 96800 }, { id: 'transporte', valor: 84300 },
+    { id: 'lazer', valor: 78900 }, { id: 'saude', valor: 54980 },
+  ],
+  renda: 1120000, aporte: 185000, variacao: '3% acima de julho',
+};
+
+const SEED = [
+  { id: 1, dia: 'Hoje', cat: 'mercado', desc: '', valor: 12430, quem: 'ana', forma: 'Débito', parcelas: 1, pagas: 1, escopo: 'casal', recibo: false, reacoes: [], comentarios: [] },
+  { id: 2, dia: 'Hoje', cat: 'restaurante', desc: 'almoço fora', valor: 8600, quem: 'rafa', forma: 'Crédito', parcelas: 1, pagas: 1, escopo: 'casal', recibo: false, reacoes: [{ tipo: 'coracao', quem: 'ana' }], comentarios: [{ quem: 'ana', texto: 'valeu a pena, a gente merecia' }] },
+  { id: 3, dia: 'Ontem', cat: 'transporte', desc: '', valor: 20000, quem: 'rafa', forma: 'Crédito', parcelas: 1, pagas: 1, escopo: 'casal', recibo: true, reacoes: [], comentarios: [] },
+  { id: 4, dia: 'Ontem', cat: 'casa', desc: 'lâmpadas', valor: 4790, quem: 'ana', forma: 'Pix', parcelas: 1, pagas: 1, escopo: 'casal', recibo: false, reacoes: [{ tipo: 'ok', quem: 'rafa' }], comentarios: [] },
+  { id: 5, dia: 'Ontem', cat: 'lazer', desc: 'cinema com os amigos', valor: 9600, quem: 'rafa', forma: 'Crédito', parcelas: 1, pagas: 1, escopo: 'individual', recibo: false, reacoes: [{ tipo: 'coracao', quem: 'ana' }], comentarios: [] },
+  { id: 6, dia: 'terça, 1', cat: 'mercado', desc: 'feira do mês', valor: 28450, quem: 'ana', forma: 'Débito', parcelas: 1, pagas: 1, escopo: 'casal', recibo: true, reacoes: [], comentarios: [{ quem: 'rafa', texto: 'boa, deu pra semana toda' }] },
+  { id: 7, dia: 'terça, 1', cat: 'saude', desc: 'dentista', valor: 13720, quem: 'ana', forma: 'Pix', parcelas: 1, pagas: 1, escopo: 'individual', recibo: false, reacoes: [], comentarios: [] },
+  { id: 8, dia: 'terça, 1', cat: 'casa', desc: 'aluguel', valor: 260000, quem: 'rafa', forma: 'Pix', parcelas: 1, pagas: 1, escopo: 'casal', fixa: true, recibo: false, reacoes: [], comentarios: [] },
+  { id: 9, dia: 'terça, 1', cat: 'casa', desc: 'sofá', valor: 189000, quem: 'ana', forma: 'Crédito', parcelas: 6, pagas: 2, escopo: 'casal', recibo: true, reacoes: [{ tipo: 'coracao', quem: 'rafa' }], comentarios: [{ quem: 'rafa', texto: 'chega semana que vem 🙌' }] },
+];
+
+const FIXAS = [
+  { id: 'f1', nome: 'Aluguel', valor: 260000, dia: 5, paga: true, quem: 'rafa' },
+  { id: 'f2', nome: 'Condomínio', valor: 74000, dia: 5, paga: true, quem: 'rafa' },
+  { id: 'f3', nome: 'Luz', valor: 24900, dia: 10, paga: false, quem: 'ana' },
+  { id: 'f4', nome: 'Água', valor: 11800, dia: 10, paga: false, quem: 'ana' },
+  { id: 'f5', nome: 'Internet', valor: 12900, dia: 15, paga: false, quem: 'rafa' },
+  { id: 'f6', nome: 'Streaming', valor: 6290, dia: 18, paga: false, quem: 'ana' },
+];
+
+const REACOES = [
+  { tipo: 'coracao', label: 'Curti', path: 'M19 14c1.5-1.6 2-3.2 2-5a5 5 0 0 0-9-3 5 5 0 0 0-9 3c0 1.8.5 3.4 2 5l7 7z' },
+  { tipo: 'ok', label: 'Combinado', path: 'M5 13l4 4L19 7' },
+];
+
+class Component extends DCLogic {
+  state = {
+    tab: 'mes', sheet: null, detalheId: null,
+    lancamentos: SEED, nextId: 10, toast: '',
+    fixas: FIXAS, escopo: 'casal', webEscopo: 'casal',
+    digitos: '', cat: null, desc: '', data: 'Hoje', forma: 'Pix', parcelas: 1,
+    recibo: false, detalhes: false,
+    comentario: '', webValor: '', webDesc: '', webCat: null,
+    view: null, webView: 'app',
+    renda: {
+      ana: {
+        bruto: '7.800,00', dependentes: 0, tipo: 'Fixa', dia: 5,
+        descontos: [{ nome: 'Plano de saúde', valor: '320,00' }],
+        outras: [],
+      },
+      rafa: {
+        bruto: '5.600,00', dependentes: 1, tipo: 'Variável', dia: 15,
+        descontos: [{ nome: 'Vale-transporte', valor: '180,00' }],
+        outras: [{ nome: 'Freela de design', valor: '1.200,00' }],
+      },
+    },
+    rendaAberto: 'ana',
+    novo: { quem: null, tipo: null, nome: '', valor: '' },
+    aportePct: 17,
+    perfil: { nome: 'Ana', cor: 'var(--color-accent-300)', notifLanc: true, notifResumo: false },
+  };
+
+  cents(txt) {
+    const n = parseFloat(String(txt || '0').replace(/\./g, '').replace(',', '.'));
+    return Math.round((isNaN(n) ? 0 : n) * 100);
+  }
+
+  // INSS progressivo (tabela vigente), em centavos
+  inss(bruto) {
+    const faixas = [[151800, 7.5], [279388, 9], [419083, 12], [815741, 14]];
+    let prev = 0, t = 0;
+    faixas.forEach(f => {
+      if (bruto > prev) { t += (Math.min(bruto, f[0]) - prev) * f[1] / 100; prev = f[0]; }
+    });
+    return Math.round(t);
+  }
+
+  irrf(bruto, inss, dep) {
+    const base = Math.max(0, bruto - inss - dep * 18959);
+    const t = [[242880, 0, 0], [282665, 7.5, 18216], [375105, 15, 39416], [466468, 22.5, 67549], [Infinity, 27.5, 90873]];
+    for (let i = 0; i < t.length; i++) {
+      if (base <= t[i][0]) return Math.max(0, Math.round(base * t[i][1] / 100 - t[i][2]));
+    }
+    return 0;
+  }
+
+  fmt(c) { return 'R$ ' + (c / 100).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
+  cat(id) { return CATS.find(c => c.id === id) || CATS[0]; }
+
+  aviso(msg) {
+    this.setState({ toast: msg });
+    clearTimeout(this._t);
+    this._t = setTimeout(() => this.setState({ toast: '' }), 2800);
+  }
+  componentWillUnmount() { clearTimeout(this._t); }
+
+  resetDraft(extra) {
+    return Object.assign({ digitos: '', cat: null, desc: '', data: 'Hoje', forma: 'Pix', parcelas: 1, recibo: false, detalhes: false }, extra || {});
+  }
+
+  gravar(valor, cat, extra) {
+    const s = this.state;
+    const e = Object.assign({
+      id: s.nextId, dia: 'Hoje', cat, desc: '', valor, quem: EU,
+      forma: 'Pix', parcelas: 1, pagas: 1, escopo: 'casal', recibo: false, reacoes: [], comentarios: [],
+    }, extra || {});
+    this.setState({ lancamentos: [e].concat(s.lancamentos), nextId: s.nextId + 1 });
+    this.aviso(e.recibo && !cat ? 'Recibo salvo. Rafa vê como “a detalhar”.' : 'Salvo. Rafa já vê esse lançamento.');
+  }
+
+  renderVals() {
+    const s = this.state;
+    const metaMeses = this.props.metaReserva ?? 6;
+    const setRenda = (quem, campo, valor) => this.setState({
+      renda: Object.assign({}, s.renda, {
+        [quem]: Object.assign({}, s.renda[quem], { [campo]: valor }),
+      }),
+    });
+
+    const calc = quem => {
+      const raw = s.renda[quem] || {};
+      const d = {
+        bruto: raw.bruto != null ? raw.bruto : (raw.txt || '0'),
+        dependentes: raw.dependentes || 0,
+        tipo: raw.tipo || 'Fixa',
+        dia: raw.dia || 5,
+        descontos: raw.descontos || [],
+        outras: raw.outras || [],
+      };
+      const bruto = this.cents(d.bruto);
+      const inss = this.inss(bruto);
+      const ir = this.irrf(bruto, inss, d.dependentes);
+      const outrosDesc = d.descontos.reduce((a, x) => a + this.cents(x.valor), 0);
+      const liquido = Math.max(0, bruto - inss - ir - outrosDesc);
+      const extras = d.outras.reduce((a, x) => a + this.cents(x.valor), 0);
+      return { d, bruto, inss, ir, outrosDesc, liquido, extras, total: liquido + extras };
+    };
+    const cAna = calc('ana');
+    const cRafa = calc('rafa');
+    const rendaMes = cAna.total + cRafa.total;
+    const aporteMes = Math.round(rendaMes * s.aportePct / 100);
+
+    const cartoesRenda = ['ana', 'rafa'].map(quem => {
+      const p = PESSOAS[quem];
+      const k = quem === 'ana' ? cAna : cRafa;
+      const d = k.d;
+      const aberto = s.rendaAberto === quem;
+      const form = s.novo.quem === quem ? s.novo.tipo : null;
+      const mut = (campo, arr) => setRenda(quem, campo, arr);
+      return {
+        quem, nome: p.label + (quem === EU ? ' · você' : ''), inicial: p.inicial, cor: p.cor,
+        share: rendaMes > 0 ? Math.round((k.total / rendaMes) * 100) + '% da renda do casal' : '—',
+        totalTxt: this.fmt(k.total),
+        aberto, seta: aberto ? 'M18 15l-6-6-6 6' : 'M6 9l6 6 6-6',
+        onToggle: () => this.setState({ rendaAberto: aberto ? null : quem, novo: { quem: null, tipo: null, nome: '', valor: '' } }),
+
+        brutoTxt: d.bruto,
+        setBruto: ev => setRenda(quem, 'bruto', ev.target.value),
+        dependentesLabel: d.dependentes === 0 ? 'nenhum' : d.dependentes === 1 ? '1 dependente' : d.dependentes + ' dependentes',
+        menosDep: () => setRenda(quem, 'dependentes', Math.max(0, d.dependentes - 1)),
+        maisDep: () => setRenda(quem, 'dependentes', Math.min(6, d.dependentes + 1)),
+
+        inssTxt: '− ' + this.fmt(k.inss),
+        irTxt: '− ' + this.fmt(k.ir),
+        liquidoTxt: this.fmt(k.liquido),
+        aliquota: k.bruto > 0 ? Math.round(((k.bruto - k.liquido) / k.bruto) * 100) + '% de descontos' : '—',
+
+        descontos: d.descontos.map((x, i) => ({
+          nome: x.nome, valor: '− ' + this.fmt(this.cents(x.valor)),
+          onRemove: () => mut('descontos', d.descontos.filter((_, j) => j !== i)),
+        })),
+        outras: d.outras.map((x, i) => ({
+          nome: x.nome, valor: '+ ' + this.fmt(this.cents(x.valor)),
+          onRemove: () => mut('outras', d.outras.filter((_, j) => j !== i)),
+        })),
+        semOutras: d.outras.length === 0,
+        extrasTxt: this.fmt(k.extras),
+
+        addDesconto: () => this.setState({ novo: { quem, tipo: 'desconto', nome: '', valor: '' } }),
+        addOutra: () => this.setState({ novo: { quem, tipo: 'outra', nome: '', valor: '' } }),
+        formDesconto: form === 'desconto', formOutra: form === 'outra', formAberta: !!form,
+        formTitulo: form === 'desconto' ? 'Novo desconto na folha' : 'Outra renda',
+        formPlaceholder: form === 'desconto' ? 'ex: previdência privada' : 'ex: aluguel, freela',
+        novoNome: s.novo.nome, novoValor: s.novo.valor,
+        setNovoNome: ev => this.setState({ novo: Object.assign({}, s.novo, { nome: ev.target.value }) }),
+        setNovoValor: ev => this.setState({ novo: Object.assign({}, s.novo, { valor: ev.target.value }) }),
+        cancelarNovo: () => this.setState({ novo: { quem: null, tipo: null, nome: '', valor: '' } }),
+        confirmarNovo: () => {
+          const nome = s.novo.nome.trim();
+          const v = this.cents(s.novo.valor);
+          if (!nome || v <= 0) return;
+          const campo = s.novo.tipo === 'desconto' ? 'descontos' : 'outras';
+          mut(campo, d[campo].concat([{ nome, valor: s.novo.valor }]));
+          this.setState({ novo: { quem: null, tipo: null, nome: '', valor: '' } });
+        },
+        confirmarBg: (s.novo.nome.trim() && this.cents(s.novo.valor) > 0) ? 'var(--color-accent)' : 'var(--color-neutral-300)',
+
+        tipos: ['Fixa', 'Variável'].map(t => ({
+          label: t,
+          bg: d.tipo === t ? 'var(--color-accent)' : 'var(--color-bg)',
+          fg: d.tipo === t ? '#fff' : 'var(--color-neutral-700)',
+          borda: d.tipo === t ? 'var(--color-accent)' : 'var(--color-divider)',
+          onPick: () => setRenda(quem, 'tipo', t),
+        })),
+        diaLabel: 'dia ' + d.dia,
+        menosDia: () => setRenda(quem, 'dia', Math.max(1, d.dia - 1)),
+        maisDia: () => setRenda(quem, 'dia', Math.min(28, d.dia + 1)),
+        nota: d.tipo === 'Variável'
+          ? 'Renda variável: o mês trabalha com a média dos últimos 3 meses.'
+          : 'Cai todo mês no dia ' + d.dia + '.',
+      };
+    });
+
+    const total = s.lancamentos.reduce((a, e) => a + e.valor, 0);
+    const totalCasal = s.lancamentos.filter(e => e.escopo !== 'individual').reduce((a, e) => a + e.valor, 0);
+    const totalIndiv = total - totalCasal;
+
+    const fixasTotal = s.fixas.reduce((a, f) => a + f.valor, 0);
+    const fixasPagas = s.fixas.filter(f => f.paga);
+    const fixasPagasTotal = fixasPagas.reduce((a, f) => a + f.valor, 0);
+    const cartoesFixas = s.fixas.map(f => {
+      const p = PESSOAS[f.quem];
+      return {
+        nome: f.nome, valor: this.fmt(f.valor), diaLabel: 'vence dia ' + f.dia,
+        quemInicial: p.inicial, quemCor: p.cor,
+        paga: f.paga,
+        statusLabel: f.paga ? 'paga' : 'a pagar',
+        statusBg: f.paga ? 'var(--color-accent-2-100)' : 'var(--color-surface)',
+        marcaBg: f.paga ? 'var(--color-accent-2-600)' : 'transparent',
+        marcaBorda: f.paga ? 'var(--color-accent-2-600)' : 'var(--color-neutral-400)',
+        onToggle: () => this.setState({
+          fixas: s.fixas.map(x => x.id === f.id ? Object.assign({}, x, { paga: !x.paga }) : x),
+        }),
+      };
+    });
+    const parcelados = s.lancamentos.filter(e => (e.parcelas || 1) > 1).map(e => {
+      const vp = Math.round(e.valor / e.parcelas);
+      const pagas = e.pagas || 1;
+      return {
+        nome: e.desc ? this.cat(e.cat).label + ' · ' + e.desc : this.cat(e.cat).label,
+        parcelaLabel: pagas + ' de ' + e.parcelas + ' pagas',
+        mensal: this.fmt(vp) + ' por mês',
+        saldo: this.fmt(e.valor - pagas * vp),
+        pct: Math.round((pagas / e.parcelas) * 100) + '%',
+      };
+    });
+    const saldoParcelas = s.lancamentos.filter(e => (e.parcelas || 1) > 1)
+      .reduce((a, e) => a + (e.valor - (e.pagas || 1) * Math.round(e.valor / e.parcelas)), 0);
+
+    const grupos = [];
+    s.lancamentos.forEach(e => {
+      let g = grupos.find(x => x.label === e.dia);
+      if (!g) { g = { label: e.dia, items: [] }; grupos.push(g); }
+      const p = PESSOAS[e.quem];
+      const c = this.cat(e.cat);
+      const nComent = e.comentarios.length;
+      const aDetalhar = !e.cat;
+      const parc = (e.parcelas || 1) > 1;
+      const pagas = e.pagas || 1;
+      const vParcela = Math.round(e.valor / e.parcelas);
+      g.items.push({
+        temParcelas: parc,
+        parcelaLinha: parc ? 'parcela ' + pagas + ' de ' + e.parcelas + ' · ' + this.fmt(vParcela) + ' por mês' : '',
+        saldoLinha: parc ? 'saldo devedor ' + this.fmt(e.valor - pagas * vParcela) : '',
+        parcelaPct: parc ? Math.round((pagas / e.parcelas) * 100) + '%' : '0%',
+        parcelaCurta: parc ? pagas + '/' + e.parcelas + ' · falta ' + this.fmt(e.valor - pagas * vParcela) : '',
+        individual: e.escopo === 'individual',
+        escopoTag: e.escopo === 'individual' ? (e.quem === EU ? 'só seu' : 'só do ' + p.label) : '',
+        fixaTag: !!e.fixa,
+        inicial: aDetalhar ? '?' : c.label.slice(0, 1),
+        catCor: aDetalhar ? 'var(--color-neutral-200)' : c.cor,
+        titulo: aDetalhar ? 'Recibo sem categoria' : (e.desc ? c.label + ' · ' + e.desc : c.label),
+        sub: e.parcelas > 1 ? e.forma + ' em ' + e.parcelas + '×' : e.forma,
+        subWeb: (e.parcelas > 1 ? e.forma + ' em ' + e.parcelas + '× · ' : e.forma + ' · ') + 'por ' + p.label,
+        valor: this.fmt(e.valor),
+        quemCor: p.cor, quemInicial: p.inicial,
+        temSocial: nComent > 0 || e.reacoes.length > 0 || aDetalhar || e.escopo === 'individual' || !!e.fixa,
+        temReacao: e.reacoes.length > 0, reacoesN: e.reacoes.length,
+        temComentario: nComent > 0,
+        comentarioLabel: nComent === 1 ? '1 comentário' : nComent + ' comentários',
+        aDetalhar,
+        onOpen: () => this.setState({ sheet: 'detalhe', detalheId: e.id, comentario: '' }),
+      });
+    });
+
+    // feed
+    const feed = [];
+    s.lancamentos.slice(0, 6).forEach((e, i) => {
+      const p = PESSOAS[e.quem];
+      const c = this.cat(e.cat);
+      feed.push({
+        cor: p.cor, inicial: p.inicial,
+        texto: p.label + ' lançou ' + (e.cat ? c.label.toLowerCase() : 'um recibo') + ' de ' + this.fmt(e.valor),
+        quando: i === 0 ? 'agora' : e.dia.toLowerCase(),
+      });
+      e.comentarios.forEach(k => feed.push({
+        cor: PESSOAS[k.quem].cor, inicial: PESSOAS[k.quem].inicial,
+        texto: PESSOAS[k.quem].label + ' comentou: “' + k.texto + '”',
+        quando: e.dia.toLowerCase(),
+      }));
+    });
+    feed.push({ cor: 'var(--color-accent-2-200)', inicial: '↑', texto: 'Aporte automático de ' + this.fmt(185000) + ' na reserva', quando: '1 de setembro' });
+    feed.push({ cor: 'var(--color-neutral-200)', inicial: '✓', texto: 'Agosto fechado com ' + this.fmt(795430), quando: '1 de setembro' });
+
+    // reserva
+    const reservaSaldo = 1840000;
+    const mediaMensal = 780000;
+    const meses = reservaSaldo / mediaMensal;
+    const pct = Math.min(100, Math.round((meses / metaMeses) * 100));
+    const mesesTxt = meses.toFixed(1).replace('.', ',');
+
+    // fechamento de agosto
+    const porCat = AGOSTO.categorias
+      .map(c => ({ label: this.cat(c.id).label, bruto: c.valor, cor: this.cat(c.id).cor }))
+      .sort((a, b) => b.bruto - a.bruto);
+    const fechaTotalCents = porCat.reduce((a, c) => a + c.bruto, 0);
+    const porCategoria = porCat.map(c => ({
+      label: c.label, valor: this.fmt(c.bruto), cor: c.cor,
+      pct: Math.round((c.bruto / porCat[0].bruto) * 100) + '%',
+    }));
+
+    // registro
+    const valorCents = parseInt(s.digitos || '0', 10);
+    const pronto = valorCents > 0 && !!s.cat;
+    const podeRecibo = s.recibo && valorCents === 0;
+    const resumo = [s.data, s.forma, s.parcelas > 1 ? s.parcelas + '×' : null, s.desc ? '“' + s.desc + '”' : null]
+      .filter(Boolean).join(' · ');
+
+    const teclas = ['1', '2', '3', '4', '5', '6', '7', '8', '9', ',', '0', '⌫'].map(l => ({
+      label: l,
+      onPick: () => {
+        if (l === '⌫') return this.setState({ digitos: s.digitos.slice(0, -1) });
+        if (l === ',') return null;
+        if (s.digitos.length >= 8) return null;
+        this.setState({ digitos: (s.digitos + l).replace(/^0+/, '') });
+      },
+    }));
+
+    // detalhe
+    const d = s.lancamentos.find(e => e.id === s.detalheId) || null;
+    const dCat = d ? this.cat(d.cat) : CATS[0];
+    const dMeta = d ? [
+      { k: 'Quem lançou', v: PESSOAS[d.quem].label + (d.quem === EU ? ' (você)' : '') },
+      { k: 'Data', v: d.dia },
+      { k: 'Forma de pagamento', v: d.forma },
+      { k: 'Tipo de gasto', v: d.escopo === 'individual' ? 'individual' : 'do casal' },
+      { k: 'Parcelas', v: d.parcelas > 1 ? (d.pagas || 1) + ' de ' + d.parcelas + ' pagas · ' + this.fmt(Math.round(d.valor / d.parcelas)) + '/mês' : 'à vista' },
+    ].concat(d.parcelas > 1 ? [{ k: 'Saldo devedor', v: this.fmt(d.valor - (d.pagas || 1) * Math.round(d.valor / d.parcelas)) }] : []) : [];
+    const dReacoes = REACOES.map(r => {
+      const meu = d ? d.reacoes.some(x => x.tipo === r.tipo && x.quem === EU) : false;
+      const n = d ? d.reacoes.filter(x => x.tipo === r.tipo).length : 0;
+      return {
+        tipo: r.tipo, path: r.path,
+        label: n > 0 ? r.label + ' · ' + n : r.label,
+        fill: meu && r.tipo === 'coracao' ? 'currentColor' : 'none',
+        bg: meu ? 'var(--color-accent-100)' : 'transparent',
+        borda: meu ? 'var(--color-accent)' : 'var(--color-divider)',
+        fg: meu ? 'var(--color-accent-800)' : 'var(--color-neutral-700)',
+        onPick: () => this.setState({
+          lancamentos: s.lancamentos.map(e => {
+            if (e.id !== s.detalheId) return e;
+            const tem = e.reacoes.some(x => x.tipo === r.tipo && x.quem === EU);
+            return Object.assign({}, e, {
+              reacoes: tem ? e.reacoes.filter(x => !(x.tipo === r.tipo && x.quem === EU))
+                : e.reacoes.concat([{ tipo: r.tipo, quem: EU }]),
+            });
+          }),
+        }),
+      };
+    });
+
+    const webValorCents = Math.round(parseFloat((s.webValor || '0').replace(/\./g, '').replace(',', '.')) * 100) || 0;
+    const webPronto = webValorCents > 0 && !!s.webCat;
+
+    return {
+      tabMes: s.tab === 'mes', tabFeed: s.tab === 'feed',
+      tabReserva: s.tab === 'reserva', tabFecha: s.tab === 'fecha',
+      irMes: () => this.setState({ tab: 'mes' }),
+      irFeed: () => this.setState({ tab: 'feed' }),
+      irReserva: () => this.setState({ tab: 'reserva' }),
+      irFecha: () => this.setState({ tab: 'fecha' }),
+      corMes: s.tab === 'mes' ? 'var(--color-accent)' : 'var(--color-neutral-600)',
+      corFeed: s.tab === 'feed' ? 'var(--color-accent)' : 'var(--color-neutral-600)',
+      corReserva: s.tab === 'reserva' ? 'var(--color-accent)' : 'var(--color-neutral-600)',
+      corFecha: s.tab === 'fecha' ? 'var(--color-accent)' : 'var(--color-neutral-600)',
+
+      gastoMes: this.fmt(total), sobrou: this.fmt(rendaMes - total),
+      porDia: this.fmt(Math.round(total / 4)),
+      fraseMes: 'Quatro dias de setembro registrados. O aluguel e o sofá já saíram, então o resto do mês tende a ser mais leve.',
+      grupos, feed, feedCurto: feed.slice(0, 6),
+
+      reservaSaldo: this.fmt(reservaSaldo), mesesCobertos: mesesTxt, metaMeses,
+      anelBg: 'conic-gradient(var(--color-accent) ' + pct + '%, var(--color-accent-200) 0)',
+      fraseReserva: 'Se as duas rendas parassem hoje, vocês cobririam ' + mesesTxt + ' meses no ritmo atual. A meta de ' + metaMeses + ' meses chega em fevereiro mantendo o aporte.',
+      movimentos: [
+        { inicial: 'A', nome: 'Aporte mensal — Ana', data: '1 de setembro', valor: '+ ' + this.fmt(92500), valorCor: 'var(--color-accent-2-700)', cor: 'var(--color-accent-300)' },
+        { inicial: 'R', nome: 'Aporte mensal — Rafa', data: '1 de setembro', valor: '+ ' + this.fmt(92500), valorCor: 'var(--color-accent-2-700)', cor: 'var(--color-accent-2-300)' },
+        { inicial: 'R', nome: 'Retirada — conserto do carro', data: '18 de agosto', valor: '− ' + this.fmt(160000), valorCor: 'var(--color-neutral-700)', cor: 'var(--color-accent-2-300)' },
+        { inicial: 'R', nome: 'Bônus — Rafa', data: '12 de agosto', valor: '+ ' + this.fmt(400000), valorCor: 'var(--color-accent-2-700)', cor: 'var(--color-accent-2-300)' },
+      ],
+
+      fechaTotal: this.fmt(fechaTotalCents), fechaVariacao: AGOSTO.variacao, porCategoria,
+      fechaAporte: this.fmt(AGOSTO.aporte),
+      fechaSobrou: this.fmt(AGOSTO.renda - fechaTotalCents),
+      fraseFecha: 'O aporte sai no dia 1, antes de qualquer gasto. O que ficou fora dele seguiu na conta corrente.',
+
+      sheetRegistro: s.sheet === 'registro', sheetDetalhe: s.sheet === 'detalhe' && !!d,
+      abrirRegistro: () => this.setState(Object.assign({ sheet: 'registro' }, this.resetDraft())),
+      fecharSheet: () => this.setState({ sheet: null }),
+      valorDigitado: this.fmt(valorCents),
+      corValor: valorCents > 0 ? 'var(--color-text)' : 'var(--color-neutral-400)',
+      teclas, tecladoVisivel: !s.detalhes,
+      atalhos: ATALHOS.map(a => ({
+        label: a.label, valorLabel: this.fmt(a.valor),
+        onPick: () => this.setState({ digitos: String(a.valor), cat: a.id, forma: a.forma }),
+      })),
+      categorias: CATS.map(c => ({
+        label: c.label,
+        bg: s.cat === c.id ? 'var(--color-accent)' : 'var(--color-surface)',
+        fg: s.cat === c.id ? '#fff' : 'var(--color-neutral-700)',
+        onPick: () => this.setState({ cat: c.id }),
+      })),
+      detalhesAbertos: s.detalhes,
+      toggleDetalhes: () => this.setState({ detalhes: !s.detalhes }),
+      resumoDetalhes: resumo,
+      detalhesBg: s.detalhes ? 'var(--color-accent-100)' : 'var(--color-surface)',
+      draftDesc: s.desc,
+      setDesc: ev => this.setState({ desc: ev.target.value }),
+      datas: DATAS.map(l => ({
+        label: l,
+        bg: s.data === l ? 'var(--color-accent)' : 'var(--color-bg)',
+        fg: s.data === l ? '#fff' : 'var(--color-neutral-700)',
+        borda: s.data === l ? 'var(--color-accent)' : 'var(--color-divider)',
+        onPick: () => this.setState({ data: l }),
+      })),
+      formas: FORMAS.map(l => ({
+        label: l,
+        bg: s.forma === l ? 'var(--color-accent)' : 'var(--color-bg)',
+        fg: s.forma === l ? '#fff' : 'var(--color-neutral-700)',
+        borda: s.forma === l ? 'var(--color-accent)' : 'var(--color-divider)',
+        onPick: () => this.setState({ forma: l, parcelas: l === 'Crédito' ? s.parcelas : 1 }),
+      })),
+      mostraParcelas: s.forma === 'Crédito',
+      parcelasLabel: s.parcelas > 1 ? s.parcelas + '×' : 'à vista',
+      parcelaValor: s.parcelas > 1 && valorCents > 0 ? this.fmt(Math.round(valorCents / s.parcelas)) + ' por mês' : 'valor cheio neste mês',
+      menosParcela: () => this.setState({ parcelas: Math.max(1, s.parcelas - 1) }),
+      maisParcela: () => this.setState({ parcelas: Math.min(24, s.parcelas + 1) }),
+      toggleRecibo: () => this.setState({ recibo: !s.recibo }),
+      reciboBg: s.recibo ? 'var(--color-accent)' : 'var(--color-surface)',
+      reciboFg: s.recibo ? '#fff' : 'var(--color-neutral-700)',
+      reciboBorda: s.recibo ? 'var(--color-accent)' : 'var(--color-divider)',
+      btnBg: (pronto || podeRecibo) ? 'var(--color-accent)' : 'var(--color-neutral-200)',
+      btnFg: (pronto || podeRecibo) ? '#fff' : 'var(--color-neutral-500)',
+      labelSalvar: pronto ? 'Salvar' : podeRecibo ? 'Salvar recibo e detalhar depois'
+        : valorCents > 0 ? 'Escolha a categoria' : 'Digite o valor ou anexe o recibo',
+      salvar: () => {
+        if (podeRecibo) {
+          this.setState(Object.assign({ sheet: null }, this.resetDraft()));
+          return this.gravar(0, null, { recibo: true, dia: 'Hoje' });
+        }
+        if (!pronto) return;
+        this.setState(Object.assign({ sheet: null, tab: 'mes' }, this.resetDraft()));
+        this.gravar(valorCents, s.cat, {
+          desc: s.desc, forma: s.forma, parcelas: s.parcelas, pagas: 1,
+          escopo: s.escopo, recibo: s.recibo,
+          dia: s.data === 'Ontem' ? 'Ontem' : 'Hoje',
+        });
+      },
+
+      dValor: d ? this.fmt(d.valor) : '',
+      dTitulo: d ? (d.cat ? dCat.label + (d.desc ? ' · ' + d.desc : '') : 'Recibo a detalhar') : '',
+      dInicial: d ? (d.cat ? dCat.label.slice(0, 1) : '?') : '',
+      dCatCor: d && d.cat ? dCat.cor : 'var(--color-neutral-200)',
+      dMeta, dRecibo: !!(d && d.recibo), dReacoes,
+      dComentarios: d ? d.comentarios.map(k => ({
+        quem: PESSOAS[k.quem].label + (k.quem === EU ? ' (você)' : ''),
+        texto: k.texto, cor: PESSOAS[k.quem].cor, inicial: PESSOAS[k.quem].inicial,
+      })) : [],
+      dSemComentario: !!(d && d.comentarios.length === 0),
+      novoComentario: s.comentario,
+      setComentario: ev => this.setState({ comentario: ev.target.value }),
+      enviarComentario: () => {
+        const t = s.comentario.trim();
+        if (!t) return;
+        this.setState({
+          comentario: '',
+          lancamentos: s.lancamentos.map(e => e.id === s.detalheId
+            ? Object.assign({}, e, { comentarios: e.comentarios.concat([{ quem: EU, texto: t }]) }) : e),
+        });
+        this.aviso('Comentário enviado para Rafa.');
+      },
+
+      toast: s.toast,
+
+      quebraEscopo: 'Do casal ' + this.fmt(totalCasal) + ' · individuais ' + this.fmt(totalIndiv),
+      cartoesFixas, parcelados,
+      fixasResumo: fixasPagas.length + ' de ' + s.fixas.length + ' pagas',
+      fixasTotalTxt: this.fmt(fixasTotal),
+      fixasFaltaTxt: this.fmt(fixasTotal - fixasPagasTotal),
+      fixasPct: fixasTotal > 0 ? Math.round((fixasPagasTotal / fixasTotal) * 100) + '%' : '0%',
+      saldoParcelasTxt: this.fmt(saldoParcelas),
+      semParcelados: parcelados.length === 0,
+      viewFixas: s.view === 'fixas',
+      abrirFixas: () => this.setState({ view: 'fixas' }),
+
+      escopos: [
+        { id: 'casal', label: 'Do casal' }, { id: 'individual', label: 'Só meu' },
+      ].map(x => ({
+        label: x.label,
+        bg: s.escopo === x.id ? 'var(--color-accent)' : 'var(--color-bg)',
+        fg: s.escopo === x.id ? '#fff' : 'var(--color-neutral-700)',
+        borda: s.escopo === x.id ? 'var(--color-accent)' : 'var(--color-divider)',
+        onPick: () => this.setState({ escopo: x.id }),
+      })),
+      webEscopos: [
+        { id: 'casal', label: 'Do casal' }, { id: 'individual', label: 'Só meu' },
+      ].map(x => ({
+        label: x.label,
+        bg: s.webEscopo === x.id ? 'var(--color-accent-2-500)' : 'var(--color-bg)',
+        fg: s.webEscopo === x.id ? '#fff' : 'var(--color-neutral-700)',
+        onPick: () => this.setState({ webEscopo: x.id }),
+      })),
+
+      viewPerfil: s.view === 'perfil', viewRenda: s.view === 'renda',
+      abrirPerfil: () => this.setState({ view: 'perfil' }),
+      abrirRenda: () => this.setState({ view: 'renda' }),
+      voltarPerfil: () => this.setState({ view: 'perfil' }),
+      fecharView: () => this.setState({ view: null }),
+
+      perfilNome: s.perfil.nome,
+      setPerfilNome: ev => this.setState({ perfil: Object.assign({}, s.perfil, { nome: ev.target.value }) }),
+      perfilInicial: (s.perfil.nome || 'A').trim().slice(0, 1).toUpperCase(),
+      perfilCor: s.perfil.cor,
+      coresPerfil: ['var(--color-accent-300)', 'var(--color-accent-2-300)', 'var(--color-accent-200)', 'var(--color-neutral-300)'].map(c => ({
+        cor: c,
+        borda: s.perfil.cor === c ? 'var(--color-accent)' : 'transparent',
+        onPick: () => this.setState({ perfil: Object.assign({}, s.perfil, { cor: c }) }),
+      })),
+      notifLanc: s.perfil.notifLanc,
+      notifLancBg: s.perfil.notifLanc ? 'var(--color-accent)' : 'var(--color-neutral-300)',
+      notifLancX: s.perfil.notifLanc ? '22px' : '2px',
+      toggleNotifLanc: () => this.setState({ perfil: Object.assign({}, s.perfil, { notifLanc: !s.perfil.notifLanc }) }),
+      notifResumoBg: s.perfil.notifResumo ? 'var(--color-accent)' : 'var(--color-neutral-300)',
+      notifResumoX: s.perfil.notifResumo ? '22px' : '2px',
+      toggleNotifResumo: () => this.setState({ perfil: Object.assign({}, s.perfil, { notifResumo: !s.perfil.notifResumo }) }),
+
+      cartoesRenda,
+      rendaTotal: this.fmt(rendaMes),
+      rendaResumo: 'líquido de Ana ' + this.fmt(cAna.total) + ' + Rafa ' + this.fmt(cRafa.total),
+      aportePct: s.aportePct + '%',
+      aporteValor: this.fmt(aporteMes),
+      aporteLargura: Math.min(100, s.aportePct * 3) + '%',
+      menosAporte: () => this.setState({ aportePct: Math.max(0, s.aportePct - 1) }),
+      maisAporte: () => this.setState({ aportePct: Math.min(50, s.aportePct + 1) }),
+      fraseAporte: 'No dia 1 saem ' + this.fmt(aporteMes) + ' da conta comum para a reserva, antes de qualquer gasto. Vocês dois podem mudar isso a qualquer momento.',
+
+      webW: 1180, webH: 780,
+      webTabs: [{ title: 'Junto — setembro' }, { title: 'Banco' }],
+      webNav: ['Mês', 'Atividade', 'Reserva', 'Fechamento'].map((l, i) => {
+        const id = ['mes', 'feed', 'reserva', 'fecha'][i];
+        const ativo = s.webView === 'app' && s.tab === id;
+        return {
+          label: l,
+          bg: ativo ? 'var(--color-accent-100)' : 'transparent',
+          fg: ativo ? 'var(--color-accent-800)' : 'var(--color-neutral-700)',
+          onPick: () => this.setState({ tab: id, webView: 'app' }),
+        };
+      }).concat([{
+        label: 'Contas fixas',
+        bg: s.webView === 'fixas' ? 'var(--color-accent-100)' : 'transparent',
+        fg: s.webView === 'fixas' ? 'var(--color-accent-800)' : 'var(--color-neutral-700)',
+        onPick: () => this.setState({ webView: 'fixas' }),
+      }]),
+      webApp: s.webView === 'app', webRenda: s.webView === 'renda', webFixas: s.webView === 'fixas',
+      webAbrirRenda: () => this.setState({ webView: 'renda' }),
+      webPerfilBg: s.webView === 'renda' ? 'var(--color-accent-100)' : 'transparent',
+      webValor: s.webValor,
+      setWebValor: ev => this.setState({ webValor: ev.target.value }),
+      webDesc: s.webDesc,
+      setWebDesc: ev => this.setState({ webDesc: ev.target.value }),
+      webCategorias: CATS.map(c => ({
+        label: c.label,
+        bg: s.webCat === c.id ? 'var(--color-accent)' : 'var(--color-bg)',
+        fg: s.webCat === c.id ? '#fff' : 'var(--color-neutral-700)',
+        onPick: () => this.setState({ webCat: c.id }),
+      })),
+      webBtnBg: webPronto ? 'var(--color-accent)' : 'var(--color-neutral-200)',
+      webBtnFg: webPronto ? '#fff' : 'var(--color-neutral-500)',
+      webSalvar: () => {
+        if (!webPronto) return;
+        this.setState({ webValor: '', webDesc: '', webCat: null });
+        this.gravar(webValorCents, s.webCat, { desc: s.webDesc, forma: 'Pix', escopo: s.webEscopo });
+      },
+    };
+  }
+}
+</script>
+</body>
+</html>

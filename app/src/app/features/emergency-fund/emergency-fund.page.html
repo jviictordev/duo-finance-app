@@ -1,0 +1,42 @@
+@if (store.fund(); as fund) {
+  <div class="page">
+    <p class="text-section-label">Reserva de emergência</p>
+    <app-money-amount [amountCents]="fund.balanceCents" size="xl" />
+
+    <div class="ring-wrap">
+      <app-reserve-progress [monthsCovered]="store.monthsCovered()" [goalMonths]="fund.goalMonths" [size]="212" />
+    </div>
+
+    <div class="context-card">
+      <p class="text-support">
+        Se as duas rendas parassem hoje, vocês cobririam {{ store.monthsCovered() | number: '1.1-1' }} meses no ritmo atual.
+        A meta de {{ fund.goalMonths }} meses continua com o aporte de {{ fund.contributionPct }}% da renda.
+      </p>
+    </div>
+
+    <p class="text-section-label list-label">Aportes e retiradas</p>
+
+    @if (!fund.movements.length) {
+      <app-empty-state message="Nenhuma movimentação ainda." />
+    }
+
+    <div class="movement-list">
+      @for (m of fund.movements; track m.id) {
+        <div class="movement-row">
+          @if (reference.personById(m.personId ?? ''); as person) {
+            <app-person-avatar [person]="person" [size]="30" />
+          } @else {
+            <div class="auto-icon">A</div>
+          }
+          <div class="movement-info">
+            <p class="text-list-title">{{ m.label }}</p>
+            <p class="text-caption">{{ relativeDayLabel(m.date) }}</p>
+          </div>
+          <app-money-amount [amountCents]="signedAmount(m)" [signed]="true" size="md" />
+        </div>
+      }
+    </div>
+  </div>
+} @else {
+  <app-empty-state message="Carregando a reserva..." />
+}

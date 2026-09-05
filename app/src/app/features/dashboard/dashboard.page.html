@@ -1,0 +1,83 @@
+<div class="page">
+  <header class="head">
+    <div>
+      <p class="text-section-label">{{ monthLabel }}</p>
+      <app-money-amount [amountCents]="balanceCents()" [signed]="true" size="xl" />
+    </div>
+    <button type="button" class="avatar-btn" (click)="openProfile()" aria-label="Abrir perfil">
+      <app-avatar-stack [people]="reference.people()" [size]="34" />
+    </button>
+  </header>
+
+  <div class="summary-card">
+    <p class="text-support">Resumo do mês em andamento.</p>
+
+    <div class="mini-grid">
+      <div class="mini income">
+        <p class="text-section-label">Entradas</p>
+        <app-money-amount [amountCents]="incomeCents()" size="md" />
+      </div>
+      <div class="mini expense">
+        <p class="text-section-label">Saídas</p>
+        <app-money-amount [amountCents]="expenseCents()" size="md" />
+      </div>
+      <div class="mini essential">
+        <p class="text-section-label">Essencial</p>
+        <app-money-amount [amountCents]="essentialCents()" size="md" />
+      </div>
+      <div class="mini discretionary">
+        <p class="text-section-label">Supérfluo</p>
+        <app-money-amount [amountCents]="discretionaryCents()" size="md" />
+      </div>
+    </div>
+
+    <div class="hr"></div>
+
+    <div class="reserve-row">
+      <div class="reserve-head">
+        <p class="text-section-label">Reserva de emergência</p>
+        @if (emergencyFund.fund(); as fund) {
+          <p class="text-caption">{{ emergencyFund.monthsCovered() | number: '1.1-1' }} de {{ fund.goalMonths }} meses</p>
+        }
+      </div>
+      <div class="progress-track"><div class="progress-fill" [style.width.%]="emergencyFund.goalProgressPct()"></div></div>
+    </div>
+  </div>
+
+  <button type="button" class="recurring-btn" (click)="openRecurringAccounts()">
+    <span class="icon"><ion-icon name="calendar-outline" aria-hidden="true"></ion-icon></span>
+    <span class="text">
+      <span class="text-list-title">Contas fixas</span>
+      <span class="text-caption">
+        {{ recurringPaidCount() }} de {{ recurringTotalCount() }} pagas · faltam
+        <app-money-amount [amountCents]="recurringRemainingCents()" size="sm" />
+      </span>
+    </span>
+    <ion-icon name="chevron-forward-outline" aria-hidden="true"></ion-icon>
+  </button>
+
+  <p class="text-section-label list-label">Lançamentos recentes</p>
+
+  @if (!transactions.monthTransactions().length) {
+    <app-empty-state message="Nenhum lançamento neste mês ainda." />
+  }
+
+  <div class="tx-list">
+    @for (t of transactions.monthTransactions(); track t.id) {
+      <div class="tx-row">
+        <app-category-avatar [category]="t.category!" [size]="38" />
+        <div class="tx-info">
+          <p class="text-list-title">{{ categoryMeta[t.category!].label }}{{ t.description ? ' · ' + t.description : '' }}</p>
+          <p class="text-caption">{{ t.paymentMethod }} · {{ relativeDayLabel(t.date) }}</p>
+          <app-origin-badge [origin]="t.origin" />
+        </div>
+        <div class="tx-trailing">
+          <app-money-amount [amountCents]="t.amountCents" size="md" />
+          @if (reference.personById(t.loggedByPersonId); as person) {
+            <app-person-avatar [person]="person" [size]="22" />
+          }
+        </div>
+      </div>
+    }
+  </div>
+</div>

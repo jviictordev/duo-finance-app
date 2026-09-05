@@ -1,0 +1,65 @@
+// Design tokens copied verbatim from design_handoff_junto — the v2 .dc.html override
+// block (lines ~16-20), not the default Organic orange palette in styles.css.
+:root {
+  --color-bg: #f0f2e8;
+  --color-surface: #fafbf4;
+  --color-text: #252a35;
+  --color-divider: rgba(37, 42, 53, 0.13);
+
+  // Accent ramp (blue) — actions, selection, focus.
+  --color-accent: #586994;
+  --color-accent-100: #ebeef6;
+  --color-accent-200: #d4ddee;
+  --color-accent-300: #aebbd6;
+  --color-accent-400: #8494bb;
+  --color-accent-500: #586994;
+  --color-accent-600: #47567c;
+  --color-accent-700: #374262;
+  --color-accent-800: #282f47;
+  --color-accent-900: #1a1f2e;
+
+  // Accent-2 ramp (sage) — reserve, income, "paid", individual spending.
+  --color-accent-2: #8fa383;
+  --color-accent-2-100: #eaf0e0;
+  --color-accent-2-200: #d7e0cb;
+  --color-accent-2-300: #b4c4ae;
+  --color-accent-2-400: #9fb096;
+  --color-accent-2-500: #8fa383;
+  --color-accent-2-600: #748764;
+  --color-accent-2-700: #5a6a4d;
+  --color-accent-2-800: #414d38;
+
+  // Neutral ramp.
+  --color-neutral-100: #f4f5ef;
+  --color-neutral-200: #e7e9df;
+  --color-neutral-300: #d1d5ca;
+  --color-neutral-400: #a2abab;
+  --color-neutral-500: #8b939c;
+  --color-neutral-600: #7d869c;
+  --color-neutral-700: #5f6673;
+  --color-neutral-800: #434956;
+  --color-neutral-900: #252a35;
+
+  --font-heading: 'Caprasimo', system-ui, sans-serif;
+  --font-body: 'Figtree', system-ui, sans-serif;
+
+  --space-1: 4.4px;
+  --space-2: 8.8px;
+  --space-3: 13.2px;
+  --space-4: 17.6px;
+  --space-6: 26.4px;
+  --space-8: 35.2px;
+
+  --radius-pill: 999px;
+  --radius-list-card: 22px;
+  --radius-content-card: 28px;
+  --radius-sheet: 34px 34px 0 0;
+
+  --shadow-sm: 0 1px 2px rgba(46, 43, 37, 0.14);
+  --shadow-md: 0 3px 10px rgba(46, 43, 37, 0.16);
+  --shadow-lg: 0 12px 32px rgba(46, 43, 37, 0.22);
+
+  // Never red: withdrawals/outflows use this neutral tone + a "−" sign instead.
+  --color-outflow: var(--color-neutral-700);
+  --color-inflow: var(--color-accent-2-700);
+}

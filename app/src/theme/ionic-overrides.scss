@@ -1,0 +1,72 @@
+// Maps Ionic's CSS variables onto the Organic tokens so stock ion-* components
+// (buttons, toolbars, items) match the handoff instead of Ionic's default Material/iOS look.
+:root {
+  --ion-background-color: var(--color-bg);
+  --ion-text-color: var(--color-text);
+  --ion-toolbar-background: var(--color-bg);
+  --ion-item-background: var(--color-surface);
+  --ion-border-color: var(--color-divider);
+  --ion-font-family: var(--font-body);
+
+  --ion-color-primary: var(--color-accent);
+  --ion-color-primary-rgb: 88, 105, 148;
+  --ion-color-primary-contrast: #ffffff;
+  --ion-color-primary-contrast-rgb: 255, 255, 255;
+  --ion-color-primary-shade: var(--color-accent-600);
+  --ion-color-primary-tint: var(--color-accent-400);
+
+  --ion-color-secondary: var(--color-accent-2);
+  --ion-color-secondary-rgb: 143, 163, 131;
+  --ion-color-secondary-contrast: #ffffff;
+  --ion-color-secondary-contrast-rgb: 255, 255, 255;
+  --ion-color-secondary-shade: var(--color-accent-2-600);
+  --ion-color-secondary-tint: var(--color-accent-2-400);
+
+  // The system never uses alarm red — "danger" states fall back to neutral ink instead.
+  --ion-color-danger: var(--color-neutral-700);
+  --ion-color-danger-rgb: 95, 102, 115;
+  --ion-color-danger-contrast: #ffffff;
+  --ion-color-danger-contrast-rgb: 255, 255, 255;
+  --ion-color-danger-shade: var(--color-neutral-800);
+  --ion-color-danger-tint: var(--color-neutral-600);
+}
+
+ion-content {
+  --background: var(--color-bg);
+}
+
+ion-button {
+  --border-radius: var(--radius-pill);
+  --box-shadow: none;
+  font-family: var(--font-heading);
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: 0;
+  min-height: 44px;
+}
+
+ion-item {
+  --border-color: var(--color-divider);
+  --background: var(--color-surface);
+}
+
+ion-tab-bar {
+  --background: transparent;
+  border: none;
+}
+
+ion-tab-button {
+  --color: var(--color-neutral-600);
+  --color-selected: var(--color-accent);
+}
+
+ion-fab-button {
+  --background: var(--color-accent);
+  --background-activated: var(--color-accent-700);
+  --box-shadow: var(--shadow-md);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}

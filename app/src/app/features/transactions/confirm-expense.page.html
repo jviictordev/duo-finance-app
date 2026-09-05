@@ -1,0 +1,77 @@
+@if (pending(); as tx) {
+  <div class="page">
+    <button class="close-btn" type="button" (click)="dismiss()" aria-label="Fechar">✕</button>
+    <div class="handle"></div>
+
+    <header class="head">
+      <app-category-avatar [category]="category()" [size]="52" />
+      <div class="head-text">
+        <h1 class="text-screen-title">Confirme o gasto</h1>
+        <app-origin-badge [origin]="tx.origin" />
+      </div>
+    </header>
+
+    <div class="amount-wrap">
+      <ion-input
+        class="amount-input"
+        inputmode="decimal"
+        [value]="amountText()"
+        (ionInput)="onAmountChange($any($event.detail).value ?? '')"
+        aria-label="Valor do gasto"
+      ></ion-input>
+    </div>
+
+    <p class="text-section-label">Categoria</p>
+    <div class="row-scroll hide-scrollbar">
+      @for (cat of categories; track cat) {
+        <button
+          type="button"
+          class="chip"
+          [class.selected]="category() === cat"
+          (click)="category.set(cat)"
+        >
+          {{ categoryMeta[cat].label }}
+        </button>
+      }
+    </div>
+
+    <p class="text-section-label">Natureza</p>
+    <div class="segment two">
+      <button type="button" class="seg-btn" [class.selected]="nature() === Nature.ESSENCIAL" (click)="nature.set(Nature.ESSENCIAL)">
+        Essencial
+      </button>
+      <button type="button" class="seg-btn" [class.selected]="nature() === Nature.SUPERFLUO" (click)="nature.set(Nature.SUPERFLUO)">
+        Supérfluo
+      </button>
+    </div>
+
+    <p class="text-section-label">Escopo</p>
+    <div class="segment two">
+      <button type="button" class="seg-btn" [class.selected]="scope() === Scope.CASAL" (click)="scope.set(Scope.CASAL)">
+        Do casal
+      </button>
+      <button type="button" class="seg-btn" [class.selected]="scope() === Scope.INDIVIDUAL" (click)="scope.set(Scope.INDIVIDUAL)">
+        Só meu
+      </button>
+    </div>
+
+    <p class="text-section-label">Forma de pagamento</p>
+    <div class="row-scroll hide-scrollbar">
+      @for (method of paymentMethods; track method) {
+        <button type="button" class="chip" [class.selected]="paymentMethod() === method" (click)="paymentMethod.set(method)">
+          {{ method }}
+        </button>
+      }
+    </div>
+
+    <p class="text-section-label">Descrição</p>
+    <ion-input class="desc-input" placeholder="Opcional" [value]="description()" (ionInput)="description.set($any($event.detail).value ?? '')"></ion-input>
+
+    <ion-button expand="block" class="confirm-btn" [disabled]="!canConfirm()" (click)="confirm()">Confirmar</ion-button>
+  </div>
+} @else {
+  <div class="page empty">
+    <p class="text-support">Nada para confirmar agora.</p>
+    <ion-button fill="clear" (click)="dismiss()">Voltar</ion-button>
+  </div>
+}

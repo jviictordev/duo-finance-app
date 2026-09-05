@@ -1,0 +1,82 @@
+<div class="page">
+  <p class="text-screen-title">Contas fixas</p>
+
+  <div class="summary-card">
+    <app-money-amount [amountCents]="totalCents()" size="lg" />
+    <p class="text-support">por mês · {{ paidCount() }} de {{ store.accounts().length }} pagas</p>
+    <div class="progress-track"><div class="progress-fill" [style.width.%]="progressPct()"></div></div>
+    <p class="text-caption">
+      Ainda faltam <app-money-amount [amountCents]="remainingCents()" size="sm" /> neste mês
+    </p>
+  </div>
+
+  @if (!store.accounts().length) {
+    <app-empty-state message="Nenhuma conta fixa cadastrada." />
+  }
+
+  <div class="list">
+    @for (account of store.accounts(); track account.id) {
+      <app-celebration [active]="celebratingId() === account.id" (settled)="onCelebrationSettled(account)">
+        <div class="account-card" [class.paid]="account.paid" [class.ready]="isReadyToClose(account)">
+          <div class="row-top">
+            <button
+              type="button"
+              class="check"
+              [class.checked]="account.paid"
+              [disabled]="account.paid"
+              (click)="pay(account)"
+              [attr.aria-label]="account.paid ? 'Paga' : 'Marcar como paga'"
+            >
+              @if (account.paid) {
+                <ion-icon name="checkmark" aria-hidden="true"></ion-icon>
+              }
+            </button>
+            <div class="info">
+              <p class="text-list-title">{{ account.name }}</p>
+              <p class="text-caption">vence dia {{ account.dueDay }} · {{ account.paid ? 'paga' : 'a pagar' }}</p>
+            </div>
+            @if (reference.personById(account.payerPersonId); as payer) {
+              <app-person-avatar [person]="payer" [size]="26" />
+            }
+          </div>
+
+          <div class="row-amount">
+            @if (editingId() === account.id) {
+              <ion-input
+                class="edit-input"
+                inputmode="decimal"
+                [value]="editValue()"
+                (ionInput)="editValue.set($any($event.detail).value ?? '')"
+              ></ion-input>
+              <ion-button size="small" (click)="saveEdit(account)">Salvar</ion-button>
+            } @else {
+              <app-money-amount [amountCents]="displayAmount(account)" size="md" />
+              <app-amount-status-badge [status]="account.amountStatus" />
+              <button type="button" class="edit-link" (click)="startEdit(account)" aria-label="Corrigir valor">
+                <ion-icon name="pencil-outline" aria-hidden="true"></ion-icon>
+              </button>
+            }
+          </div>
+
+          @if (account.installments; as inst) {
+            <div class="installment-block">
+              <p class="text-caption">{{ inst.current }} de {{ inst.total }} pagas</p>
+              <div class="progress-track small"><div class="progress-fill" [style.width.%]="(inst.current / inst.total) * 100"></div></div>
+
+              @if (isReadyToClose(account)) {
+                <div class="ready-banner">
+                  <span class="text-caption ready-label">Pronta para encerrar</span>
+                  <ion-button size="small" fill="outline" (click)="confirmClose(account)">Confirmar encerramento</ion-button>
+                </div>
+              } @else {
+                <p class="text-caption saldo">
+                  saldo devedor <app-money-amount [amountCents]="remainingBalanceCents(account)" size="sm" />
+                </p>
+              }
+            </div>
+          }
+        </div>
+      </app-celebration>
+    }
+  </div>
+</div>

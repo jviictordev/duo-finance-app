@@ -1,0 +1,61 @@
+@if (closing(); as c) {
+  <div class="closing-page">
+    <p class="text-section-label">Fechamento de {{ monthLabel() }}</p>
+    <div class="total-row">
+      <app-money-amount [amountCents]="c.totalExpenseCents" size="xl" />
+      <span class="variation">
+        <ion-icon [name]="variationPct() >= 0 ? 'arrow-up-outline' : 'arrow-down-outline'" aria-hidden="true"></ion-icon>
+        {{ variationPct() | number: '1.0-0' }}% vs. mês anterior
+      </span>
+    </div>
+    <div class="hr"></div>
+
+    <p class="text-section-label">Por categoria</p>
+    <div class="category-bars">
+      @for (b of c.categoryBreakdown; track b.category) {
+        <div class="bar-row">
+          <span class="bar-label">{{ categoryMeta[b.category].label }}</span>
+          <div class="bar-track">
+            <div class="bar-fill" [style.width.%]="(b.amountCents / maxCategoryAmount()) * 100"></div>
+          </div>
+          <app-money-amount [amountCents]="b.amountCents" size="sm" />
+        </div>
+      }
+    </div>
+
+    @if (c.status === Status.SURPLUS) {
+      @if (relatedSuggestion(); as s) {
+        <app-suggestion-card
+          [suggestion]="s"
+          [showReserveProgress]="true"
+          [reserveGoalMonths]="emergencyFund.fund()?.goalMonths ?? 6"
+          [reserveMonthsCoveredBefore]="emergencyFund.monthsCovered()"
+          [reserveMonthsCoveredAfter]="monthsCoveredAfterSuggestion()"
+          (confirm)="acceptSuggestion($event)"
+          (reject)="rejectSuggestion($event)"
+        />
+      } @else {
+        <div class="surplus-card">
+          <p class="text-support">O excedente deste mês já foi resolvido.</p>
+        </div>
+      }
+    } @else {
+      <div class="alert-card">
+        <p class="text-section-value">Esse mês fechou no negativo</p>
+        <app-money-amount [amountCents]="c.balanceCents" [signed]="true" size="lg" />
+        <p class="text-support">Sem susto — é um ajuste de rota, não um problema.</p>
+      </div>
+      @if (c.deficitForecast; as forecast) {
+        <div class="forecast-card">
+          <p class="text-section-label">Previsão para o mês que vem</p>
+          <p class="forecast-note">
+            {{ forecast.note }}
+            <strong>{{ forecastAccountName() }}</strong>
+          </p>
+        </div>
+      }
+    }
+  </div>
+} @else {
+  <app-empty-state message="Nenhum fechamento disponível ainda." />
+}

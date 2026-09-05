@@ -1,0 +1,69 @@
+<div class="shell">
+  <aside class="sidebar">
+    <h1 class="brand text-heading">Junto</h1>
+    <nav class="nav">
+      <a routerLink="/mes" routerLinkActive="active" class="nav-pill"><ion-icon name="bar-chart-outline" aria-hidden="true"></ion-icon> Mês</a>
+      <a routerLink="/atividade" routerLinkActive="active" class="nav-pill"><ion-icon name="pulse-outline" aria-hidden="true"></ion-icon> Atividade</a>
+      <a routerLink="/reserva" routerLinkActive="active" class="nav-pill"><ion-icon name="shield-checkmark-outline" aria-hidden="true"></ion-icon> Reserva</a>
+      <a routerLink="/fechamento" routerLinkActive="active" class="nav-pill"><ion-icon name="bar-chart-outline" aria-hidden="true"></ion-icon> Fechamento</a>
+      <a routerLink="/contas-fixas" routerLinkActive="active" class="nav-pill"><ion-icon name="card-outline" aria-hidden="true"></ion-icon> Contas fixas</a>
+    </nav>
+    <div class="sidebar-footer">
+      @if (currentPerson(); as me) {
+        <a routerLink="/perfil" class="person-row">
+          <app-person-avatar [person]="me" [size]="28" />
+          <span>{{ me.name }}</span>
+        </a>
+      }
+      @if (partner(); as p) {
+        <div class="person-row muted">
+          <app-person-avatar [person]="p" [size]="28" />
+          <span>{{ p.name }} · online</span>
+        </div>
+      }
+    </div>
+  </aside>
+
+  <main class="center">
+    <router-outlet></router-outlet>
+  </main>
+
+  <aside class="right-col">
+    @if (emergencyFund.fund(); as fund) {
+      <div class="mini-card">
+        <app-reserve-progress [monthsCovered]="emergencyFund.monthsCovered()" [goalMonths]="fund.goalMonths" [size]="88" [showLabels]="false" />
+        <app-money-amount [amountCents]="fund.balanceCents" size="md" />
+        <p class="text-caption">{{ emergencyFund.monthsCovered() | number: '1.1-1' }} de {{ fund.goalMonths }} meses de despesa</p>
+      </div>
+    }
+    <div class="mini-card activity">
+      <p class="text-section-label">Atividade recente</p>
+      @for (t of recentActivity(); track t.id) {
+        <div class="mini-row">
+          <app-money-amount [amountCents]="t.amountCents" size="sm" />
+          <app-origin-badge [origin]="t.origin" />
+        </div>
+      }
+    </div>
+  </aside>
+
+  <nav class="tab-bar">
+    <a routerLink="/mes" routerLinkActive="active" class="tab-btn">
+      <ion-icon name="bar-chart-outline" aria-hidden="true"></ion-icon>
+      <span>Mês</span>
+    </a>
+    <a routerLink="/atividade" routerLinkActive="active" class="tab-btn">
+      <ion-icon name="pulse-outline" aria-hidden="true"></ion-icon>
+      <span>Atividade</span>
+    </a>
+    <button type="button" class="fab" (click)="openConfirmExpense()" aria-label="Confirmar gasto">+</button>
+    <a routerLink="/reserva" routerLinkActive="active" class="tab-btn">
+      <ion-icon name="shield-checkmark-outline" aria-hidden="true"></ion-icon>
+      <span>Reserva</span>
+    </a>
+    <a routerLink="/fechamento" routerLinkActive="active" class="tab-btn">
+      <ion-icon name="bar-chart-outline" aria-hidden="true"></ion-icon>
+      <span>Fechar</span>
+    </a>
+  </nav>
+</div>

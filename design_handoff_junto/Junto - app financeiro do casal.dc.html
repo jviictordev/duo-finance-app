@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<link rel="stylesheet" href="_ds/organic-dfd005da-f836-48c3-8160-21bcb693002c/styles.css">
+<script src="_ds/organic-dfd005da-f836-48c3-8160-21bcb693002c/_ds_bundle.js"></script>
+<style>
+:root{
+--color-bg:#f0f2e8;--color-surface:#fafbf4;--color-text:#252a35;
+--color-divider:rgba(37,42,53,.13);
+--color-accent:#586994;--color-accent-100:#ebeef6;--color-accent-200:#d4ddee;--color-accent-300:#aebbd6;--color-accent-400:#8494bb;--color-accent-500:#586994;--color-accent-600:#47567c;--color-accent-700:#374262;--color-accent-800:#282f47;--color-accent-900:#1a1f2e;
+--color-accent-2:#8fa383;--color-accent-2-100:#eaf0e0;--color-accent-2-200:#d7e0cb;--color-accent-2-300:#b4c4ae;--color-accent-2-400:#9fb096;--color-accent-2-500:#8fa383;--color-accent-2-600:#748764;--color-accent-2-700:#5a6a4d;--color-accent-2-800:#414d38;
+--color-neutral-100:#f4f5ef;--color-neutral-200:#e7e9df;--color-neutral-300:#d1d5ca;--color-neutral-400:#a2abab;--color-neutral-500:#8b939c;--color-neutral-600:#7d869c;--color-neutral-700:#5f6673;--color-neutral-800:#434956;--color-neutral-900:#252a35;
+--pale:#e5e8b6;
+}
+body{margin:0;background:var(--color-bg)}
+a{color:var(--color-accent-700)}
+a:hover{color:var(--color-accent)}
+@keyframes jup{from{transform:translateY(14px);opacity:0}to{transform:translateY(0);opacity:1}}
+@keyframes jfade{from{opacity:0}to{opacity:1}}
+</style>
+</helmet>
+
+<div style="display:flex;gap:52px;align-items:flex-start;padding:48px 52px 64px;font-family:var(--font-body);color:var(--color-text)">
+
+  <div style="width:352px;flex:none;display:flex;flex-direction:column;gap:24px">
+    <div>
+      <div style="font-family:var(--font-heading);font-size:44px;line-height:1;letter-spacing:-.02em">Junto</div>
+      <p style="margin:10px 0 0;font-size:13.5px;color:var(--color-neutral-700);max-width:30ch;text-wrap:pretty">Controle financeiro de duas pessoas, sem hierarquia. Protótipo do fluxo principal.</p>
+    </div>
+
+    <div style="display:flex;gap:6px">
+      <span class="tag tag-accent">mobile-first</span>
+      <span class="tag tag-accent-2">2 usuários</span>
+      <span class="tag tag-neutral">v1</span>
+    </div>
+
+    <div style="height:1px;background:var(--color-divider)"></div>
+
+    <div>
+      <div style="font-family:var(--font-heading);font-size:19px;margin-bottom:12px">Premissas que assumi</div>
+      <ol style="margin:0;padding-left:20px;font-size:13.5px;line-height:1.6;color:var(--color-neutral-800);display:flex;flex-direction:column;gap:11px">
+        <li><strong style="font-weight:700">Duas vias de registro:</strong> teclado grande com o valor primeiro, e atalhos de um toque para os gastos que se repetem toda semana.</li>
+        <li><strong style="font-weight:700">Três campos obrigatórios:</strong> valor, categoria e quem pagou. Data é hoje por padrão; descrição é opcional.</li>
+        <li><strong style="font-weight:700">Divisão 50/50 com acerto no fechamento.</strong> Durante o mês nenhum saldo aparece como dívida de ninguém.</li>
+        <li><strong style="font-weight:700">Nenhuma cor de alerta.</strong> Não há vermelho no app. Variação de gasto aparece como fato, não como aviso.</li>
+        <li><strong style="font-weight:700">Reserva medida em meses de despesa</strong>, com o aporte de cada um visível.</li>
+      </ol>
+    </div>
+
+    <div style="background:var(--color-surface);border-radius:28px;padding:18px 20px;box-shadow:var(--shadow-sm)">
+      <div style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--color-accent);margin-bottom:8px">Como testar</div>
+      <p style="margin:0;font-size:13px;line-height:1.6;color:var(--color-neutral-800)">Toque no <strong style="font-weight:700">+</strong>. Use um atalho ou digite o valor, escolha a categoria e quem pagou. O lançamento entra no mês e refaz o fechamento e a reserva na hora.</p>
+    </div>
+
+    <div>
+      <div style="font-family:var(--font-heading);font-size:19px;margin-bottom:10px">Perguntas abertas</div>
+      <ul style="margin:0;padding-left:20px;font-size:13.5px;line-height:1.6;color:var(--color-neutral-700);display:flex;flex-direction:column;gap:8px">
+        <li>A divisão é 50/50 ou proporcional à renda?</li>
+        <li>Vale importar extrato/cartão, ou o registro manual rápido resolve?</li>
+        <li>Contas fixas e parcelas precisam de um lugar próprio?</li>
+        <li>Gasto individual e gasto do casal devem ser separados?</li>
+      </ul>
+    </div>
+  </div>
+
+  <x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" hint-size="402px,874px">
+    <div style="position:relative;height:100%;display:flex;flex-direction:column;background:var(--color-bg);font-family:var(--font-body);color:var(--color-text);overflow:hidden">
+
+      <div style="flex:1;overflow:auto;padding:62px 20px 108px">
+
+        <sc-if value="{{ tabMes }}" hint-placeholder-val="{{ true }}">
+          <div>
+            <div style="display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:18px">
+              <div>
+                <div style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--color-neutral-600)">Setembro</div>
+                <div style="font-family:var(--font-heading);font-size:34px;line-height:1.05;margin-top:2px">{{ gastoMes }}</div>
+              </div>
+              <div style="display:flex;gap:-6px">
+                <div style="width:34px;height:34px;border-radius:999px;background:var(--color-accent-300);border:2px solid var(--color-bg);display:grid;place-items:center;font-family:var(--font-heading);font-size:13px;color:var(--color-accent-900)">A</div>
+                <div style="width:34px;height:34px;border-radius:999px;background:var(--color-accent-2-300);border:2px solid var(--color-bg);display:grid;place-items:center;font-family:var(--font-heading);font-size:13px;color:var(--color-accent-2-800);margin-left:-10px">R</div>
+              </div>
+            </div>
+
+            <div style="background:var(--color-surface);border-radius:30px;padding:20px 22px;box-shadow:var(--shadow-sm);margin-bottom:22px">
+              <p style="margin:0;font-size:14.5px;line-height:1.6;color:var(--color-neutral-800);text-wrap:pretty">{{ frasePrincipal }}</p>
+              <div style="display:flex;gap:10px;margin-top:16px">
+                <div style="flex:1;background:var(--color-accent-100);border-radius:20px;padding:12px 14px">
+                  <div style="font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--color-accent-700)">Sobrou</div>
+                  <div style="font-family:var(--font-heading);font-size:19px;margin-top:3px;color:var(--color-accent-800)">{{ sobrou }}</div>
+                </div>
+                <div style="flex:1;background:var(--color-accent-2-100);border-radius:20px;padding:12px 14px">
+                  <div style="font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--color-accent-2-700)">Por dia</div>
+                  <div style="font-family:var(--font-heading);font-size:19px;margin-top:3px;color:var(--color-accent-2-800)">{{ porDia }}</div>
+                </div>
+              </div>
+            </div>
+
+            <sc-for list="{{ grupos }}" as="g" hint-placeholder-count="3">
+              <div style="margin-bottom:20px">
+                <div style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--color-neutral-600);margin-bottom:8px;padding-left:4px">{{ g.label }}</div>
+                <div style="display:flex;flex-direction:column;gap:8px">
+                  <sc-for list="{{ g.items }}" as="e" hint-placeholder-count="2">
+                    <div style="display:flex;align-items:center;gap:13px;background:var(--color-surface);border-radius:24px;padding:12px 16px">
+                      <div style="width:38px;height:38px;flex:none;border-radius:999px;background:var(--color-accent-100);display:grid;place-items:center;font-family:var(--font-heading);font-size:15px;color:var(--color-accent-700)">{{ e.inicial }}</div>
+                      <div style="flex:1;min-width:0">
+                        <div style="font-size:15px;font-weight:600;line-height:1.25">{{ e.titulo }}</div>
+                        <div style="font-size:12px;color:var(--color-neutral-600);margin-top:1px">{{ e.sub }}</div>
+                      </div>
+                      <div style="font-size:15.5px;font-weight:700;letter-spacing:-.01em">{{ e.valor }}</div>
+                    </div>
+                  </sc-for>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ tabReserva }}" hint-placeholder-val="{{ false }}">
+          <div>
+            <div style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--color-neutral-600)">Reserva de emergência</div>
+            <div style="font-family:var(--font-heading);font-size:34px;line-height:1.05;margin:2px 0 22px">{{ reservaSaldo }}</div>
+
+            <div style="display:flex;justify-content:center;margin-bottom:22px">
+              <div style="position:relative;width:216px;height:216px;border-radius:999px;background:{{ anelBg }}">
+                <div style="position:absolute;inset:26px;border-radius:999px;background:var(--color-bg);display:grid;place-items:center;text-align:center">
+                  <div>
+                    <div style="font-family:var(--font-heading);font-size:46px;line-height:1">{{ mesesCobertos }}</div>
+                    <div style="font-size:12.5px;color:var(--color-neutral-700);margin-top:2px">meses de despesa</div>
+                    <div style="font-size:11.5px;color:var(--color-neutral-600);margin-top:8px">meta: {{ metaMeses }} meses</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div style="background:var(--color-surface);border-radius:30px;padding:20px 22px;box-shadow:var(--shadow-sm);margin-bottom:18px">
+              <p style="margin:0;font-size:14.5px;line-height:1.6;color:var(--color-neutral-800);text-wrap:pretty">{{ fraseReserva }}</p>
+            </div>
+
+            <div style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--color-neutral-600);margin-bottom:8px;padding-left:4px">Aportes deste ano</div>
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <sc-for list="{{ aportes }}" as="a" hint-placeholder-count="3">
+                <div style="display:flex;align-items:center;gap:13px;background:var(--color-surface);border-radius:24px;padding:12px 16px">
+                  <div style="width:38px;height:38px;flex:none;border-radius:999px;background:{{ a.cor }};display:grid;place-items:center;font-family:var(--font-heading);font-size:14px;color:var(--color-accent-900)">{{ a.quem }}</div>
+                  <div style="flex:1">
+                    <div style="font-size:15px;font-weight:600">{{ a.nome }}</div>
+                    <div style="font-size:12px;color:var(--color-neutral-600);margin-top:1px">{{ a.data }}</div>
+                  </div>
+                  <div style="font-size:15.5px;font-weight:700">{{ a.valor }}</div>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ tabFecha }}" hint-placeholder-val="{{ false }}">
+          <div>
+            <div style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--color-neutral-600)">Fechamento</div>
+            <div style="font-family:var(--font-heading);font-size:30px;line-height:1.05;margin:2px 0 4px">Agosto</div>
+            <p style="margin:0 0 20px;font-size:13.5px;color:var(--color-neutral-700)">Fechado em 1 de setembro pelos dois.</p>
+
+            <div style="background:var(--color-surface);border-radius:30px;padding:20px 22px;box-shadow:var(--shadow-sm);margin-bottom:18px">
+              <div style="display:flex;align-items:baseline;gap:10px">
+                <div style="font-family:var(--font-heading);font-size:27px">{{ fechaTotal }}</div>
+                <div style="font-size:12.5px;color:var(--color-neutral-700)">{{ fechaVariacao }}</div>
+              </div>
+              <div style="height:1px;background:var(--color-divider);margin:16px 0"></div>
+              <div style="display:flex;flex-direction:column;gap:12px">
+                <sc-for list="{{ porCategoria }}" as="c" hint-placeholder-count="5">
+                  <div>
+                    <div style="display:flex;justify-content:space-between;font-size:13.5px;margin-bottom:5px">
+                      <span style="font-weight:600">{{ c.label }}</span>
+                      <span style="color:var(--color-neutral-700)">{{ c.valor }}</span>
+                    </div>
+                    <div style="height:9px;border-radius:999px;background:var(--color-neutral-200);overflow:hidden">
+                      <div style="height:100%;border-radius:999px;background:{{ c.cor }};width:{{ c.pct }}"></div>
+                    </div>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+
+            <div style="background:var(--color-accent-100);border-radius:30px;padding:20px 22px;margin-bottom:18px">
+              <div style="font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--color-accent-700);margin-bottom:8px">Acerto</div>
+              <p style="margin:0;font-size:15px;line-height:1.6;color:var(--color-accent-900);text-wrap:pretty">{{ fraseAcerto }}</p>
+              <button class="btn btn-primary btn-block" style="background:var(--color-accent);color:#fff;font-size:14.5px;padding:12px 18px;min-height:48px;margin-top:16px" onClick="{{ marcarAcerto }}">{{ labelAcerto }}</button>
+            </div>
+
+            <div style="background:var(--color-accent-2-100);border-radius:30px;padding:20px 22px">
+              <div style="font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--color-accent-2-700);margin-bottom:8px">Foi para a reserva</div>
+              <div style="font-family:var(--font-heading);font-size:25px;color:var(--color-accent-2-800)">{{ fechaAporte }}</div>
+              <p style="margin:8px 0 0;font-size:13.5px;line-height:1.6;color:var(--color-accent-2-800);opacity:.85">Aporte automático no dia 1, dividido igual entre vocês.</p>
+            </div>
+          </div>
+        </sc-if>
+      </div>
+
+      <div style="position:absolute;left:0;right:0;bottom:0;height:96px;background:linear-gradient(to top,var(--color-bg) 62%,rgba(240,242,232,0));display:flex;align-items:flex-start;justify-content:space-around;padding:14px 22px 0;z-index:20">
+        <button style="border:0;background:transparent;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;min-width:56px;min-height:48px;padding:2px;color:{{ corMes }}" onClick="{{ irMes }}">
+          <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="13" rx="3"></rect><path d="M3 11h18"></path></svg>
+          <span style="font-size:10.5px;font-weight:600">Mês</span>
+        </button>
+        <div style="width:66px"></div>
+        <button style="border:0;background:transparent;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;min-width:56px;min-height:48px;padding:2px;color:{{ corReserva }}" onClick="{{ irReserva }}">
+          <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v6c0 4-3 7-7 8-4-1-7-4-7-8V6z"></path></svg>
+          <span style="font-size:10.5px;font-weight:600">Reserva</span>
+        </button>
+        <button style="border:0;background:transparent;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;min-width:56px;min-height:48px;padding:2px;color:{{ corFecha }}" onClick="{{ irFecha }}">
+          <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 19V10"></path><path d="M11 19V5"></path><path d="M17 19v-6"></path></svg>
+          <span style="font-size:10.5px;font-weight:600">Fechar</span>
+        </button>
+      </div>
+
+      <button style="position:absolute;left:50%;bottom:44px;transform:translateX(-50%);width:66px;height:66px;border-radius:999px;border:0;background:var(--color-accent);color:#fff;box-shadow:var(--shadow-md);cursor:pointer;display:grid;place-items:center;z-index:30" style-hover="background:var(--color-accent-600)" style-active="background:var(--color-accent-700)" onClick="{{ abrirSheet }}">
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.75" stroke-linecap="round"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg>
+      </button>
+
+      <sc-if value="{{ toast }}" hint-placeholder-val="{{ false }}">
+        <div style="position:absolute;left:20px;right:20px;bottom:126px;background:var(--color-accent-800);color:#fff;border-radius:22px;padding:13px 18px;font-size:13.5px;box-shadow:var(--shadow-md);z-index:40;animation:jup .22s ease-out">{{ toast }}</div>
+      </sc-if>
+
+      <sc-if value="{{ sheetAberto }}" hint-placeholder-val="{{ false }}">
+        <div style="position:absolute;inset:0;z-index:60;animation:jfade .16s ease-out">
+          <div style="position:absolute;inset:0;background:rgba(26,31,46,.42)" onClick="{{ fecharSheet }}"></div>
+          <div style="position:absolute;left:0;right:0;bottom:0;background:var(--color-bg);border-radius:34px 34px 0 0;padding:14px 20px 34px;box-shadow:var(--shadow-lg);animation:jup .26s cubic-bezier(.2,.8,.2,1)">
+            <div style="width:44px;height:5px;border-radius:999px;background:var(--color-neutral-300);margin:0 auto 14px"></div>
+
+            <div style="display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding-bottom:14px;margin-bottom:4px">
+              <sc-for list="{{ atalhos }}" as="a" hint-placeholder-count="3">
+                <button style="flex:none;border:1px solid var(--color-divider);background:var(--color-surface);border-radius:999px;padding:9px 15px;font:inherit;font-size:13px;cursor:pointer;min-height:44px;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;line-height:1.2;color:var(--color-text)" style-hover="border-color:var(--color-accent);background:var(--color-accent-100)" onClick="{{ a.onPick }}">
+                  <span style="font-weight:700">{{ a.label }}</span>
+                  <span style="font-size:11px;color:var(--color-neutral-600)">{{ a.valorLabel }}</span>
+                </button>
+              </sc-for>
+            </div>
+
+            <div style="text-align:center;padding:6px 0 14px">
+              <div style="font-family:var(--font-heading);font-size:52px;line-height:1;letter-spacing:-.02em;color:{{ corValor }}">{{ valorDigitado }}</div>
+            </div>
+
+            <div style="display:flex;gap:7px;overflow-x:auto;scrollbar-width:none;padding-bottom:12px">
+              <sc-for list="{{ categorias }}" as="c" hint-placeholder-count="6">
+                <button style="flex:none;border:0;border-radius:999px;padding:10px 16px;font:inherit;font-size:13.5px;font-weight:600;cursor:pointer;min-height:44px;background:{{ c.bg }};color:{{ c.fg }}" onClick="{{ c.onPick }}">{{ c.label }}</button>
+              </sc-for>
+            </div>
+
+            <div style="display:flex;gap:8px;margin:8px 0 14px">
+              <sc-for list="{{ pagadores }}" as="p" hint-placeholder-count="2">
+                <button style="flex:1;border:1px solid {{ p.borda }};background:{{ p.bg }};border-radius:999px;padding:10px;font:inherit;font-size:13.5px;font-weight:600;cursor:pointer;min-height:48px;display:flex;align-items:center;justify-content:center;gap:8px;color:var(--color-text)" onClick="{{ p.onPick }}">
+                  <span style="width:26px;height:26px;border-radius:999px;background:{{ p.cor }};display:grid;place-items:center;font-family:var(--font-heading);font-size:12px">{{ p.inicial }}</span>
+                  {{ p.label }}
+                </button>
+              </sc-for>
+            </div>
+
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:9px">
+              <sc-for list="{{ teclas }}" as="t" hint-placeholder-count="12">
+                <button style="border:0;background:var(--color-surface);border-radius:22px;min-height:56px;font-family:var(--font-heading);font-size:24px;color:var(--color-text);cursor:pointer;box-shadow:var(--shadow-sm)" style-active="background:var(--color-accent-200)" onClick="{{ t.onPick }}">{{ t.label }}</button>
+              </sc-for>
+            </div>
+
+            <button class="btn" style="width:100%;margin-top:14px;min-height:56px;border-radius:999px;font-size:16px;border:0;cursor:pointer;background:{{ btnBg }};color:{{ btnFg }};font-family:var(--font-heading)" onClick="{{ salvar }}">{{ labelSalvar }}</button>
+          </div>
+        </div>
+      </sc-if>
+    </div>
+  </x-import>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;tomDeVoz&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;acolhedor&quot;,&quot;neutro&quot;,&quot;curto&quot;],&quot;default&quot;:&quot;acolhedor&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Tom&quot;},&quot;mostrarQuemPagou&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Tom&quot;},&quot;metaReserva&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:6,&quot;min&quot;:3,&quot;max&quot;:12,&quot;unit&quot;:&quot;meses&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Reserva&quot;}}">
+const CATS = [
+  { id: 'mercado', label: 'Mercado', cor: 'var(--color-accent-400)' },
+  { id: 'restaurante', label: 'Restaurante', cor: 'var(--color-accent-2-400)' },
+  { id: 'transporte', label: 'Transporte', cor: 'var(--color-accent-300)' },
+  { id: 'casa', label: 'Casa', cor: 'var(--color-accent-2-300)' },
+  { id: 'lazer', label: 'Lazer', cor: 'var(--color-neutral-400)' },
+  { id: 'saude', label: 'Saúde', cor: 'var(--color-accent-200)' },
+];
+const ATALHOS = [
+  { id: 'mercado', label: 'Mercado', valor: 28450 },
+  { id: 'restaurante', label: 'Delivery', valor: 6890 },
+  { id: 'transporte', label: 'Gasolina', valor: 20000 },
+  { id: 'casa', label: 'Faxina', valor: 15000 },
+];
+const PESSOAS = [
+  { id: 'ana', label: 'Ana', inicial: 'A', cor: 'var(--color-accent-300)' },
+  { id: 'rafa', label: 'Rafa', inicial: 'R', cor: 'var(--color-accent-2-300)' },
+];
+// Agosto, mês fechado — dataset congelado: a tela de fechamento não muda
+// quando um gasto de setembro é lançado.
+const AGOSTO = {
+  categorias: [
+    { id: 'casa', valor: 312000 },
+    { id: 'mercado', valor: 168450 },
+    { id: 'restaurante', valor: 96800 },
+    { id: 'transporte', valor: 84300 },
+    { id: 'lazer', valor: 78900 },
+    { id: 'saude', valor: 54980 },
+  ],
+  pagoAna: 348230,
+  pagoRafa: 447200,
+  aporte: 185000,
+  variacao: '3% acima de julho',
+};
+const SEED = [
+  { dia: 'Hoje', cat: 'mercado', desc: '', valor: 12430, quem: 'ana' },
+  { dia: 'Hoje', cat: 'restaurante', desc: 'almoço fora', valor: 8600, quem: 'rafa' },
+  { dia: 'Ontem', cat: 'transporte', desc: '', valor: 20000, quem: 'rafa' },
+  { dia: 'Ontem', cat: 'casa', desc: 'lâmpadas', valor: 4790, quem: 'ana' },
+  { dia: 'Ontem', cat: 'lazer', desc: 'cinema', valor: 9600, quem: 'rafa' },
+  { dia: 'terça, 1', cat: 'mercado', desc: 'feira', valor: 28450, quem: 'ana' },
+  { dia: 'terça, 1', cat: 'saude', desc: 'farmácia', valor: 13720, quem: 'ana' },
+  { dia: 'terça, 1', cat: 'casa', desc: 'aluguel', valor: 260000, quem: 'rafa' },
+  { dia: 'terça, 1', cat: 'casa', desc: 'luz e água', valor: 38900, quem: 'ana' },
+];
+
+class Component extends DCLogic {
+  state = {
+    tab: 'mes', sheet: false, digitos: '', cat: null, quem: 'ana',
+    lancamentos: SEED, toast: '', acertado: false,
+  };
+
+  fmt(c) {
+    return 'R$ ' + (c / 100).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  }
+
+  toast(msg) {
+    this.setState({ toast: msg });
+    clearTimeout(this._t);
+    this._t = setTimeout(() => this.setState({ toast: '' }), 2600);
+  }
+
+  componentWillUnmount() { clearTimeout(this._t); }
+
+  renderVals() {
+    const s = this.state;
+    const tom = this.props.tomDeVoz ?? 'acolhedor';
+    const metaMeses = this.props.metaReserva ?? 6;
+    const mostrarQuem = this.props.mostrarQuemPagou ?? true;
+
+    const total = s.lancamentos.reduce((a, e) => a + e.valor, 0);
+    const renda = 1120000;
+    const sobrou = renda - total;
+    const diaDoMes = 4;
+    const porDia = Math.round(total / diaDoMes);
+
+    const nomeCat = id => (CATS.find(c => c.id === id) || CATS[0]).label;
+    const grupos = [];
+    s.lancamentos.forEach(e => {
+      let g = grupos.find(x => x.label === e.dia);
+      if (!g) { g = { label: e.dia, items: [] }; grupos.push(g); }
+      const pessoa = PESSOAS.find(p => p.id === e.quem);
+      g.items.push({
+        inicial: nomeCat(e.cat).slice(0, 1),
+        titulo: e.desc ? nomeCat(e.cat) + ' · ' + e.desc : nomeCat(e.cat),
+        sub: mostrarQuem ? 'pago por ' + pessoa.label : 'lançado às 14:02',
+        valor: this.fmt(e.valor),
+      });
+    });
+
+    const frases = {
+      acolhedor: 'Quatro dias de setembro registrados. O aluguel já saiu, então o resto do mês tende a ser mais leve.',
+      neutro: 'Quatro dias registrados. Aluguel e contas fixas já lançados.',
+      curto: '9 lançamentos em setembro.',
+    };
+
+    // fechamento — tudo derivado do mesmo dataset congelado de agosto
+    const porCat = AGOSTO.categorias
+      .map(c => ({ label: nomeCat(c.id), bruto: c.valor, cor: (CATS.find(x => x.id === c.id) || CATS[0]).cor }))
+      .sort((a, b) => b.bruto - a.bruto);
+    const maior = porCat[0].bruto;
+    const porCategoria = porCat.map(c => ({
+      label: c.label, valor: this.fmt(c.bruto), cor: c.cor,
+      pct: Math.round((c.bruto / maior) * 100) + '%',
+    }));
+    const fechaTotalCents = porCat.reduce((a, c) => a + c.bruto, 0);
+
+    const dif = Math.abs(AGOSTO.pagoAna - AGOSTO.pagoRafa) / 2;
+    const devedor = AGOSTO.pagoAna > AGOSTO.pagoRafa ? 'Rafa' : 'Ana';
+    const credor = AGOSTO.pagoAna > AGOSTO.pagoRafa ? 'Ana' : 'Rafa';
+    const fraseAcerto = s.acertado
+      ? 'Acerto feito. Vocês estão quites em agosto.'
+      : devedor + ' transfere ' + this.fmt(Math.round(dif)) + ' para ' + credor + ' e o mês fica quite.';
+
+    const reservaSaldo = 1840000;
+    const mediaMensal = 780000;
+    const meses = reservaSaldo / mediaMensal;
+    const pct = Math.min(100, Math.round((meses / metaMeses) * 100));
+
+    const digitos = s.digitos;
+    const valorCents = parseInt(digitos || '0', 10);
+    const pronto = valorCents > 0 && !!s.cat;
+
+    const teclas = ['1', '2', '3', '4', '5', '6', '7', '8', '9', ',', '0', '⌫'].map(l => ({
+      label: l,
+      onPick: () => {
+        if (l === '⌫') return this.setState({ digitos: s.digitos.slice(0, -1) });
+        if (l === ',') return null;
+        if (s.digitos.length >= 8) return null;
+        this.setState({ digitos: (s.digitos + l).replace(/^0+/, '') });
+      },
+    }));
+
+    return {
+      tabMes: s.tab === 'mes', tabReserva: s.tab === 'reserva', tabFecha: s.tab === 'fecha',
+      irMes: () => this.setState({ tab: 'mes' }),
+      irReserva: () => this.setState({ tab: 'reserva' }),
+      irFecha: () => this.setState({ tab: 'fecha' }),
+      corMes: s.tab === 'mes' ? 'var(--color-accent)' : 'var(--color-neutral-600)',
+      corReserva: s.tab === 'reserva' ? 'var(--color-accent)' : 'var(--color-neutral-600)',
+      corFecha: s.tab === 'fecha' ? 'var(--color-accent)' : 'var(--color-neutral-600)',
+
+      gastoMes: this.fmt(total),
+      sobrou: this.fmt(sobrou),
+      porDia: this.fmt(porDia),
+      frasePrincipal: frases[tom] || frases.acolhedor,
+      grupos,
+
+      reservaSaldo: this.fmt(reservaSaldo),
+      mesesCobertos: meses.toFixed(1).replace('.', ','),
+      metaMeses,
+      anelBg: 'conic-gradient(var(--color-accent) ' + pct + '%, var(--color-accent-200) 0)',
+      fraseReserva: 'Se as duas rendas parassem hoje, vocês cobririam ' + meses.toFixed(1).replace('.', ',') + ' meses no ritmo de gasto atual. A meta de ' + metaMeses + ' meses chega em fevereiro mantendo o aporte.',
+      aportes: [
+        { quem: 'A', nome: 'Aporte mensal — Ana', data: '1 de setembro', valor: this.fmt(92500), cor: 'var(--color-accent-300)' },
+        { quem: 'R', nome: 'Aporte mensal — Rafa', data: '1 de setembro', valor: this.fmt(92500), cor: 'var(--color-accent-2-300)' },
+        { quem: 'R', nome: 'Bônus — Rafa', data: '12 de agosto', valor: this.fmt(400000), cor: 'var(--color-accent-2-300)' },
+      ],
+
+      fechaTotal: this.fmt(fechaTotalCents),
+      fechaVariacao: AGOSTO.variacao,
+      fechaAporte: this.fmt(AGOSTO.aporte),
+      porCategoria,
+      fraseAcerto,
+      labelAcerto: s.acertado ? 'Acerto registrado' : 'Marcar como acertado',
+      marcarAcerto: () => { this.setState({ acertado: true }); this.toast('Acerto registrado. Ana também vê isso.'); },
+
+      sheetAberto: s.sheet,
+      abrirSheet: () => this.setState({ sheet: true, digitos: '', cat: null }),
+      fecharSheet: () => this.setState({ sheet: false }),
+      valorDigitado: this.fmt(valorCents),
+      corValor: valorCents > 0 ? 'var(--color-text)' : 'var(--color-neutral-400)',
+      teclas,
+      atalhos: ATALHOS.map(a => ({
+        label: a.label, valorLabel: this.fmt(a.valor),
+        onPick: () => this.setState({ digitos: String(a.valor), cat: a.id }),
+      })),
+      categorias: CATS.map(c => ({
+        label: c.label,
+        bg: s.cat === c.id ? 'var(--color-accent)' : 'var(--color-surface)',
+        fg: s.cat === c.id ? '#fff' : 'var(--color-neutral-700)',
+        onPick: () => this.setState({ cat: c.id }),
+      })),
+      pagadores: PESSOAS.map(p => ({
+        label: p.label, inicial: p.inicial, cor: p.cor,
+        bg: s.quem === p.id ? 'var(--color-accent-100)' : 'transparent',
+        borda: s.quem === p.id ? 'var(--color-accent)' : 'var(--color-divider)',
+        onPick: () => this.setState({ quem: p.id }),
+      })),
+      btnBg: pronto ? 'var(--color-accent)' : 'var(--color-neutral-200)',
+      btnFg: pronto ? '#fff' : 'var(--color-neutral-500)',
+      labelSalvar: pronto ? 'Salvar' : (valorCents > 0 ? 'Escolha a categoria' : 'Digite o valor'),
+      salvar: () => {
+        if (!pronto) return;
+        const nova = { dia: 'Hoje', cat: s.cat, desc: '', valor: valorCents, quem: s.quem };
+        this.setState({
+          lancamentos: [nova].concat(s.lancamentos),
+          sheet: false, digitos: '', cat: null, tab: 'mes',
+        });
+        const outro = s.quem === 'ana' ? 'Rafa' : 'Ana';
+        this.toast('Salvo. ' + outro + ' já vê esse lançamento.');
+      },
+
+      toast: s.toast,
+    };
+  }
+}
+</script>
+</body>
+</html>
