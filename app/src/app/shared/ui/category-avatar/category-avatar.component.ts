@@ -1,13 +1,13 @@
 import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
-import { Category } from '../../../core/models';
-import { CATEGORY_META } from '../../../core/util/category.util';
+import { CategoryRef } from '../../../core/models';
+import { categoryColorVar, categoryInitial } from '../../../core/util/category.util';
 
 @Component({
   selector: 'app-category-avatar',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <span class="avatar" [style.width.px]="size()" [style.height.px]="size()" [style.background]="'var(' + meta().colorVar + ')'">
-      {{ meta().initial }}
+    <span class="avatar" [style.width.px]="size()" [style.height.px]="size()" [style.background]="'var(' + colorVar() + ')'">
+      {{ icon() || initial() }}
     </span>
   `,
   styles: [
@@ -26,8 +26,11 @@ import { CATEGORY_META } from '../../../core/util/category.util';
   ],
 })
 export class CategoryAvatarComponent {
-  readonly category = input.required<Category>();
+  /** null renders a neutral "?" tile — matches "sem categoria" rows. */
+  readonly category = input.required<CategoryRef | null>();
   readonly size = input(38);
 
-  readonly meta = computed(() => CATEGORY_META[this.category()]);
+  readonly initial = computed(() => categoryInitial(this.category()));
+  readonly icon = computed(() => this.category()?.icon ?? '');
+  readonly colorVar = computed(() => categoryColorVar(this.category()));
 }

@@ -1,28 +1,36 @@
-import { IncomeFrequency, IncomeType } from './enums';
+import { IncomeKind } from './enums';
 
-export interface PayrollDeduction {
-  name: string;
-  amountCents: number;
-}
-
-export interface OtherIncomeEntry {
-  name: string;
-  amountCents: number;
-}
-
-/**
- * type === SALARIO runs the gross → net pipeline (INSS/IRRF) over grossAmountCents.
- * Any other type just adds fixedNetAmountCents straight to household income.
- */
-export interface Income {
+/** One computed row from GET /api/income `sources` — breakdown already done server-side. */
+export interface IncomeSourceLine {
   id: string;
-  personId: string;
-  type: IncomeType;
-  frequency: IncomeFrequency;
-  name: string;
-  grossAmountCents?: number;
+  userId: string;
+  label: string;
+  kind: IncomeKind;
+  grossCents: number;
+  inssCents: number;
+  irrfBaseCents: number;
+  irrfCents: number;
+  netCents: number;
+  /** Present once the API echoes the raw inputs back (see integration-test-report #A).
+   *  Until then the editor falls back to guessing from the breakdown. */
+  applyInss?: boolean;
+  applyIrrf?: boolean;
   dependents?: number;
-  payrollDeductions?: PayrollDeduction[];
-  fixedNetAmountCents?: number;
-  receivedDay: number;
+}
+
+/** GET /api/income */
+export interface IncomeSummary {
+  sources: IncomeSourceLine[];
+  totalGrossCents: number;
+  totalNetCents: number;
+}
+
+/** One entry in the PUT /api/income/sources body (replace-all for the current user). */
+export interface IncomeSourceInput {
+  label: string;
+  kind: IncomeKind;
+  grossCents: number;
+  applyInss: boolean;
+  applyIrrf: boolean;
+  dependents: number;
 }

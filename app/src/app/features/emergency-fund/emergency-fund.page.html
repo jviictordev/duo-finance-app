@@ -1,17 +1,48 @@
 @if (store.fund(); as fund) {
   <div class="page">
     <p class="text-section-label">Reserva de emergência</p>
-    <app-money-amount [amountCents]="fund.balanceCents" size="xl" />
+    <app-money-amount [amountCents]="fund.currentCents" size="xl" />
 
     <div class="ring-wrap">
-      <app-reserve-progress [monthsCovered]="store.monthsCovered()" [goalMonths]="fund.goalMonths" [size]="212" />
+      <app-reserve-progress [progress]="fund.progress" [size]="212" />
     </div>
 
     <div class="context-card">
-      <p class="text-support">
-        Se as duas rendas parassem hoje, vocês cobririam {{ store.monthsCovered() | number: '1.1-1' }} meses no ritmo atual.
-        A meta de {{ fund.goalMonths }} meses continua com o aporte de {{ fund.contributionPct }}% da renda.
-      </p>
+      @if (editingTarget()) {
+        <label class="field">
+          <span class="field-label">Meta da reserva (R$)</span>
+          <input class="text-input" type="text" inputmode="decimal" [value]="targetDraft()" (input)="targetDraft.set($any($event.target).value)" />
+        </label>
+        <div class="actions">
+          <button type="button" class="ghost" (click)="editingTarget.set(false)">Cancelar</button>
+          <button type="button" class="primary" (click)="saveTarget()">Salvar meta</button>
+        </div>
+      } @else {
+        <p class="text-support">
+          Meta de <strong>{{ (fund.targetCents / 100) | number: '1.2-2' }}</strong>.
+          Vocês já juntaram {{ store.progressPct() }}%.
+        </p>
+        <button type="button" class="link-btn" (click)="startEditTarget()">Ajustar meta</button>
+      }
+    </div>
+
+    <div class="context-card">
+      @if (movementOpen()) {
+        <label class="field">
+          <span class="field-label">Valor (R$)</span>
+          <input class="text-input" type="text" inputmode="decimal" [value]="movementDraft()" (input)="movementDraft.set($any($event.target).value)" />
+        </label>
+        <label class="field">
+          <span class="field-label">Nota (opcional)</span>
+          <input class="text-input" type="text" [value]="movementNote()" (input)="movementNote.set($any($event.target).value)" />
+        </label>
+        <div class="actions">
+          <button type="button" class="ghost" (click)="submitMovement(-1)">Retirar</button>
+          <button type="button" class="primary" (click)="submitMovement(1)">Aportar</button>
+        </div>
+      } @else {
+        <button type="button" class="link-btn" (click)="movementOpen.set(true)">Registrar aporte ou retirada</button>
+      }
     </div>
 
     <p class="text-section-label list-label">Aportes e retiradas</p>
@@ -23,16 +54,12 @@
     <div class="movement-list">
       @for (m of fund.movements; track m.id) {
         <div class="movement-row">
-          @if (reference.personById(m.personId ?? ''); as person) {
-            <app-person-avatar [person]="person" [size]="30" />
-          } @else {
-            <div class="auto-icon">A</div>
-          }
+          <app-person-avatar [person]="m.createdBy" [size]="30" />
           <div class="movement-info">
-            <p class="text-list-title">{{ m.label }}</p>
-            <p class="text-caption">{{ relativeDayLabel(m.date) }}</p>
+            <p class="text-list-title">{{ m.note || (isWithdrawal(m) ? 'Retirada' : 'Aporte') }}</p>
+            <p class="text-caption">{{ relativeDayLabel(m.occurredAt) }}{{ m.kind === 'AUTO_CLOSING' ? ' · fechamento' : '' }}</p>
           </div>
-          <app-money-amount [amountCents]="signedAmount(m)" [signed]="true" size="md" />
+          <app-money-amount [amountCents]="m.amountCents" [signed]="true" size="md" />
         </div>
       }
     </div>

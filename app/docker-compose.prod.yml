@@ -1,0 +1,31 @@
+# Front do Junto — edge único (Caddy): serve a SPA e faz proxy de /api para a API.
+#
+#   docker compose -f docker-compose.prod.yml up -d --build
+#
+# Pré-requisitos:
+#   - a API rodando e acessível como `${API_UPSTREAM}` (ex.: serviço `api` na rede `duo`)
+#   - .env.production ao lado deste arquivo com CADDY_SITE e API_UPSTREAM
+#   - a API deve incluir https://${CADDY_SITE} em CORS_ORIGINS SÓ se você optar por
+#     domínios separados (topologia B). Na topologia A (este arquivo) não há CORS.
+
+services:
+  web:
+    build: .
+    restart: unless-stopped
+    env_file: .env.production
+    ports:
+      - '80:80'
+      - '443:443'
+    volumes:
+      - caddydata:/data
+      - caddyconfig:/config
+    networks:
+      - duo
+
+networks:
+  duo:
+    external: true
+
+volumes:
+  caddydata:
+  caddyconfig:

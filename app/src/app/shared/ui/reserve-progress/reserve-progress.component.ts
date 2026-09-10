@@ -1,16 +1,15 @@
 import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 
-/** The reserve's conic-gradient ring — 212px on the Reserva screen, smaller in the desktop side column. */
+/** The reserve's conic-gradient ring — now driven by the API's 0..1 `progress`. */
 @Component({
   selector: 'app-reserve-progress',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="ring" [style.width.px]="size()" [style.height.px]="size()" [style.background]="gradient()">
       <div class="disc" [style.inset.px]="inset()">
-        <span class="months" [style.font-size.px]="size() * 0.22">{{ monthsLabel() }}</span>
+        <span class="pct" [style.font-size.px]="size() * 0.22">{{ pctLabel() }}</span>
         @if (showLabels()) {
-          <span class="caption">meses de despesa</span>
-          <span class="goal">meta: {{ goalMonths() }} meses</span>
+          <span class="caption">da meta</span>
         }
       </div>
     </div>
@@ -34,22 +33,20 @@ import { ChangeDetectionStrategy, Component, computed, input } from '@angular/co
         justify-content: center;
         text-align: center;
       }
-      .months { font-family: var(--font-heading); font-weight: 400; line-height: 1; }
+      .pct { font-family: var(--font-heading); font-weight: 400; line-height: 1; }
       .caption { font-size: 11.5px; color: var(--color-neutral-600); margin-top: 2px; }
-      .goal { font-size: 11px; color: var(--color-neutral-500); }
     `,
   ],
 })
 export class ReserveProgressComponent {
-  readonly monthsCovered = input.required<number>();
-  readonly goalMonths = input.required<number>();
+  /** 0..1 */
+  readonly progress = input.required<number>();
   readonly size = input(212);
   readonly showLabels = input(true);
 
-  readonly progressPct = computed(() => (this.goalMonths() ? Math.min(100, (this.monthsCovered() / this.goalMonths()) * 100) : 0));
+  readonly progressPct = computed(() => Math.min(100, Math.max(0, this.progress() * 100)));
   readonly inset = computed(() => Math.round(this.size() * 0.123));
-  readonly monthsLabel = computed(() => this.monthsCovered().toLocaleString('pt-BR', { minimumFractionDigits: 1, maximumFractionDigits: 1 }));
-
+  readonly pctLabel = computed(() => `${Math.round(this.progressPct())}%`);
   readonly gradient = computed(
     () => `conic-gradient(var(--color-accent) ${this.progressPct()}%, var(--color-accent-200) 0)`,
   );

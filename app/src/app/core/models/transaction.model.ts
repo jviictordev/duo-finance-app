@@ -1,33 +1,98 @@
-import { Category, PaymentMethod, TransactionNature, TransactionOrigin, TransactionReviewStatus, TransactionScope } from './enums';
+import { CategoryRef } from './category.model';
+import { PaymentMethod, TransactionType, TransactionVisibility } from './enums';
 
-export interface Reaction {
-  type: 'LIKE' | 'AGREED';
-  personId: string;
+export interface AccountRef {
+  id: string;
+  name: string;
 }
 
-export interface Comment {
+export interface UserRef {
   id: string;
-  personId: string;
-  text: string;
-  createdAt: string;
+  name: string;
+  avatarUrl: string | null;
 }
 
-export interface Transaction {
+export interface InstallmentInfo {
+  number: number;
+  count: number;
+  remainingBalanceCents: number;
+  progress: number;
+}
+
+/** One row from GET /api/transactions `items` (the service's `toLine`). */
+export interface TransactionLine {
   id: string;
+  type: TransactionType;
   amountCents: number;
-  /** null while the transaction is "a detalhar" (receipt saved without amount/category). */
-  category: Category | null;
-  description?: string;
-  scope: TransactionScope;
-  nature: TransactionNature | null;
-  date: string;
+  description: string;
+  occurredAt: string;
+  visibility: TransactionVisibility;
   paymentMethod: PaymentMethod;
-  receiptUrl?: string;
-  loggedByPersonId: string;
-  origin: TransactionOrigin;
-  reviewStatus: TransactionReviewStatus;
-  recurringAccountId?: string;
-  reactions: Reaction[];
-  comments: Comment[];
+  needsDetail: boolean;
+  isFixed: boolean;
+  category: CategoryRef | null;
+  account: AccountRef | null;
+  createdBy: UserRef;
+  commentsCount: number;
+  installment?: InstallmentInfo;
+}
+
+export interface TransactionComment {
+  id: string;
+  body: string;
+  author: UserRef;
   createdAt: string;
+}
+
+/** GET /api/transactions/:id */
+export interface TransactionDetail extends TransactionLine {
+  owner: { id: string; name: string } | null;
+  installmentPlan: {
+    id: string;
+    totalCents: number;
+    installmentsCount: number;
+    firstDueDate: string;
+  } | null;
+  attachment: { id: string; mime: string } | null;
+  comments: TransactionComment[];
+}
+
+export interface TransactionListPage {
+  items: TransactionLine[];
+  nextCursor: string | null;
+}
+
+/** POST /api/transactions body. */
+export interface NewTransaction {
+  type?: TransactionType;
+  amountCents: number;
+  description: string;
+  occurredAt?: string;
+  accountId: string;
+  categoryId?: string;
+  visibility?: TransactionVisibility;
+  paymentMethod?: PaymentMethod;
+  needsDetail?: boolean;
+  attachmentId?: string;
+  installmentsCount?: number;
+}
+
+export type TransactionPatch = Partial<{
+  amountCents: number;
+  description: string;
+  occurredAt: string;
+  accountId: string;
+  categoryId: string | null;
+  visibility: TransactionVisibility;
+  paymentMethod: PaymentMethod;
+  needsDetail: boolean;
+  attachmentId: string | null;
+}>;
+
+export interface NewTransfer {
+  amountCents: number;
+  description?: string;
+  occurredAt?: string;
+  fromAccountId: string;
+  toAccountId: string;
 }

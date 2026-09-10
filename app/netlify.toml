@@ -1,0 +1,12 @@
+# Topologia B (domínios separados). Antes de conectar no Netlify:
+#   environment.prod.ts -> apiBaseUrl: 'https://api.SEU-DOMINIO/api'
+#   API .env.production  -> CORS_ORIGINS inclui https://SEU-APP.netlify.app (ou domínio final)
+
+[build]
+  command = "npm run build"
+  publish = "www"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

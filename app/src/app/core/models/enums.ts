@@ -1,84 +1,75 @@
-export enum Category {
-  MERCADO = 'MERCADO',
-  RESTAURANTE = 'RESTAURANTE',
-  TRANSPORTE = 'TRANSPORTE',
-  CASA = 'CASA',
-  LAZER = 'LAZER',
-  SAUDE = 'SAUDE',
+/** Mirrors the Prisma enums exposed by the NestJS API. Values are the wire format. */
+
+export enum AccountKind {
+  CASH = 'CASH',
+  CHECKING = 'CHECKING',
+  SAVINGS = 'SAVINGS',
+  CREDIT_CARD = 'CREDIT_CARD',
+  WALLET = 'WALLET',
+}
+
+export enum CategoryKind {
+  INCOME = 'INCOME',
+  EXPENSE = 'EXPENSE',
+}
+
+export enum TransactionType {
+  INCOME = 'INCOME',
+  EXPENSE = 'EXPENSE',
+  TRANSFER = 'TRANSFER',
+}
+
+export enum TransactionVisibility {
+  SHARED = 'SHARED',
+  PRIVATE = 'PRIVATE',
 }
 
 export enum PaymentMethod {
+  CASH = 'CASH',
+  DEBIT = 'DEBIT',
+  CREDIT = 'CREDIT',
   PIX = 'PIX',
-  CREDITO = 'CREDITO',
-  DEBITO = 'DEBITO',
-  DINHEIRO = 'DINHEIRO',
+  OTHER = 'OTHER',
 }
 
-export enum TransactionScope {
-  CASAL = 'CASAL',
-  INDIVIDUAL = 'INDIVIDUAL',
+export enum RecurrenceKind {
+  FIXED = 'FIXED',
+  INSTALLMENT = 'INSTALLMENT',
 }
 
-/** Independent of who logged the expense — never derived from loggedByPersonId. */
-export enum TransactionNature {
-  ESSENCIAL = 'ESSENCIAL',
-  SUPERFLUO = 'SUPERFLUO',
-}
-
-export enum TransactionOrigin {
-  WHATSAPP = 'WHATSAPP',
-  WEB = 'WEB',
+export enum FundMovementKind {
   MANUAL = 'MANUAL',
+  AUTO_CLOSING = 'AUTO_CLOSING',
 }
 
-export enum TransactionReviewStatus {
-  PENDING_REVIEW = 'PENDING_REVIEW',
-  CONFIRMED = 'CONFIRMED',
-}
-
-/** Independent of `paid` — correcting the amount does not imply it was paid. */
-export enum AmountStatus {
-  ESTIMATED = 'ESTIMATED',
-  CONFIRMED = 'CONFIRMED',
-}
-
-export enum SuggestionKind {
-  SURPLUS_TO_RESERVE = 'SURPLUS_TO_RESERVE',
-  SURPLUS_TO_INVESTMENT = 'SURPLUS_TO_INVESTMENT',
-}
-
-export enum SuggestionStatus {
-  PENDING = 'PENDING',
-  CONFIRMED = 'CONFIRMED',
-  REJECTED = 'REJECTED',
-}
-
-export enum FundMovementType {
-  CONTRIBUTION = 'CONTRIBUTION',
-  WITHDRAWAL = 'WITHDRAWAL',
-}
-
-/** AUTO_CONTRIBUTION never needs confirmation; SUGGESTION_ACCEPTED always came from a confirmed Suggestion. */
-export enum FundMovementOrigin {
-  AUTO_CONTRIBUTION = 'AUTO_CONTRIBUTION',
-  SUGGESTION_ACCEPTED = 'SUGGESTION_ACCEPTED',
-  MANUAL = 'MANUAL',
-}
-
-export enum IncomeType {
-  SALARIO = 'SALARIO',
-  FREELA = 'FREELA',
-  ALUGUEL = 'ALUGUEL',
-  DIVIDENDOS = 'DIVIDENDOS',
-  OUTRO = 'OUTRO',
-}
-
-export enum IncomeFrequency {
-  FIXA = 'FIXA',
-  VARIAVEL = 'VARIAVEL',
+export enum IncomeKind {
+  FIXED = 'FIXED',
+  VARIABLE = 'VARIABLE',
 }
 
 export enum MonthClosingStatus {
-  SURPLUS = 'SURPLUS',
-  DEFICIT = 'DEFICIT',
+  OPEN = 'OPEN',
+  CLOSED = 'CLOSED',
+}
+
+export enum SpaceRole {
+  OWNER = 'OWNER',
+  MEMBER = 'MEMBER',
+}
+
+export enum ActivityType {
+  TRANSACTION_CREATED = 'TRANSACTION_CREATED',
+  TRANSACTION_UPDATED = 'TRANSACTION_UPDATED',
+  COMMENT_CREATED = 'COMMENT_CREATED',
+  FUND_CONTRIBUTION = 'FUND_CONTRIBUTION',
+  FUND_WITHDRAWAL = 'FUND_WITHDRAWAL',
+  MONTH_CLOSED = 'MONTH_CLOSED',
+  MEMBER_JOINED = 'MEMBER_JOINED',
+}
+
+export enum InvitationStatus {
+  PENDING = 'PENDING',
+  ACCEPTED = 'ACCEPTED',
+  EXPIRED = 'EXPIRED',
+  REVOKED = 'REVOKED',
 }

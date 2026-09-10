@@ -1,0 +1,98 @@
+<div class="page">
+  <header class="head">
+    <button type="button" class="icon-btn" (click)="back()" aria-label="Voltar ao perfil">
+      <ion-icon name="chevron-back-outline" aria-hidden="true"></ion-icon>
+    </button>
+    <h1 class="text-screen-title">Renda do casal</h1>
+  </header>
+
+  <div class="total">
+    <app-money-amount [amountCents]="income.householdNetCents()" size="xl" />
+    <p class="text-caption">líquido/mês do casal</p>
+  </div>
+
+  <!-- Partner: read-only (API only lets you replace your own sources) -->
+  @if (partnerSources().length) {
+    <section class="person-card">
+      <p class="text-list-title">{{ memberName(partnerSources()[0].userId) }}</p>
+      @for (s of partnerSources(); track s.id) {
+        <div class="source-row">
+          <span class="clamp">{{ s.label }}</span>
+          <app-money-amount [amountCents]="s.netCents" size="sm" />
+        </div>
+      }
+    </section>
+  }
+
+  <!-- Mine: editable -->
+  <section class="person-card">
+    <div class="person-head">
+      <p class="text-list-title">Você</p>
+      @if (!editing()) {
+        <button type="button" class="link-btn" (click)="startEdit()">Editar</button>
+      }
+    </div>
+
+    @if (!editing()) {
+      @for (s of mySources(); track s.id) {
+        <div class="source-row">
+          <div class="clamp">
+            <span>{{ s.label }}</span>
+            <span class="text-caption">bruto {{ formatCents(s.grossCents) }} · INSS − {{ formatCents(s.inssCents) }} · IR − {{ formatCents(s.irrfCents) }}</span>
+          </div>
+          <app-money-amount [amountCents]="s.netCents" size="sm" />
+        </div>
+      }
+      @if (!mySources().length) {
+        <p class="text-caption">Você ainda não cadastrou nenhuma fonte de renda.</p>
+      }
+    } @else {
+      @for (d of drafts(); track $index) {
+        <div class="draft-row">
+          <input class="text-input" type="text" placeholder="ex: Salário, Freela" [value]="d.label" (input)="patchDraft($index, { label: $any($event.target).value })" aria-label="Nome da fonte" />
+          <input class="text-input" type="text" inputmode="decimal" placeholder="bruto 0,00" [value]="d.gross" (input)="patchDraft($index, { gross: $any($event.target).value })" aria-label="Valor bruto" />
+          <div class="seg">
+            <button type="button" [class.selected]="d.kind === Kind.FIXED" (click)="patchDraft($index, { kind: Kind.FIXED })">Fixa</button>
+            <button type="button" [class.selected]="d.kind === Kind.VARIABLE" (click)="patchDraft($index, { kind: Kind.VARIABLE })">Variável</button>
+          </div>
+          <label class="checkbox"><input type="checkbox" [checked]="d.applyInss" (change)="patchDraft($index, { applyInss: $any($event.target).checked })" /> INSS</label>
+          <label class="checkbox"><input type="checkbox" [checked]="d.applyIrrf" (change)="patchDraft($index, { applyIrrf: $any($event.target).checked })" /> IRRF</label>
+          <div class="stepper">
+            <button type="button" (click)="patchDraft($index, { dependents: (d.dependents > 0 ? d.dependents - 1 : 0) })" aria-label="Menos dependentes">−</button>
+            <span>{{ d.dependents }} dep.</span>
+            <button type="button" (click)="patchDraft($index, { dependents: d.dependents + 1 })" aria-label="Mais dependentes">+</button>
+          </div>
+          <button type="button" class="remove" (click)="removeDraft($index)" aria-label="Remover fonte">
+            <ion-icon name="close-outline" aria-hidden="true"></ion-icon>
+          </button>
+        </div>
+      }
+      <button type="button" class="add-btn" (click)="addDraft()">
+        <ion-icon name="add-outline" aria-hidden="true"></ion-icon> outra fonte
+      </button>
+      <div class="actions">
+        <button type="button" class="ghost" (click)="editing.set(false)">Cancelar</button>
+        <button type="button" class="primary" [disabled]="saving()" (click)="saveSources()">
+          {{ saving() ? 'Salvando…' : 'Salvar minhas fontes' }}
+        </button>
+      </div>
+    }
+  </section>
+
+  <section class="reserve-card">
+    <p class="text-section-label">Meta da reserva</p>
+    @if (editingTarget()) {
+      <input class="text-input" type="text" inputmode="decimal" [value]="targetDraft()" (input)="targetDraft.set($any($event.target).value)" aria-label="Meta da reserva" />
+      <div class="actions">
+        <button type="button" class="ghost" (click)="editingTarget.set(false)">Cancelar</button>
+        <button type="button" class="primary" (click)="saveTarget()">Salvar</button>
+      </div>
+    } @else {
+      <div class="reserve-value">
+        <app-money-amount [amountCents]="emergencyFund.targetCents()" size="lg" />
+        <span class="text-caption">{{ emergencyFund.progressPct() }}% guardado</span>
+      </div>
+      <button type="button" class="link-btn" (click)="startEditTarget()">Ajustar meta</button>
+    }
+  </section>
+</div>

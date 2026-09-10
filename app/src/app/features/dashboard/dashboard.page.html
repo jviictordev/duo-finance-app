@@ -5,7 +5,7 @@
       <app-money-amount [amountCents]="balanceCents()" [signed]="true" size="xl" />
     </div>
     <button type="button" class="avatar-btn" (click)="openProfile()" aria-label="Abrir perfil">
-      <app-avatar-stack [people]="reference.people()" [size]="34" />
+      <app-avatar-stack [people]="avatarPeople()" [size]="34" />
     </button>
   </header>
 
@@ -22,12 +22,12 @@
         <app-money-amount [amountCents]="expenseCents()" size="md" />
       </div>
       <div class="mini essential">
-        <p class="text-section-label">Essencial</p>
-        <app-money-amount [amountCents]="essentialCents()" size="md" />
+        <p class="text-section-label">Do casal</p>
+        <app-money-amount [amountCents]="coupleCents()" size="md" />
       </div>
       <div class="mini discretionary">
-        <p class="text-section-label">Supérfluo</p>
-        <app-money-amount [amountCents]="discretionaryCents()" size="md" />
+        <p class="text-section-label">Individuais</p>
+        <app-money-amount [amountCents]="individualCents()" size="md" />
       </div>
     </div>
 
@@ -37,10 +37,10 @@
       <div class="reserve-head">
         <p class="text-section-label">Reserva de emergência</p>
         @if (emergencyFund.fund(); as fund) {
-          <p class="text-caption">{{ emergencyFund.monthsCovered() | number: '1.1-1' }} de {{ fund.goalMonths }} meses</p>
+          <p class="text-caption">{{ emergencyFund.progressPct() }}% da meta</p>
         }
       </div>
-      <div class="progress-track"><div class="progress-fill" [style.width.%]="emergencyFund.goalProgressPct()"></div></div>
+      <div class="progress-track"><div class="progress-fill" [style.width.%]="emergencyFund.progressPct()"></div></div>
     </div>
   </div>
 
@@ -49,8 +49,7 @@
     <span class="text">
       <span class="text-list-title">Contas fixas</span>
       <span class="text-caption">
-        {{ recurringPaidCount() }} de {{ recurringTotalCount() }} pagas · faltam
-        <app-money-amount [amountCents]="recurringRemainingCents()" size="sm" />
+        {{ recurringTotalCount() }} contas · <app-money-amount [amountCents]="recurringMonthlyCents()" size="sm" /> por mês
       </span>
     </span>
     <ion-icon name="chevron-forward-outline" aria-hidden="true"></ion-icon>
@@ -58,26 +57,28 @@
 
   <p class="text-section-label list-label">Lançamentos recentes</p>
 
-  @if (!transactions.monthTransactions().length) {
+  @if (!hasItems()) {
     <app-empty-state message="Nenhum lançamento neste mês ainda." />
   }
 
-  <div class="tx-list">
-    @for (t of transactions.monthTransactions(); track t.id) {
-      <div class="tx-row">
-        <app-category-avatar [category]="t.category!" [size]="38" />
-        <div class="tx-info">
-          <p class="text-list-title">{{ categoryMeta[t.category!].label }}{{ t.description ? ' · ' + t.description : '' }}</p>
-          <p class="text-caption">{{ t.paymentMethod }} · {{ relativeDayLabel(t.date) }}</p>
-          <app-origin-badge [origin]="t.origin" />
-        </div>
-        <div class="tx-trailing">
-          <app-money-amount [amountCents]="t.amountCents" size="md" />
-          @if (reference.personById(t.loggedByPersonId); as person) {
-            <app-person-avatar [person]="person" [size]="22" />
-          }
-        </div>
+  @for (day of days(); track day.dateISO) {
+    @if (day.items.length) {
+      <p class="text-caption day-label">{{ day.label }}</p>
+      <div class="tx-list">
+        @for (t of day.items; track t.id) {
+          <div class="tx-row">
+            <app-category-avatar [category]="t.category" [size]="38" />
+            <div class="tx-info">
+              <p class="text-list-title">{{ categoryLabel(t.category) }}{{ t.description ? ' · ' + t.description : '' }}</p>
+              <p class="text-caption">{{ t.paymentMethod }}{{ t.isFixed ? ' · conta fixa' : '' }}</p>
+            </div>
+            <div class="tx-trailing">
+              <app-money-amount [amountCents]="t.amountCents" size="md" />
+              <app-person-avatar [person]="t.createdBy" [size]="22" />
+            </div>
+          </div>
+        }
       </div>
     }
-  </div>
+  }
 </div>

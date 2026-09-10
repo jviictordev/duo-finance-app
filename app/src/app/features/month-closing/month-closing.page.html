@@ -1,61 +1,96 @@
 @if (closing(); as c) {
   <div class="closing-page">
-    <p class="text-section-label">Fechamento de {{ monthLabel() }}</p>
-    <div class="total-row">
-      <app-money-amount [amountCents]="c.totalExpenseCents" size="xl" />
-      <span class="variation">
-        <ion-icon [name]="variationPct() >= 0 ? 'arrow-up-outline' : 'arrow-down-outline'" aria-hidden="true"></ion-icon>
-        {{ variationPct() | number: '1.0-0' }}% vs. mês anterior
-      </span>
-    </div>
-    <div class="hr"></div>
-
-    <p class="text-section-label">Por categoria</p>
-    <div class="category-bars">
-      @for (b of c.categoryBreakdown; track b.category) {
-        <div class="bar-row">
-          <span class="bar-label">{{ categoryMeta[b.category].label }}</span>
-          <div class="bar-track">
-            <div class="bar-fill" [style.width.%]="(b.amountCents / maxCategoryAmount()) * 100"></div>
-          </div>
-          <app-money-amount [amountCents]="b.amountCents" size="sm" />
-        </div>
-      }
-    </div>
-
-    @if (c.status === Status.SURPLUS) {
-      @if (relatedSuggestion(); as s) {
-        <app-suggestion-card
-          [suggestion]="s"
-          [showReserveProgress]="true"
-          [reserveGoalMonths]="emergencyFund.fund()?.goalMonths ?? 6"
-          [reserveMonthsCoveredBefore]="emergencyFund.monthsCovered()"
-          [reserveMonthsCoveredAfter]="monthsCoveredAfterSuggestion()"
-          (confirm)="acceptSuggestion($event)"
-          (reject)="rejectSuggestion($event)"
-        />
-      } @else {
-        <div class="surplus-card">
-          <p class="text-support">O excedente deste mês já foi resolvido.</p>
-        </div>
-      }
-    } @else {
-      <div class="alert-card">
-        <p class="text-section-value">Esse mês fechou no negativo</p>
-        <app-money-amount [amountCents]="c.balanceCents" [signed]="true" size="lg" />
-        <p class="text-support">Sem susto — é um ajuste de rota, não um problema.</p>
+    <header class="head">
+      <div class="head-text">
+        <p class="kicker">Fechamento</p>
+        <h1 class="month">{{ monthLabel() }}</h1>
+        <p class="sub">
+          @if (c.status === 'CLOSED') {
+            Mês fechado. Vocês dois já viram.
+          } @else if (store.canClose()) {
+            Prévia — ainda dá para ajustar antes de fechar.
+          } @else {
+            Ainda em andamento.
+          }
+        </p>
       </div>
-      @if (c.deficitForecast; as forecast) {
-        <div class="forecast-card">
-          <p class="text-section-label">Previsão para o mês que vem</p>
-          <p class="forecast-note">
-            {{ forecast.note }}
-            <strong>{{ forecastAccountName() }}</strong>
-          </p>
-        </div>
+      <div class="stepper">
+        <button type="button" (click)="store.step(-1)" aria-label="Mês anterior">
+          <ion-icon name="chevron-back-outline" aria-hidden="true"></ion-icon>
+        </button>
+        <button type="button" (click)="store.step(1)" [disabled]="atLatest()" aria-label="Próximo mês">
+          <ion-icon name="chevron-forward-outline" aria-hidden="true"></ion-icon>
+        </button>
+      </div>
+    </header>
+
+    <section class="card spend-card">
+      <p class="card-kicker">{{ c.status === 'CLOSED' ? 'Gasto no mês' : 'Gasto até agora' }}</p>
+      <app-money-amount [amountCents]="c.spentCents" size="lg" />
+      <p class="sub-line">
+        Entradas <app-money-amount [amountCents]="c.netIncomeCents" size="sm" />
+      </p>
+
+      <div class="divider"></div>
+
+      <p class="card-kicker">Por categoria</p>
+      @if (!sortedCategories().length) {
+        <app-empty-state message="Sem gastos categorizados neste mês." />
       }
+      <div class="cat-list">
+        @for (b of sortedCategories(); track b.categoryId) {
+          <div class="cat">
+            <div class="cat-top">
+              <span class="cat-name">
+                @if (b.icon) {<span class="cat-icon">{{ b.icon }}</span>}
+                {{ b.name }}
+                @if (b.essential) {<span class="tag tag-neutral">essencial</span>}
+              </span>
+              <app-money-amount [amountCents]="b.spentCents" size="sm" />
+            </div>
+            <div class="cat-track">
+              <div class="cat-fill" [style.width.%]="barPct(b.spentCents)" [style.background]="'var(' + catColor(b) + ')'"></div>
+            </div>
+          </div>
+        }
+      </div>
+    </section>
+
+    @if (isDeficit()) {
+      <section class="card deficit-card">
+        <p class="card-kicker">Esse mês fechou no vermelho</p>
+        <app-money-amount [amountCents]="c.leftoverCents" [signed]="true" size="lg" />
+        <p class="phrase">Sem susto — é um ajuste de rota, não um problema. A reserva não foi tocada.</p>
+      </section>
+    } @else {
+      <section class="card reserve-card">
+        <p class="card-kicker">
+          {{ c.status === 'CLOSED' ? 'Sobrou e foi para a reserva' : 'Se fechar agora, vai para a reserva' }}
+        </p>
+        <div class="reserve-amount">
+          <app-money-amount [amountCents]="c.contributionCents" size="lg" />
+          <span class="of">de <app-money-amount [amountCents]="c.leftoverCents" size="sm" /> que sobrou</span>
+        </div>
+        <p class="phrase">
+          @if (c.status === 'CLOSED') {
+            O aporte saiu no dia 1, antes de qualquer gasto. O resto seguiu na conta.
+          } @else {
+            Ao fechar, esse valor entra na reserva e {{ monthLabel() }} é congelado — não dá para editar depois.
+          }
+        </p>
+      </section>
+    }
+
+    @if (c.status === 'CLOSED') {
+      <p class="footnote">Fechado por {{ c.closedBy?.name ?? 'alguém' }}.</p>
+    } @else if (store.canClose()) {
+      <button type="button" class="primary close-btn" [disabled]="submitting()" (click)="close()">
+        {{ submitting() ? 'Fechando…' : 'Fechar ' + monthLabel() }}
+      </button>
+    } @else {
+      <p class="footnote">{{ monthLabel() }} só pode ser fechado depois que o mês terminar.</p>
     }
   </div>
 } @else {
-  <app-empty-state message="Nenhum fechamento disponível ainda." />
+  <app-empty-state message="Carregando o fechamento…" />
 }

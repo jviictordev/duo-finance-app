@@ -1,30 +1,27 @@
-import { Category, MonthClosingStatus } from './enums';
+import { MonthClosingStatus } from './enums';
 
-export interface CategoryBreakdown {
-  category: Category;
-  amountCents: number;
+export interface MonthCategoryBreakdown {
+  categoryId: string | null;
+  name: string;
+  essential: boolean;
+  icon: string | null;
+  spentCents: number;
 }
 
-/**
- * On DEFICIT there is no reserve-withdrawal action — only an alert plus a
- * forecast pointing at the recurring account most likely to absorb the gap
- * next month. Nothing here ever moves money by itself.
- */
-export interface DeficitForecast {
-  recommendedRecurringAccountId: string;
-  note: string;
-}
-
+/** GET /api/month-closing?month= — either a live OPEN preview or a frozen CLOSED snapshot. */
 export interface MonthClosing {
-  period: string;
+  month: string;
   status: MonthClosingStatus;
-  totalIncomeCents: number;
-  totalEssentialExpenseCents: number;
-  totalDiscretionaryExpenseCents: number;
-  totalExpenseCents: number;
-  balanceCents: number;
-  previousPeriodTotalExpenseCents: number;
-  categoryBreakdown: CategoryBreakdown[];
-  suggestionId?: string;
-  deficitForecast?: DeficitForecast;
+  netIncomeCents: number;
+  spentCents: number;
+  leftoverCents: number;
+  contributionCents: number;
+  byCategory: MonthCategoryBreakdown[];
+  closedBy?: { id: string; name: string } | null;
+  closedAt?: string | null;
+}
+
+export interface CloseMonth {
+  month: string;
+  contributionCents?: number;
 }

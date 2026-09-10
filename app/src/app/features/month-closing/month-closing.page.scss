@@ -4,65 +4,180 @@
   padding-bottom: 110px;
 }
 
-.closing-page { max-width: 640px; margin: 0 auto; }
+.closing-page {
+  max-width: 560px;
+  margin: 0 auto;
+}
 
-.total-row {
+/* ---- header ---------------------------------------------------------- */
+.head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin-bottom: var(--space-5);
+}
+.kicker {
+  margin: 0;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-neutral-600);
+}
+.month {
+  margin: 2px 0 4px;
+  font-family: var(--font-heading);
+  font-weight: 400;
+  font-size: 30px;
+  line-height: 1.05;
+}
+.sub {
+  margin: 0;
+  font-size: 13.5px;
+  color: var(--color-neutral-700);
+  max-width: 34ch;
+}
+.stepper {
+  display: flex;
+  gap: 6px;
+  flex-shrink: 0;
+}
+.stepper button {
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: var(--radius-pill);
+  background: var(--color-surface);
+  display: grid;
+  place-items: center;
+  color: var(--color-neutral-700);
+  font-size: 17px;
+}
+.stepper button:disabled {
+  opacity: 0.35;
+}
+
+/* ---- cards ---------------------------------------------------------- */
+.card {
+  border-radius: 28px;
+  padding: 20px 22px;
+  margin-bottom: var(--space-4);
+}
+.spend-card {
+  background: var(--color-surface);
+  box-shadow: var(--shadow-sm);
+}
+.card-kicker {
+  margin: 0 0 6px;
+  font-size: 10.5px;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--color-neutral-600);
+}
+.sub-line {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  margin: 8px 0 0;
+  font-size: 13px;
+  color: var(--color-neutral-700);
+}
+.divider {
+  height: 1px;
+  background: var(--color-divider);
+  margin: 16px 0;
+}
+
+/* ---- category bars ------------------------------------------------- */
+.cat-list {
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+}
+.cat-top {
   display: flex;
   align-items: baseline;
   justify-content: space-between;
-  flex-wrap: wrap;
   gap: var(--space-2);
-  margin-top: var(--space-1);
+  margin-bottom: 5px;
+  font-size: 13.5px;
 }
-
-.variation {
+.cat-name {
+  font-weight: 600;
   display: inline-flex;
   align-items: center;
-  gap: 4px;
-  font-size: 13px;
-  color: var(--color-neutral-600);
+  gap: 6px;
+  min-width: 0;
 }
-
-.hr { height: 1px; background: var(--color-divider); margin: var(--space-4) 0; }
-
-.category-bars { display: flex; flex-direction: column; gap: var(--space-2); margin-bottom: var(--space-6); }
-
-.bar-row {
-  display: grid;
-  grid-template-columns: 92px 1fr auto;
-  align-items: center;
-  gap: var(--space-2);
+.cat-icon {
+  font-size: 14px;
 }
-.bar-label { font-size: 13px; color: var(--color-neutral-700); }
-.bar-track {
+.cat-name .tag {
+  font-weight: 500;
+}
+.cat-track {
   height: 9px;
   border-radius: var(--radius-pill);
   background: var(--color-neutral-200);
   overflow: hidden;
 }
-.bar-fill { height: 100%; background: var(--color-accent-400); border-radius: var(--radius-pill); }
-
-.surplus-card,
-.alert-card,
-.forecast-card {
-  border-radius: var(--radius-content-card);
-  padding: var(--space-4);
-  margin-bottom: var(--space-3);
+.cat-fill {
+  height: 100%;
+  border-radius: var(--radius-pill);
+  min-width: 4px;
 }
 
-.alert-card {
-  background: var(--color-neutral-100);
+/* ---- reserve / deficit card ------------------------------------------ */
+.reserve-card {
+  background: var(--color-accent-2-100);
+}
+.reserve-card .card-kicker {
+  color: var(--color-accent-2-700);
+}
+.reserve-amount {
   display: flex;
-  flex-direction: column;
-  gap: var(--space-2);
+  align-items: baseline;
+  gap: 10px;
+  flex-wrap: wrap;
+  color: var(--color-accent-2-800);
 }
-.alert-card p.text-section-value { margin: 0; }
+.reserve-amount .of {
+  font-size: 12.5px;
+  opacity: 0.85;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 4px;
+}
+.deficit-card {
+  background: var(--color-neutral-100);
+}
+.phrase {
+  margin: 10px 0 0;
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: var(--color-neutral-700);
+  text-wrap: pretty;
+}
+.reserve-card .phrase {
+  color: var(--color-accent-2-800);
+  opacity: 0.9;
+}
 
-.forecast-card { background: var(--color-accent-2-100); }
-.forecast-note { margin: var(--space-1) 0 0; font-size: 14px; color: var(--color-accent-2-800); }
-
-.surplus-card { background: var(--color-accent-2-100); text-align: center; }
+/* ---- footer ------------------------------------------------------- */
+.close-btn {
+  width: 100%;
+  margin-top: var(--space-1);
+}
+.footnote {
+  margin: var(--space-2) 0 0;
+  font-size: 12.5px;
+  color: var(--color-neutral-600);
+  text-align: center;
+}
 
 @media (min-width: 900px) {
-  :host { padding: var(--space-8); padding-bottom: var(--space-8); }
+  :host {
+    padding: var(--space-8);
+    padding-bottom: var(--space-8);
+  }
 }

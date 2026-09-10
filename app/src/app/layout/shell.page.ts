@@ -1,7 +1,7 @@
 import { DecimalPipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
-import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
-import { IonIcon } from '@ionic/angular';
+import { ChangeDetectionStrategy, Component, computed, inject, OnInit } from '@angular/core';
+import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { IonIcon, ModalController } from '@ionic/angular';
 import { addIcons } from 'ionicons';
 import {
   barChartOutline,
@@ -11,12 +11,12 @@ import {
   shieldCheckmarkOutline,
 } from 'ionicons/icons';
 
-import { CURRENT_CYCLE, CURRENT_PERSON_ID } from '../core/mock/fixtures';
+import { ActivityStore } from '../core/state/activity.store';
 import { EmergencyFundStore } from '../core/state/emergency-fund.store';
-import { ReferenceDataStore } from '../core/state/reference-data.store';
-import { TransactionsStore } from '../core/state/transactions.store';
-import { relativeDayLabel } from '../core/util/relative-date';
-import { MoneyAmountComponent, OriginBadgeComponent, PersonAvatarComponent, ReserveProgressComponent } from '../shared/ui';
+import { ReferenceStore } from '../core/state/reference.store';
+import { SessionStore } from '../core/state/session.store';
+import { toCents } from '../core/util/money';
+import { MoneyAmountComponent, PersonAvatarComponent, ReserveProgressComponent } from '../shared/ui';
 
 addIcons({
   'bar-chart-outline': barChartOutline,
@@ -28,43 +28,44 @@ addIcons({
 
 /**
  * Mobile: bottom tab bar (Mês/Atividade/Reserva/Fechar) + a central FAB into Confirmação de gasto.
- * Desktop: sidebar with nav pills + a persistent right column (reserve + recent activity),
- * matching the handoff's "views substituem a coluna central" pattern via the shared router-outlet.
+ * Desktop: sidebar with nav pills + a persistent right column (reserve + recent activity).
  */
 @Component({
   selector: 'app-shell-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterOutlet, RouterLink, RouterLinkActive, IonIcon, DecimalPipe, ReserveProgressComponent, MoneyAmountComponent, PersonAvatarComponent, OriginBadgeComponent],
+  imports: [RouterOutlet, RouterLink, RouterLinkActive, IonIcon, DecimalPipe, ReserveProgressComponent, MoneyAmountComponent, PersonAvatarComponent],
   templateUrl: './shell.page.html',
   styleUrl: './shell.page.scss',
 })
 export class ShellPage implements OnInit {
-  private readonly router = inject(Router);
-  protected readonly reference = inject(ReferenceDataStore);
+  private readonly modalCtrl = inject(ModalController);
+  protected readonly session = inject(SessionStore);
+  protected readonly reference = inject(ReferenceStore);
   protected readonly emergencyFund = inject(EmergencyFundStore);
-  protected readonly transactions = inject(TransactionsStore);
+  protected readonly activity = inject(ActivityStore);
 
-  protected readonly currentPersonId = CURRENT_PERSON_ID;
+  protected readonly recentActivity = computed(() => this.activity.items().slice(0, 4));
 
   ngOnInit(): void {
+    this.session.load();
     this.reference.load();
     this.emergencyFund.load();
-    this.transactions.loadForPeriod(CURRENT_CYCLE);
+    this.activity.load();
   }
 
-  protected openConfirmExpense(): void {
-    this.router.navigateByUrl('/confirmar-gasto');
+  protected amountOf(raw: string | undefined): number {
+    return toCents(raw);
   }
 
-  protected currentPerson() {
-    return this.reference.personById(this.currentPersonId);
-  }
-
-  protected partner() {
-    return this.reference.people().find((p) => p.id !== this.currentPersonId);
-  }
-
-  protected recentActivity() {
-    return this.transactions.monthTransactions().slice(0, 4);
+  protected async openConfirmExpense(): Promise<void> {
+    const { ConfirmExpensePage } = await import('../features/transactions/confirm-expense.page');
+    const modal = await this.modalCtrl.create({
+      component: ConfirmExpensePage,
+      cssClass: 'confirm-sheet',
+      breakpoints: [0, 1],
+      initialBreakpoint: 1,
+      handle: true,
+    });
+    await modal.present();
   }
 }

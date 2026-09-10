@@ -1,13 +1,32 @@
-import { Category } from '../models';
+import { Category, CategoryRef } from '../models';
 
-/** Mirrors the CATS table in the design prototype (v2 .dc.html) — label, avatar color, initial. */
-export const CATEGORY_META: Record<Category, { label: string; colorVar: string; initial: string }> = {
-  [Category.MERCADO]: { label: 'Mercado', colorVar: '--color-accent-200', initial: 'M' },
-  [Category.RESTAURANTE]: { label: 'Restaurante', colorVar: '--color-accent-2-200', initial: 'R' },
-  [Category.TRANSPORTE]: { label: 'Transporte', colorVar: '--color-accent-300', initial: 'T' },
-  [Category.CASA]: { label: 'Casa', colorVar: '--color-accent-2-300', initial: 'C' },
-  [Category.LAZER]: { label: 'Lazer', colorVar: '--color-neutral-200', initial: 'L' },
-  [Category.SAUDE]: { label: 'Saúde', colorVar: '--color-accent-100', initial: 'S' },
-};
+/** Rotating palette for categories that don't carry an explicit `color` from the API. */
+const FALLBACK_COLOR_VARS = [
+  '--color-accent-200',
+  '--color-accent-2-200',
+  '--color-accent-300',
+  '--color-accent-2-300',
+  '--color-neutral-200',
+  '--color-accent-100',
+];
 
-export const CATEGORY_LIST = Object.keys(CATEGORY_META) as Category[];
+type AnyCategory = Category | CategoryRef | { id: string; name: string; color?: string | null; icon?: string | null };
+
+export function categoryInitial(category: AnyCategory | null | undefined): string {
+  const name = category?.name?.trim();
+  return name ? name[0]!.toUpperCase() : '?';
+}
+
+export function categoryLabel(category: AnyCategory | null | undefined): string {
+  return category?.name ?? 'Sem categoria';
+}
+
+/** A CSS custom-property name (without `var(...)`) for the category's avatar tint. */
+export function categoryColorVar(category: AnyCategory | null | undefined): string {
+  const explicit = (category as { color?: string | null } | null)?.color;
+  if (explicit && explicit.startsWith('--')) return explicit;
+  const id = category?.id ?? category?.name ?? '';
+  let hash = 0;
+  for (let i = 0; i < id.length; i += 1) hash = (hash * 31 + id.charCodeAt(i)) | 0;
+  return FALLBACK_COLOR_VARS[Math.abs(hash) % FALLBACK_COLOR_VARS.length]!;
+}
