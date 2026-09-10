@@ -1,92 +1,97 @@
 import { ChangeDetectionStrategy, Component, computed, effect, inject, OnInit, signal } from '@angular/core';
-import { Router } from '@angular/router';
-import { IonButton, IonInput } from '@ionic/angular';
+import { IonButton, IonInput, ModalController } from '@ionic/angular';
 
+import { PaymentMethod, TransactionType, TransactionVisibility } from '../../core/models';
+import { ReferenceStore } from '../../core/state/reference.store';
 import { TransactionsStore } from '../../core/state/transactions.store';
-import { Category, PaymentMethod, TransactionNature, TransactionScope } from '../../core/models';
-import { CATEGORY_LIST, CATEGORY_META } from '../../core/util/category.util';
-import { formatCents, parseCentsFromText } from '../../core/util/money';
-import { CategoryAvatarComponent, OriginBadgeComponent } from '../../shared/ui';
+import { formatCents, keypadDigitsToCents, popKeypadDigit, pushKeypadDigit } from '../../core/util/money';
+import { CategoryAvatarComponent } from '../../shared/ui';
 
-const PAYMENT_METHODS: PaymentMethod[] = [PaymentMethod.PIX, PaymentMethod.CREDITO, PaymentMethod.DEBITO, PaymentMethod.DINHEIRO];
+const PAYMENT_METHODS: { value: PaymentMethod; label: string }[] = [
+  { value: PaymentMethod.PIX, label: 'Pix' },
+  { value: PaymentMethod.CREDIT, label: 'Crédito' },
+  { value: PaymentMethod.DEBIT, label: 'Débito' },
+  { value: PaymentMethod.CASH, label: 'Dinheiro' },
+  { value: PaymentMethod.OTHER, label: 'Outro' },
+];
+
+const KEYPAD_KEYS = ['1', '2', '3', '4', '5', '6', '7', '8', '9', ',', '0', '⌫'];
+const BACKSPACE = '⌫';
 
 /**
- * Post-WhatsApp confirmation: amount, category and nature already come parsed (the
- * WhatsApp parsing itself is on standby — this fixture just represents its output).
- * Every field opens editable; there's no separate edit mode, "Confirmar" commits inline edits.
+ * The + sheet — "Novo gasto". A manual expense the person logs by hand: valor, categoria,
+ * conta (obrigatória para a API), escopo e forma de pagamento.
  */
 @Component({
   selector: 'app-confirm-expense-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [IonButton, IonInput, CategoryAvatarComponent, OriginBadgeComponent],
+  imports: [IonButton, IonInput, CategoryAvatarComponent],
   templateUrl: './confirm-expense.page.html',
   styleUrl: './confirm-expense.page.scss',
 })
 export class ConfirmExpensePage implements OnInit {
   private readonly store = inject(TransactionsStore);
-  private readonly router = inject(Router);
+  protected readonly reference = inject(ReferenceStore);
+  private readonly modalCtrl = inject(ModalController);
 
-  protected readonly categories = CATEGORY_LIST;
-  protected readonly categoryMeta = CATEGORY_META;
   protected readonly paymentMethods = PAYMENT_METHODS;
-  protected readonly Nature = TransactionNature;
-  protected readonly Scope = TransactionScope;
+  protected readonly Visibility = TransactionVisibility;
+  protected readonly keypadKeys = KEYPAD_KEYS;
 
-  protected readonly pending = this.store.pendingReview;
+  protected readonly digits = signal('');
+  protected readonly amountCents = computed(() => keypadDigitsToCents(this.digits()));
+  protected readonly amountLabel = computed(() => formatCents(this.amountCents()));
 
-  protected readonly amountCents = signal(0);
-  protected readonly amountText = signal('');
-  protected readonly category = signal<Category>(Category.MERCADO);
-  protected readonly nature = signal<TransactionNature>(TransactionNature.ESSENCIAL);
-  protected readonly scope = signal<TransactionScope>(TransactionScope.CASAL);
+  protected readonly categoryId = signal<string>('');
+  protected readonly accountId = signal<string>('');
+  protected readonly visibility = signal<TransactionVisibility>(TransactionVisibility.SHARED);
   protected readonly paymentMethod = signal<PaymentMethod>(PaymentMethod.PIX);
   protected readonly description = signal('');
+  protected readonly submitting = signal(false);
 
-  protected readonly canConfirm = computed(() => this.amountCents() > 0 && !!this.category());
+  protected readonly selectedCategory = computed(() => this.reference.categoryById(this.categoryId()) ?? null);
 
-  /** Tracks which pending transaction's fields have already seeded the draft, so a later
-   *  re-render (e.g. after the mock HTTP delay resolves) doesn't clobber in-progress edits. */
-  private readonly syncedId = signal<string | null>(null);
+  protected readonly canConfirm = computed(
+    () => this.amountCents() > 0 && this.accountId().length > 0 && this.description().trim().length > 0 && !this.submitting(),
+  );
 
   constructor() {
     effect(() => {
-      const tx = this.pending();
-      if (!tx || this.syncedId() === tx.id) return;
-      this.amountCents.set(tx.amountCents);
-      this.amountText.set(formatCents(tx.amountCents));
-      if (tx.category) this.category.set(tx.category);
-      if (tx.nature) this.nature.set(tx.nature);
-      this.scope.set(tx.scope);
-      this.paymentMethod.set(tx.paymentMethod);
-      this.description.set(tx.description ?? '');
-      this.syncedId.set(tx.id);
+      const acc = this.reference.defaultAccount();
+      if (acc && !this.accountId()) this.accountId.set(acc.id);
     });
   }
 
   ngOnInit(): void {
-    this.store.loadPendingReview();
+    this.reference.load();
   }
 
-  protected onAmountChange(value: string): void {
-    this.amountText.set(value);
-    this.amountCents.set(parseCentsFromText(value));
+  protected pressKey(key: string): void {
+    if (key === ',') return;
+    this.digits.update((d) => (key === BACKSPACE ? popKeypadDigit(d) : pushKeypadDigit(d, key)));
   }
 
   protected confirm(): void {
-    this.store.confirmPendingReview(
+    if (!this.canConfirm()) return;
+    this.submitting.set(true);
+    this.store.addTransaction(
       {
+        type: TransactionType.EXPENSE,
         amountCents: this.amountCents(),
-        category: this.category(),
-        nature: this.nature(),
-        scope: this.scope(),
+        description: this.description().trim(),
+        accountId: this.accountId(),
+        categoryId: this.categoryId() || undefined,
+        visibility: this.visibility(),
         paymentMethod: this.paymentMethod(),
-        description: this.description() || undefined,
       },
-      () => this.router.navigateByUrl('/mes'),
+      (created) => {
+        if (created) void this.modalCtrl.dismiss(null, 'confirmed');
+        else this.submitting.set(false);
+      },
     );
   }
 
   protected dismiss(): void {
-    this.router.navigateByUrl('/mes');
+    void this.modalCtrl.dismiss();
   }
 }

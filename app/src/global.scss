@@ -42,6 +42,7 @@
 @import "theme/tokens.scss";
 @import "theme/typography.scss";
 @import "theme/ionic-overrides.scss";
+@import "theme/tags.scss";
 
 * {
   -webkit-tap-highlight-color: transparent;
@@ -50,4 +51,78 @@
 .hide-scrollbar {
   scrollbar-width: none;
   &::-webkit-scrollbar { display: none; }
+}
+
+/* Shared form primitives — used across the migrated feature screens. */
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: var(--space-3);
+}
+.field-label {
+  font-size: 11.5px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-neutral-700);
+}
+input.text-input,
+.text-input {
+  min-height: 46px;
+  border: 1px solid var(--color-divider);
+  border-radius: var(--radius-pill, 999px);
+  background: var(--color-surface);
+  padding: 0 var(--space-4);
+  font-family: var(--font-body);
+  font-size: 15px;
+  color: var(--color-text);
+}
+input.text-input:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 1px; }
+
+button.primary {
+  min-height: 48px;
+  border: none;
+  border-radius: var(--radius-pill, 999px);
+  background: var(--color-accent);
+  color: #fff;
+  font-family: var(--font-heading);
+  font-size: 15px;
+  padding: 0 var(--space-5);
+  cursor: pointer;
+}
+button.primary:disabled { opacity: 0.55; }
+
+button.ghost {
+  min-height: 44px;
+  border: 1px solid var(--color-divider);
+  border-radius: var(--radius-pill, 999px);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-size: 14px;
+  padding: 0 var(--space-4);
+  cursor: pointer;
+}
+
+button.link-btn {
+  border: none;
+  background: none;
+  color: var(--color-accent-700);
+  font-size: 13.5px;
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 4px 0;
+}
+
+.actions {
+  display: flex;
+  gap: var(--space-2);
+  justify-content: flex-end;
+  margin-top: var(--space-3);
+}
+
+.context-card {
+  background: var(--color-surface);
+  border-radius: var(--radius-content-card, 16px);
+  padding: var(--space-4);
+  margin-top: var(--space-3);
 }

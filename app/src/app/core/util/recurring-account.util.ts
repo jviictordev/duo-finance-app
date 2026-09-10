@@ -1,17 +1,22 @@
-import { RecurringAccount } from '../models';
+import { RecurringAccountItem, RecurrenceKind } from '../models';
 
-/** True on the account's last installment — the "pronta para encerrar" state. */
-export function isReadyToClose(account: RecurringAccount): boolean {
-  return !!account.installments && account.installments.current >= account.installments.total;
+export function isInstallmentPlan(account: RecurringAccountItem): boolean {
+  return account.kind === RecurrenceKind.INSTALLMENT && !!account.installmentsCount;
 }
 
-export function isInstallmentPlan(account: RecurringAccount): boolean {
-  return !!account.installments;
+/** True on the last installment — the "pronta para encerrar" state. */
+export function isReadyToClose(account: RecurringAccountItem): boolean {
+  return (
+    isInstallmentPlan(account) &&
+    (account.installmentsPaid ?? 0) >= (account.installmentsCount ?? 0)
+  );
 }
 
-export function remainingBalanceCents(account: RecurringAccount): number {
-  if (!account.installments) return 0;
-  const amount = account.confirmedAmountCents ?? account.estimatedAmountCents;
-  const { current, total } = account.installments;
-  return Math.max(0, amount * (total - current));
+export function installmentLabel(account: RecurringAccountItem): string {
+  if (!isInstallmentPlan(account)) return '';
+  return `${account.installmentsPaid ?? 0} de ${account.installmentsCount} pagas`;
+}
+
+export function progressPct(account: RecurringAccountItem): number {
+  return Math.round((account.progress ?? 0) * 100);
 }

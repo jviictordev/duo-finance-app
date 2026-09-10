@@ -1,34 +1,38 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { TransactionsApi } from '../api/transactions.api';
-import { Transaction } from '../models';
+import { NewTransaction, TransactionLine } from '../models';
+import { monthKey } from '../util/relative-date';
 
 @Injectable({ providedIn: 'root' })
 export class TransactionsStore {
   private readonly api = inject(TransactionsApi);
 
-  readonly pendingReview = signal<Transaction | null>(null);
-  readonly monthTransactions = signal<Transaction[]>([]);
+  readonly monthTransactions = signal<TransactionLine[]>([]);
   readonly loading = signal(false);
 
-  loadPendingReview(): void {
-    this.api.getPendingReview().subscribe((t) => this.pendingReview.set(t));
-  }
-
-  loadForPeriod(period: string): void {
+  loadForMonth(month: string = monthKey()): void {
     this.loading.set(true);
-    this.api.listForPeriod(period).subscribe((list) => {
-      this.monthTransactions.set(list);
-      this.loading.set(false);
+    this.api.listForMonth(month).subscribe({
+      next: (list) => {
+        this.monthTransactions.set(list);
+        this.loading.set(false);
+      },
+      error: () => this.loading.set(false),
     });
   }
 
-  confirmPendingReview(edits: Partial<Transaction>, onDone?: (t: Transaction) => void): void {
-    const pending = this.pendingReview();
-    if (!pending) return;
-    this.api.confirm(pending.id, edits).subscribe((confirmed) => {
-      this.pendingReview.set(null);
-      this.monthTransactions.update((list) => [confirmed, ...list]);
-      onDone?.(confirmed);
+  /** Manual "novo gasto" from the + sheet. */
+  addTransaction(payload: NewTransaction, onSettled?: (t: TransactionLine | null) => void): void {
+    this.api.create(payload).subscribe({
+      next: (created) => {
+        this.prepend(created);
+        onSettled?.(created);
+      },
+      error: () => onSettled?.(null),
     });
+  }
+
+  private prepend(tx: TransactionLine): void {
+    this.monthTransactions.update((list) => (list.some((t) => t.id === tx.id) ? list : [tx, ...list]));
   }
 }

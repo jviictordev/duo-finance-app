@@ -1,20 +1,28 @@
-import { FundMovementOrigin, FundMovementType } from './enums';
+import { FundMovementKind } from './enums';
+import { UserRef } from './transaction.model';
 
 export interface FundMovement {
   id: string;
-  type: FundMovementType;
-  origin: FundMovementOrigin;
+  /** Signed: positive = aporte, negative = retirada. */
   amountCents: number;
-  date: string;
-  personId?: string;
-  label: string;
-  relatedSuggestionId?: string;
+  kind: FundMovementKind;
+  note: string | null;
+  createdBy: UserRef;
+  occurredAt: string;
 }
 
+/** GET /api/emergency-fund */
 export interface EmergencyFund {
-  balanceCents: number;
-  monthlyAverageExpenseCents: number;
-  goalMonths: number;
-  contributionPct: number;
+  id: string;
+  targetCents: number;
+  currentCents: number;
+  /** 0..1 */
+  progress: number;
   movements: FundMovement[];
+}
+
+export interface NewFundMovement {
+  /** Signed. Positive aporta, negativo retira. */
+  amountCents: number;
+  note?: string;
 }

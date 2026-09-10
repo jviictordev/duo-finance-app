@@ -1,23 +1,56 @@
-import { AmountStatus, Category } from './enums';
+import { CategoryRef } from './category.model';
+import { RecurrenceKind } from './enums';
+import { AccountRef } from './transaction.model';
 
-export interface Installment {
-  current: number;
-  total: number;
+/** One item from GET /api/recurring-accounts (`fixed[]` or `installments.items[]`). */
+export interface RecurringAccountItem {
+  id: string;
+  label: string;
+  kind: RecurrenceKind;
+  amountCents: number;
+  dueDay: number;
+  category: CategoryRef | null;
+  account: AccountRef | null;
+  installmentsCount: number | null;
+  installmentsPaid: number | null;
+  remainingBalanceCents: number;
+  progress: number | null;
 }
 
-export interface RecurringAccount {
-  id: string;
-  name: string;
-  category?: Category;
-  estimatedAmountCents: number;
-  confirmedAmountCents?: number;
-  amountStatus: AmountStatus;
+/** GET /api/recurring-accounts */
+export interface RecurringAccountsResponse {
+  fixed: RecurringAccountItem[];
+  monthlyFixedTotalCents: number;
+  installments: {
+    totalRemainingCents: number;
+    items: RecurringAccountItem[];
+  };
+}
+
+export interface NewRecurringAccount {
+  label: string;
+  kind?: RecurrenceKind;
+  amountCents: number;
   dueDay: number;
-  /** Independent of amountStatus: correcting the value doesn't mark it paid. */
-  paid: boolean;
-  paidAt?: string;
-  payerPersonId: string;
-  /** Present only for finite accounts (financed purchases). A plain recurring bill has no installments. */
-  installments?: Installment;
-  cycleMonth: string;
+  accountId?: string;
+  categoryId?: string;
+  installmentsCount?: number;
+  installmentsPaid?: number;
+  startDate?: string;
+}
+
+export type RecurringAccountPatch = Partial<{
+  label: string;
+  amountCents: number;
+  dueDay: number;
+  accountId: string | null;
+  categoryId: string | null;
+  installmentsPaid: number;
+  archived: boolean;
+}>;
+
+export interface PayRecurringAccount {
+  amountCents?: number;
+  occurredAt?: string;
+  accountId?: string;
 }

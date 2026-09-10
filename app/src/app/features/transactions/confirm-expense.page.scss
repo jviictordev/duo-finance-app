@@ -1,36 +1,16 @@
+// Rendered inside an Ionic sheet modal — the modal chrome provides the backdrop,
+// rounded top, drag handle and slide-up. This host is just the scrollable content.
 :host {
-  position: fixed;
-  inset: 0;
-  z-index: 1000;
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  background: rgba(26, 31, 46, 0.42);
+  display: block;
+  height: 100%;
+  background: var(--color-bg);
 }
 
 .page {
   position: relative;
-  width: 100%;
-  max-width: 480px;
-  max-height: 94dvh;
+  height: 100%;
   overflow-y: auto;
-  background: var(--color-bg);
-  border-radius: var(--radius-sheet);
-  box-shadow: var(--shadow-lg);
-  padding: 10px var(--space-4) var(--space-6);
-}
-
-.page.empty {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: var(--space-3);
-  padding: var(--space-8) var(--space-4);
-}
-
-@media (min-width: 900px) {
-  :host { align-items: center; }
-  .page { border-radius: var(--radius-content-card); max-height: 88dvh; }
+  padding: var(--space-4) var(--space-4) var(--space-6);
 }
 
 .close-btn {
@@ -44,14 +24,7 @@
   background: var(--color-surface);
   color: var(--color-neutral-600);
   font-size: 14px;
-}
-
-.handle {
-  width: 44px;
-  height: 5px;
-  border-radius: var(--radius-pill);
-  background: var(--color-neutral-300);
-  margin: 0 auto var(--space-4);
+  z-index: 1;
 }
 
 .head {
@@ -62,20 +35,43 @@
 }
 .head-text { display: flex; flex-direction: column; gap: 4px; }
 .head-text h1 { margin: 0; }
+.head-text p { margin: 0; }
 
 .amount-wrap {
   text-align: center;
-  margin-bottom: var(--space-4);
+  padding: 4px 0 12px;
 }
-.amount-input {
-  --padding-start: 0;
-  --padding-end: 0;
-  text-align: center;
+.amount {
   font-family: var(--font-heading);
   font-size: 50px;
-  --color: var(--color-text);
-  --placeholder-color: var(--color-neutral-400);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--color-text);
 }
+.amount.zero { color: var(--color-neutral-400); }
+
+// Custom numeric keypad — no OS keyboard for the amount (matches the handoff).
+.keypad {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 9px;
+  margin-bottom: var(--space-4);
+}
+.key {
+  border: none;
+  background: var(--color-surface);
+  border-radius: var(--radius-list-card);
+  min-height: 54px;
+  font-family: var(--font-heading);
+  font-size: 24px;
+  color: var(--color-text);
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+  transition: background 90ms ease;
+}
+.key:active { background: var(--color-accent-200); }
+.key.util { font-size: 20px; color: var(--color-neutral-600); }
+.key.inert { pointer-events: none; color: var(--color-neutral-400); }
 
 .text-section-label { margin: var(--space-3) 0 var(--space-2); }
 

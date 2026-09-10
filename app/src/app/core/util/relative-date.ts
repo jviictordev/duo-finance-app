@@ -15,6 +15,18 @@ export function relativeDayLabel(iso: string, today = new Date()): string {
   return `${WEEKDAYS[date.getDay()]}, ${date.getDate()}`;
 }
 
+/** "YYYY-MM" for a given date (default: now) — the period key the API expects. */
+export function monthKey(date = new Date()): string {
+  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
+}
+
+/** Shifts a "YYYY-MM" key by N months. */
+export function shiftMonthKey(key: string, delta: number): string {
+  const [y, m] = key.split('-').map(Number);
+  const d = new Date(y, m - 1 + delta, 1);
+  return monthKey(d);
+}
+
 export function monthLabel(period: string): string {
   const [year, month] = period.split('-').map(Number);
   const date = new Date(year, month - 1, 1);

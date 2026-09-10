@@ -9,16 +9,16 @@
       <a routerLink="/contas-fixas" routerLinkActive="active" class="nav-pill"><ion-icon name="card-outline" aria-hidden="true"></ion-icon> Contas fixas</a>
     </nav>
     <div class="sidebar-footer">
-      @if (currentPerson(); as me) {
+      @if (session.me(); as me) {
         <a routerLink="/perfil" class="person-row">
           <app-person-avatar [person]="me" [size]="28" />
           <span>{{ me.name }}</span>
         </a>
       }
-      @if (partner(); as p) {
+      @if (session.partner(); as p) {
         <div class="person-row muted">
           <app-person-avatar [person]="p" [size]="28" />
-          <span>{{ p.name }} · online</span>
+          <span>{{ p.name }}</span>
         </div>
       }
     </div>
@@ -31,17 +31,19 @@
   <aside class="right-col">
     @if (emergencyFund.fund(); as fund) {
       <div class="mini-card">
-        <app-reserve-progress [monthsCovered]="emergencyFund.monthsCovered()" [goalMonths]="fund.goalMonths" [size]="88" [showLabels]="false" />
-        <app-money-amount [amountCents]="fund.balanceCents" size="md" />
-        <p class="text-caption">{{ emergencyFund.monthsCovered() | number: '1.1-1' }} de {{ fund.goalMonths }} meses de despesa</p>
+        <app-reserve-progress [progress]="fund.progress" [size]="88" [showLabels]="false" />
+        <app-money-amount [amountCents]="fund.currentCents" size="md" />
+        <p class="text-caption">de {{ (fund.targetCents / 100) | number: '1.0-0' }} de meta</p>
       </div>
     }
     <div class="mini-card activity">
       <p class="text-section-label">Atividade recente</p>
-      @for (t of recentActivity(); track t.id) {
+      @for (ev of recentActivity(); track ev.id) {
         <div class="mini-row">
-          <app-money-amount [amountCents]="t.amountCents" size="sm" />
-          <app-origin-badge [origin]="t.origin" />
+          <span class="mini-text">{{ ev.actor?.name ? ev.actor?.name + ' ' : '' }}{{ ev.payload.text }}</span>
+          @if (ev.payload.amountCents) {
+            <app-money-amount [amountCents]="amountOf(ev.payload.amountCents)" size="sm" />
+          }
         </div>
       }
     </div>

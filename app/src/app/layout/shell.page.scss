@@ -1,15 +1,26 @@
+// O Ionic trava a rolagem do documento (`body { position: fixed; overflow: hidden }`)
+// e o `ion-router-outlet` é absoluto com `contain: size`. Como as páginas aqui são
+// markup próprio (sem `ion-content`), o shell precisa fornecer o container rolável.
 :host {
-  display: block;
-  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  height: 100dvh;
+  overflow: hidden;
 }
 
 .shell {
-  display: block;
-  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
 }
 
 .center {
-  min-height: 100dvh;
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-y: contain;
 }
 
 .sidebar,
@@ -66,7 +77,14 @@
   .shell {
     display: grid;
     grid-template-columns: 216px 1fr 290px;
-    min-height: 100dvh;
+    // Linha única presa à altura do shell para que cada coluna role sozinha.
+    grid-template-rows: minmax(0, 1fr);
+  }
+
+  // As três colunas rolam de forma independente.
+  .sidebar,
+  .right-col {
+    overflow-y: auto;
   }
 
   .tab-bar { display: none; }

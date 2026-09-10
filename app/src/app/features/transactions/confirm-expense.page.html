@@ -1,77 +1,79 @@
-@if (pending(); as tx) {
-  <div class="page">
-    <button class="close-btn" type="button" (click)="dismiss()" aria-label="Fechar">✕</button>
-    <div class="handle"></div>
+<div class="page">
+  <button class="close-btn" type="button" (click)="dismiss()" aria-label="Fechar">✕</button>
 
-    <header class="head">
-      <app-category-avatar [category]="category()" [size]="52" />
-      <div class="head-text">
-        <h1 class="text-screen-title">Confirme o gasto</h1>
-        <app-origin-badge [origin]="tx.origin" />
-      </div>
-    </header>
-
-    <div class="amount-wrap">
-      <ion-input
-        class="amount-input"
-        inputmode="decimal"
-        [value]="amountText()"
-        (ionInput)="onAmountChange($any($event.detail).value ?? '')"
-        aria-label="Valor do gasto"
-      ></ion-input>
+  <header class="head">
+    <app-category-avatar [category]="selectedCategory()" [size]="52" />
+    <div class="head-text">
+      <h1 class="text-screen-title">Novo gasto</h1>
+      <p class="text-caption">o que você gastou agora</p>
     </div>
+  </header>
 
-    <p class="text-section-label">Categoria</p>
-    <div class="row-scroll hide-scrollbar">
-      @for (cat of categories; track cat) {
-        <button
-          type="button"
-          class="chip"
-          [class.selected]="category() === cat"
-          (click)="category.set(cat)"
-        >
-          {{ categoryMeta[cat].label }}
-        </button>
-      }
-    </div>
-
-    <p class="text-section-label">Natureza</p>
-    <div class="segment two">
-      <button type="button" class="seg-btn" [class.selected]="nature() === Nature.ESSENCIAL" (click)="nature.set(Nature.ESSENCIAL)">
-        Essencial
-      </button>
-      <button type="button" class="seg-btn" [class.selected]="nature() === Nature.SUPERFLUO" (click)="nature.set(Nature.SUPERFLUO)">
-        Supérfluo
-      </button>
-    </div>
-
-    <p class="text-section-label">Escopo</p>
-    <div class="segment two">
-      <button type="button" class="seg-btn" [class.selected]="scope() === Scope.CASAL" (click)="scope.set(Scope.CASAL)">
-        Do casal
-      </button>
-      <button type="button" class="seg-btn" [class.selected]="scope() === Scope.INDIVIDUAL" (click)="scope.set(Scope.INDIVIDUAL)">
-        Só meu
-      </button>
-    </div>
-
-    <p class="text-section-label">Forma de pagamento</p>
-    <div class="row-scroll hide-scrollbar">
-      @for (method of paymentMethods; track method) {
-        <button type="button" class="chip" [class.selected]="paymentMethod() === method" (click)="paymentMethod.set(method)">
-          {{ method }}
-        </button>
-      }
-    </div>
-
-    <p class="text-section-label">Descrição</p>
-    <ion-input class="desc-input" placeholder="Opcional" [value]="description()" (ionInput)="description.set($any($event.detail).value ?? '')"></ion-input>
-
-    <ion-button expand="block" class="confirm-btn" [disabled]="!canConfirm()" (click)="confirm()">Confirmar</ion-button>
+  <div class="amount-wrap">
+    <span class="amount" [class.zero]="amountCents() === 0" aria-live="polite">{{ amountLabel() }}</span>
   </div>
-} @else {
-  <div class="page empty">
-    <p class="text-support">Nada para confirmar agora.</p>
-    <ion-button fill="clear" (click)="dismiss()">Voltar</ion-button>
+
+  <div class="keypad">
+    @for (key of keypadKeys; track key) {
+      <button
+        type="button"
+        class="key"
+        [class.util]="key === '⌫'"
+        [class.inert]="key === ','"
+        [attr.aria-hidden]="key === ',' ? 'true' : null"
+        [attr.tabindex]="key === ',' ? -1 : null"
+        (click)="pressKey(key)"
+        [attr.aria-label]="key === '⌫' ? 'Apagar' : key"
+      >
+        {{ key }}
+      </button>
+    }
   </div>
-}
+
+  <p class="text-section-label">Conta</p>
+  <div class="row-scroll hide-scrollbar">
+    @for (acc of reference.activeAccounts(); track acc.id) {
+      <button type="button" class="chip" [class.selected]="accountId() === acc.id" (click)="accountId.set(acc.id)">
+        {{ acc.name }}
+      </button>
+    } @empty {
+      <span class="text-caption">{{ reference.loaded() ? 'Nenhuma conta — crie uma no Perfil.' : 'Carregando contas…' }}</span>
+    }
+  </div>
+
+  <p class="text-section-label">Categoria</p>
+  <div class="row-scroll hide-scrollbar">
+    <button type="button" class="chip" [class.selected]="categoryId() === ''" (click)="categoryId.set('')">Sem categoria</button>
+    @for (cat of reference.expenseCategories(); track cat.id) {
+      <button type="button" class="chip" [class.selected]="categoryId() === cat.id" (click)="categoryId.set(cat.id)">
+        {{ cat.name }}
+      </button>
+    }
+  </div>
+
+  <p class="text-section-label">Escopo</p>
+  <div class="segment two">
+    <button type="button" class="seg-btn" [class.selected]="visibility() === Visibility.SHARED" (click)="visibility.set(Visibility.SHARED)">
+      Do casal
+    </button>
+    <button type="button" class="seg-btn" [class.selected]="visibility() === Visibility.PRIVATE" (click)="visibility.set(Visibility.PRIVATE)">
+      Só meu
+    </button>
+  </div>
+
+  <p class="text-section-label">Forma de pagamento</p>
+  <div class="row-scroll hide-scrollbar">
+    @for (method of paymentMethods; track method.value) {
+      <button type="button" class="chip" [class.selected]="paymentMethod() === method.value" (click)="paymentMethod.set(method.value)">
+        {{ method.label }}
+      </button>
+    }
+  </div>
+
+  <p class="text-section-label">Descrição</p>
+  <ion-input class="desc-input" placeholder="ex: mercado da semana" [value]="description()" (ionInput)="description.set($any($event.detail).value ?? '')"></ion-input>
+
+  <ion-button expand="block" class="confirm-btn" [disabled]="!canConfirm()" (click)="confirm()">
+    {{ submitting() ? 'Salvando…' : 'Salvar' }}
+  </ion-button>
+</div>

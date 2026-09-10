@@ -1,6 +1,6 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
 import { EmergencyFundApi } from '../api/emergency-fund.api';
-import { EmergencyFund } from '../models';
+import { EmergencyFund, NewFundMovement } from '../models';
 
 @Injectable({ providedIn: 'root' })
 export class EmergencyFundStore {
@@ -8,24 +8,32 @@ export class EmergencyFundStore {
 
   readonly fund = signal<EmergencyFund | null>(null);
 
-  readonly monthsCovered = computed(() => {
-    const fund = this.fund();
-    if (!fund || fund.monthlyAverageExpenseCents === 0) return 0;
-    return fund.balanceCents / fund.monthlyAverageExpenseCents;
-  });
-
-  readonly goalProgressPct = computed(() => {
-    const fund = this.fund();
-    if (!fund || fund.goalMonths === 0) return 0;
-    return Math.min(100, (this.monthsCovered() / fund.goalMonths) * 100);
-  });
+  readonly currentCents = computed(() => this.fund()?.currentCents ?? 0);
+  readonly targetCents = computed(() => this.fund()?.targetCents ?? 0);
+  readonly progressPct = computed(() => Math.round((this.fund()?.progress ?? 0) * 100));
 
   load(): void {
     this.api.get().subscribe((fund) => this.fund.set(fund));
   }
 
-  /** Called after a Suggestion is accepted elsewhere — keeps this store's balance in sync. */
   refresh(): void {
     this.load();
+  }
+
+  setTarget(targetCents: number): void {
+    const previous = this.fund();
+    if (previous) this.fund.set({ ...previous, targetCents });
+    this.api.setTarget(targetCents).subscribe({
+      next: (fund) => this.fund.set(fund),
+      error: () => previous && this.fund.set(previous),
+    });
+  }
+
+  /** amountCents is signed: positive aporta, negativo retira. */
+  addMovement(payload: NewFundMovement, onDone?: () => void): void {
+    this.api.addMovement(payload).subscribe((fund) => {
+      this.fund.set(fund);
+      onDone?.();
+    });
   }
 }

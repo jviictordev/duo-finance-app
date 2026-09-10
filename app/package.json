@@ -11,6 +11,9 @@
     "test": "ng test",
     "lint": "ng lint"
   },
+  "engines": {
+    "node": "^20.19.0 || ^22.12.0 || >=24.0.0"
+  },
   "private": true,
   "dependencies": {
     "@angular/common": "21.2.9",
