@@ -12,5 +12,5 @@ export const environment = {
    *   'https://api.duofinance.app/api', and add that front origin to CORS_ORIGINS in
    *   the API's .env.production (topology B).
    */
-  apiBaseUrl: '/api',
+  apiBaseUrl: 'https://duo-finance-api.vercel.app/api',
 };
